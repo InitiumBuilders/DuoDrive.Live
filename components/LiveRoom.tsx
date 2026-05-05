@@ -74,20 +74,21 @@ function StreamTile({ side }: { side: 'pirate' | 'refiner' }) {
   const txt = isPirate ? 'text-pirate' : 'text-refiner';
   const drive = isPirate ? 'JR-001' : 'DV-001';
   const grad = isPirate
-    ? 'from-pirate/30 via-pirate/5 to-transparent'
-    : 'from-refiner/30 via-refiner/5 to-transparent';
-  const overlay = isPirate
-    ? 'JR is sketching the Avari Signal. Voice low, voice steady.'
-    : 'DV is wiring components/AvariSignal.tsx. Cursor at line 142.';
+    ? 'from-pirate/40 via-pirate/8 to-void'
+    : 'from-refiner/40 via-refiner/8 to-void';
   return (
     <div className={`relative rounded-2xl overflow-hidden hairline aspect-video bg-gradient-to-br ${grad}`}>
-      {/* fake video shimmer */}
-      <div className="absolute inset-0 opacity-50">
-        <div className={`absolute inset-0 bg-gradient-to-tr ${grad} animate-pulse-slow`} />
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 50%)'
-        }} />
+      {/* ambient glow */}
+      <div className="absolute inset-0 opacity-70 pointer-events-none">
+        <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full blur-3xl breathe"
+          style={{ background: isPirate ? 'rgba(92,255,210,0.18)' : 'rgba(255,79,163,0.18)' }} />
+        <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full blur-3xl breathe"
+          style={{ background: isPirate ? 'rgba(159,124,255,0.14)' : 'rgba(159,124,255,0.14)', animationDelay: '2s' }} />
       </div>
+
+      {/* texture layer — prompt feed (pirate) or code feed (refiner) */}
+      {isPirate ? <PiratePromptTexture /> : <RefinerCodeTexture />}
+
       {/* avatar dot */}
       <div className="absolute top-4 left-4 flex items-center gap-2.5 z-10">
         <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full halo halo-rotating bg-gradient-to-br ${isPirate ? 'from-pirate to-sync' : 'from-refiner to-sync'}`} />
@@ -100,10 +101,77 @@ function StreamTile({ side }: { side: 'pirate' | 'refiner' }) {
       <div className="absolute top-4 right-4 chip text-[10px] z-10">
         <span className="live-dot" /> Drive {drive}
       </div>
-      {/* overlay quote */}
-      <div className="absolute bottom-3 left-4 right-4 z-10">
-        <p className="text-[10px] font-mono tracking-wider uppercase text-white/35 mb-1">Now</p>
-        <p className={`text-[13px] md:text-[14px] ${isPirate ? 'text-white/85' : 'text-white/85'}`}>{overlay}</p>
+      {/* mic/cam status */}
+      <div className="absolute bottom-3 left-4 z-10 flex items-center gap-2">
+        <span className="chip text-[10px] gap-1"><span className="live-dot" />Mic</span>
+        <span className="chip text-[10px] gap-1"><span className={`w-1.5 h-1.5 rounded-full ${isPirate ? 'bg-pirate' : 'bg-refiner'}`} />Cam</span>
+      </div>
+      <div className="absolute bottom-3 right-4 z-10">
+        <span className="chip text-[10px] font-mono">{isPirate ? '02:47:13' : '02:47:13'}</span>
+      </div>
+    </div>
+  );
+}
+
+function PiratePromptTexture() {
+  // Looks like an open prompt window with text being typed
+  return (
+    <div className="absolute inset-0 z-[1] p-4 md:p-6 flex items-end pointer-events-none">
+      <div className="w-full hairline rounded-lg bg-void/55 backdrop-blur-md p-3 md:p-4 mt-12">
+        <div className="flex items-center gap-1.5 mb-2.5">
+          <span className="w-2 h-2 rounded-full bg-pirate/70" />
+          <span className="w-2 h-2 rounded-full bg-sync/60" />
+          <span className="w-2 h-2 rounded-full bg-refiner/60" />
+          <span className="ml-2 text-[9px] font-mono tracking-wider uppercase text-white/35">prompt.md · unsaved</span>
+        </div>
+        <p className="text-[11px] md:text-[12px] text-white/85 leading-relaxed font-mono">
+          <span className="text-pirate">{`>`}</span> Make the Avari Signal show <span className="text-pirate">direction only</span>.<br />
+          Hide the tally until both partners close the poll.<br />
+          Borrow from <span className="text-sync">prediction-market</span> design.<br />
+          <span className="text-white/45">// the soul of the product is in this restraint</span><span className="animate-pulse text-pirate">_</span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function RefinerCodeTexture() {
+  // Looks like an editor window showing live commits
+  const lines = [
+    { n: 138, t: 'function ', k: 'AvariSignal', sym: '({ poll }: { poll: Poll }) {' },
+    { n: 139, t: '  const ', k: 'direction', sym: ' = useDirectionOnly(poll);' },
+    { n: 140, t: '  return (' },
+    { n: 141, t: '    <div ', k: 'className', sym: '="avari-gauge">' },
+    { n: 142, t: '      <Needle bias=', k: '{direction}', sym: ' />' },
+  ];
+  return (
+    <div className="absolute inset-0 z-[1] p-4 md:p-6 flex items-end pointer-events-none">
+      <div className="w-full hairline rounded-lg bg-void/55 backdrop-blur-md p-3 md:p-4 mt-12 font-mono">
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-refiner/70" />
+            <span className="w-2 h-2 rounded-full bg-sync/60" />
+            <span className="w-2 h-2 rounded-full bg-pirate/60" />
+            <span className="ml-2 text-[9px] tracking-wider uppercase text-white/35">AvariSignal.tsx</span>
+          </div>
+          <span className="text-[9px] tracking-wider uppercase text-pirate">+12 −5</span>
+        </div>
+        <div className="text-[11px] md:text-[12px] leading-[1.55] text-white/80">
+          {lines.map((l) => (
+            <div key={l.n} className="flex gap-3">
+              <span className="text-white/25 w-6 text-right shrink-0">{l.n}</span>
+              <span>
+                <span className="text-white/55">{l.t}</span>
+                {l.k && <span className="text-refiner">{l.k}</span>}
+                <span className="text-white/55">{l.sym}</span>
+              </span>
+            </div>
+          ))}
+          <div className="flex gap-3">
+            <span className="text-pirate w-6 text-right shrink-0">+</span>
+            <span className="text-pirate">      {`<Whisper open={duoClosedPoll} />`}<span className="animate-pulse">_</span></span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -113,10 +181,11 @@ function CenterHud() {
   // Sits on top of the two stream tiles, centered. Hidden on mobile (stacks under).
   return (
     <div className="absolute hidden md:flex top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex-col items-center gap-2 pointer-events-none">
-      <div className="halo halo-rotating rounded-full p-[2px] bg-void">
-        <div className="rounded-full bg-void px-4 py-2 text-center min-w-[160px]">
-          <p className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/50">Avari Sync</p>
-          <p className="text-[12px] font-medium twin-text">In Phase</p>
+      <div className="halo halo-rotating rounded-full p-[2px] bg-void shadow-[0_0_40px_rgba(159,124,255,0.35)]">
+        <div className="rounded-full bg-void px-5 py-3 text-center min-w-[200px]">
+          <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/55 mb-0.5">· Avari Sync ·</p>
+          <p className="text-[18px] font-light tracking-tight twin-text">In Phase</p>
+          <p className="text-[9px] font-mono tracking-wider uppercase text-white/40 mt-0.5">+12 commits · 3 polls · 47 cortex</p>
         </div>
       </div>
     </div>

@@ -13,15 +13,15 @@ export default function Home() {
 
         <div className="relative z-10 max-w-5xl w-full mx-auto text-center">
           {/* tag */}
-          <div className="flex items-center justify-center gap-2 mb-8 opacity-0 animate-[fadeUp_.8s_.1s_forwards]">
+          <div className="flex items-center justify-center gap-2 mb-8 fadeUp" style={{ animationDelay: '.05s' }}>
             <span className="live-dot" />
             <span className="text-[11px] tracking-[0.2em] uppercase font-mono text-white/55">
-              Open Source · Built In Public
+              Open Source · Live Streaming · Built In Public
             </span>
           </div>
 
           {/* the equation */}
-          <div className="mb-6 opacity-0 animate-[fadeUp_.8s_.25s_forwards]">
+          <div className="mb-7 fadeUp" style={{ animationDelay: '.15s' }}>
             <div className="font-light text-[clamp(56px,12vw,148px)] leading-[0.95] tracking-tight">
               <span className="text-pirate" style={{ textShadow: '0 0 60px rgba(92,255,210,0.4)' }}>1</span>
               <span className="text-white/30 mx-3 md:mx-5">+</span>
@@ -32,48 +32,40 @@ export default function Home() {
           </div>
 
           {/* big claim */}
-          <h1 className="opacity-0 animate-[fadeUp_.8s_.45s_forwards] font-light text-[clamp(34px,6vw,72px)] leading-[1.05] tracking-tight max-w-4xl mx-auto mb-5">
-            Code <em className="not-italic twin-text font-medium">And</em> Vibe.
+          <h1 className="fadeUp font-light text-[clamp(38px,7vw,84px)] leading-[1.02] tracking-tight max-w-4xl mx-auto mb-5" style={{ animationDelay: '.25s' }}>
+            Code <em className="not-italic twin-text font-medium">and</em> Vibe.
           </h1>
-          <p className="opacity-0 animate-[fadeUp_.8s_.6s_forwards] text-[17px] md:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed mb-3">
-            The platform to build live, and build together.
+          <p className="fadeUp text-[18px] md:text-xl text-white/65 max-w-2xl mx-auto leading-relaxed mb-2" style={{ animationDelay: '.35s' }}>
+            The live-streaming platform for <span className="text-pirate">two</span> builders to <span className="text-refiner">vibe-code</span> together.
           </p>
-          <p className="opacity-0 animate-[fadeUp_.8s_.7s_forwards] text-[15px] md:text-base text-white/45 max-w-xl mx-auto leading-relaxed">
-            Two builders. One <span className="text-sync">Initium</span>. The community drives.
+          <p className="fadeUp text-[14px] md:text-[15px] text-white/45 max-w-xl mx-auto leading-relaxed" style={{ animationDelay: '.42s' }}>
+            One streams prompts. One streams code. The community drives.
           </p>
 
           {/* CTAs */}
-          <div className="opacity-0 animate-[fadeUp_.8s_.85s_forwards] flex flex-col sm:flex-row items-center justify-center gap-3 mt-10">
+          <div className="fadeUp flex flex-col sm:flex-row items-center justify-center gap-3 mt-10" style={{ animationDelay: '.5s' }}>
             <Link
               href="/live/jordash-x-davara"
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px] hover:shadow-[0_0_40px_rgba(159,124,255,0.45)] transition-shadow"
             >
               <span className="live-dot" />
-              Watch Jordash × Davara Live
+              Watch Jordash × Davara — Live
               <span className="group-hover:translate-x-0.5 transition-transform">→</span>
             </Link>
             <Link
               href="/signup"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full hairline bg-slab/50 backdrop-blur text-white/85 hover:text-white hover:bg-slab text-[14px] transition-colors"
             >
-              Drive Anonymously
+              Open Your Drive — Anon
             </Link>
           </div>
 
-          {/* sub-row: pillars */}
-          <div className="opacity-0 animate-[fadeUp_.8s_1s_forwards] mt-16 flex flex-wrap items-center justify-center gap-2.5 max-w-3xl mx-auto">
-            {[
-              { label: 'Avari Sync', cls: 'chip-sync' },
-              { label: 'Two-Key Drive', cls: 'chip-pirate' },
-              { label: 'Community Cortex', cls: 'chip-refiner' },
-              { label: 'Initiums', cls: 'chip-sync' },
-              { label: 'VOTUS Momentum', cls: 'chip-forge' },
-            ].map((c) => (
-              <span key={c.label} className={`chip ${c.cls}`}>{c.label}</span>
-            ))}
-          </div>
+          {/* sub-row: anchor sentence (no jargon, just the shape) */}
+          <p className="fadeUp mt-14 text-[12px] md:text-[13px] font-mono tracking-wider uppercase text-white/40 max-w-2xl mx-auto leading-relaxed" style={{ animationDelay: '.6s' }}>
+            Two streams · One shared chat · A community Cortex · Live polls with skin in them
+          </p>
 
-          <div className="opacity-0 animate-[fadeUp_.8s_1.2s_forwards] mt-14">
+          <div className="fadeUp mt-12" style={{ animationDelay: '.75s' }}>
             <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/30">Scroll</p>
             <div className="mx-auto mt-2 w-px h-10 bg-gradient-to-b from-white/30 to-transparent" />
           </div>
@@ -255,11 +247,15 @@ export default function Home() {
         </p>
       </section>
 
-      {/* keyframe */}
+      {/* keyframe — animation runs from initial paint, no opacity-0 stutter */}
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translate3d(0, 12px, 0); }
+          from { opacity: 0; transform: translate3d(0, 14px, 0); }
           to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+        .fadeUp { animation: fadeUp .9s cubic-bezier(.2,.7,.2,1) both; }
+        @media (prefers-reduced-motion: reduce) {
+          .fadeUp { animation: none !important; opacity: 1 !important; }
         }
       `}</style>
     </>
