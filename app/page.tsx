@@ -46,7 +46,13 @@ export default function Home() {
           <div className="fadeUp flex flex-col sm:flex-row items-center justify-center gap-3 mt-10" style={{ animationDelay: '.5s' }}>
             <Link
               href="/live/jordash-x-davara"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px] hover:shadow-[0_0_40px_rgba(159,124,255,0.45)] transition-shadow"
+              data-cta-gradient
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-[14px] transition-shadow"
+              style={{
+                background: 'linear-gradient(110deg, var(--pirate), var(--sync), var(--refiner))',
+                color: 'var(--void)',
+                boxShadow: '0 0 0 1px var(--hairline-strong), 0 12px 32px color-mix(in oklab, var(--sync) 30%, transparent)',
+              }}
             >
               <span className="live-dot" />
               Watch Jordash × Davara — Live
@@ -54,20 +60,21 @@ export default function Home() {
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full hairline bg-slab/50 backdrop-blur text-white/85 hover:text-white hover:bg-slab text-[14px] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full hairline glass text-[14px] transition-colors"
+              style={{ color: 'var(--fg)' }}
             >
               Open Your Drive — Anon
             </Link>
           </div>
 
           {/* sub-row: anchor sentence (no jargon, just the shape) */}
-          <p className="fadeUp mt-14 text-[10px] sm:text-[12px] md:text-[13px] font-mono tracking-[0.15em] sm:tracking-wider uppercase text-white/40 max-w-2xl mx-auto leading-relaxed px-2" style={{ animationDelay: '.6s' }}>
+          <p className="fadeUp mt-14 text-[10px] sm:text-[12px] md:text-[13px] font-mono tracking-[0.15em] sm:tracking-wider uppercase max-w-2xl mx-auto leading-relaxed px-2" style={{ animationDelay: '.6s', color: 'var(--fg-muted)' }}>
             Two streams · One shared chat<br className="sm:hidden" /> · A community Cortex<br className="sm:hidden" /> · Live polls with skin in them
           </p>
 
           <div className="fadeUp mt-12" style={{ animationDelay: '.75s' }}>
-            <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/30">Scroll</p>
-            <div className="mx-auto mt-2 w-px h-10 bg-gradient-to-b from-white/30 to-transparent" />
+            <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'var(--fg-faint)' }}>Scroll</p>
+            <div className="mx-auto mt-2 w-px h-10" style={{ background: 'linear-gradient(to bottom, var(--fg-faint), transparent)' }} />
           </div>
         </div>
       </section>

@@ -31,21 +31,35 @@
   --ink: #FAF7F4;
   --slab: #FFFFFF;
   /* On light mode the twin signals get richer/darker for contrast */
-  --pirate: #00B186;
-  --refiner: #D6307A;
-  --sync: #6A4FE6;
-  --forge: #C77E1F;
-  --fg: #1A1B22;
-  --fg-muted: rgba(26,27,34,0.62);
-  --fg-faint: rgba(26,27,34,0.40);
+  --pirate: #008A6A;
+  --refiner: #B5256B;
+  --sync: #5239D1;
+  --forge: #A0641A;
+  --fg: #14161D;
+  --fg-muted: rgba(20,22,29,0.72);
+  --fg-faint: rgba(20,22,29,0.55);
   --bg: #F2EEEA;
-  --surface: rgba(255,255,255,0.65);
+  --surface: rgba(255,255,255,0.78);
   --surface-solid: #FFFFFF;
-  --hairline: rgba(0,0,0,0.08);
-  --hairline-strong: rgba(0,0,0,0.18);
-  --selection: rgba(106,79,230,0.22);
-  --shadow-glass: 0 1px 0 rgba(255,255,255,0.7) inset, 0 0 40px rgba(106,79,230,0.04) inset, 0 24px 80px rgba(0,0,0,0.08);
-  --halo-strength: 0.65;
+  --hairline: rgba(0,0,0,0.10);
+  --hairline-strong: rgba(0,0,0,0.22);
+  --selection: rgba(82,57,209,0.22);
+  --shadow-glass: 0 1px 0 rgba(255,255,255,0.85) inset, 0 0 40px rgba(82,57,209,0.05) inset, 0 24px 80px rgba(0,0,0,0.10);
+  --halo-strength: 0.7;
+}
+
+/* Light-mode tweaks — twin-text gradient is too pale on cream bg without a darker base */
+[data-theme="light"] .twin-text {
+  background: linear-gradient(135deg, var(--pirate) 0%, var(--sync) 50%, var(--refiner) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: contrast(1.1);
+}
+
+/* Light-mode CTA gradient buttons: ensure text stays light */
+[data-theme="light"] [data-cta-gradient] {
+  color: #FFFFFF !important;
 }
 
 * {

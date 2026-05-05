@@ -36,7 +36,7 @@ function Header({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
           <span className="ml-2 hidden md:inline" style={{ color: 'var(--fg-muted)' }}>— building DuoDrive.Live, on DuoDrive.Live</span>
         </h1>
       </div>
-      <div className="flex items-center gap-3 text-[11px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-muted)' }}>
+      <div className="hairline rounded-full px-3.5 py-1.5 glass flex items-center gap-3 text-[11px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg)' }}>
         <LiveCounter label="watching" value={sim.watching} />
         <span style={{ color: 'var(--fg-faint)' }}>·</span>
         <LiveCounter label="motus views" value={sim.motusViews} accent="sync" />
@@ -292,11 +292,13 @@ function ForgeMeter({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
 /* === INITIUM CARD === */
 function Initium() {
   return (
-    <div className="my-4 hairline rounded-xl p-5 glass-frosted iridescent">
-      <div className="flex items-start justify-between gap-4 flex-wrap">
+    <div className="my-4 hairline rounded-xl glass-frosted relative overflow-hidden">
+      {/* iridescent base — stays subtle, never overpowers the body copy */}
+      <div className="absolute inset-0 iridescent opacity-50 pointer-events-none" />
+      <div className="relative p-5 flex items-start justify-between gap-4 flex-wrap">
         <div>
           <p className="chip mb-2" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 32%, transparent)' }}>Initium · INI-009</p>
-          <h3 className="font-light text-[20px] md:text-[26px] tracking-tight">
+          <h3 className="font-light text-[20px] md:text-[26px] tracking-tight" style={{ color: 'var(--fg)' }}>
             Build DuoDrive.Live <span style={{ color: 'var(--fg-muted)' }}>— the platform — on the platform.</span>
           </h3>
           <p className="text-[13px] mt-1" style={{ color: 'var(--fg-muted)' }}>

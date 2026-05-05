@@ -26,6 +26,12 @@ const PIRATE_VOICES = [
   { who: 'salt.atelier', txt: 'pirate-coding is officially a verb' },
   { who: 'rune', txt: 'the prompt window in his stream is so clean' },
   { who: 'kai.dev', txt: 'who needs figma when you have a pirate?' },
+  { who: 'reva', txt: 'every prompt is a thesis. who taught you this?' },
+  { who: 'old.salt', txt: 'first time i\'ve watched a builder think OUT LOUD this clearly' },
+  { who: 'mira', txt: 'the cursor blink at the end of his prompt is somehow art' },
+  { who: 'jules.dev', txt: 'I\'d pay just to watch jordash brainstorm tbh' },
+  { who: 'iko', txt: 'pls write an essay on the whisper protocol' },
+  { who: 'tide', txt: 'forge meter at 78 already, this is a ship night' },
 ];
 const REFINER_VOICES = [
   { who: 'davara_fam', txt: 'shipping at this speed is unreal' },
@@ -35,6 +41,12 @@ const REFINER_VOICES = [
   { who: 'devhime', txt: 'refiner-mode is a vibe' },
   { who: 'noah.eth', txt: 'commit cadence is hypnotic' },
   { who: 'yuna', txt: 'your git history is cleaner than most production repos' },
+  { who: 'kestrel', txt: 'is that next 16 + tokens-only theme system? chef\'s kiss' },
+  { who: 'opal', txt: 'the breathe animation on the avatar halo is so subtle. perfect.' },
+  { who: 'sage', txt: 'when the type token system clicks, you stop fighting tailwind' },
+  { who: 'frost', txt: 'unironically the cleanest tsx i\'ve watched in months' },
+  { who: 'ember', txt: 'ship the whisper component pls. need it for my own initium' },
+  { who: 'varda', txt: 'the diff feed > most code review tools' },
 ];
 const DUO_VOICES = [
   { who: 'cortex', txt: '@jordash @davara — could the cortex donate testers for /signup ?', votus: 18 },
@@ -127,7 +139,12 @@ function step(s: SimState): SimState {
   if (r < 0.6) {
     // chat
     const feed: Feed = Math.random() < 0.4 ? 'duo' : Math.random() < 0.5 ? 'pirate' : 'refiner';
-    const voice = feed === 'pirate' ? pick(PIRATE_VOICES) : feed === 'refiner' ? pick(REFINER_VOICES) : pick(DUO_VOICES);
+    const bank = feed === 'pirate' ? PIRATE_VOICES : feed === 'refiner' ? REFINER_VOICES : DUO_VOICES;
+    // Avoid emitting a message identical to the last 5 in the same feed
+    const recentInFeed = s.messages.filter(mm => mm.feed === feed).slice(-5).map(mm => mm.txt);
+    let voice = pick(bank);
+    let attempts = 0;
+    while (recentInFeed.includes(voice.txt) && attempts < 6) { voice = pick(bank); attempts++; }
     const m: ChatMessage = { id: nextId(), feed, who: voice.who, txt: voice.txt, votus: (voice as any).votus };
     next.messages = [...s.messages.slice(-29), m];
     if ((voice as any).votus) {
