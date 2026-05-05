@@ -133,6 +133,20 @@
   box-shadow: 0 1px 0 rgba(255,255,255,0.3) inset, 0 12px 32px rgba(42,26,142,0.25);
 }
 
+/* Disabled state for gradient CTAs — don't fade the whole element to 30% opacity
+   (which murders the text). Instead, switch to a clearly muted neutral. */
+.gradient-cta:disabled {
+  background: var(--hairline-strong) !important;
+  color: var(--fg-muted) !important;
+  opacity: 0.85 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+[data-theme="light"] .gradient-cta:disabled {
+  background: #D9D2C8 !important;
+  color: #4A4D5E !important;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
