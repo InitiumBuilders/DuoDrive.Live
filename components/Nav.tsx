@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 const links = [
-  { href: '/live/jordash-x-davara', label: 'Live Now' },
+  { href: '/live/jordash-x-davara', label: 'Live' },
   { href: '/cortex', label: 'Cortex' },
   { href: '/initiums', label: 'Initiums' },
-  { href: '/coders', label: 'Coders' },
+  { href: '/lexicon/jordash-x-davara', label: 'Lexicon' },
   { href: '/votus', label: 'VOTUS' },
   { href: '/manifesto', label: 'Manifesto' },
 ];

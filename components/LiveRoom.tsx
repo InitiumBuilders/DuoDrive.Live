@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { SembleDictionary } from './SembleDictionary';
+import { VotusInvestments } from './VotusInvestments';
 
 const SEED_PIRATE_CHAT = [
   { who: 'jordash_fan', txt: 'jordash going crazy on the prompts today 🔥', cls: 'text-pirate' },
@@ -28,6 +30,8 @@ export function LiveRoomClient() {
       <Initium />
       <ThreeFeeds />
       <PollAndBets />
+      <VotusInvestments compact />
+      <SembleDictionary compact />
     </div>
   );
 }
