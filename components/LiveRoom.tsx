@@ -46,14 +46,16 @@ export function LiveRoomClient({ stream }: { stream?: Stream }) {
 function Header({ sim, stream }: { sim: ReturnType<typeof useLiveSim>; stream: Stream }) {
   return (
     <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
+        <div className="flex items-center gap-1.5 shrink-0">
           <span className="live-dot" />
-          <span className="text-[11px] font-mono tracking-[0.2em] uppercase" style={{ color: 'var(--fg-muted)' }}>Live · from {stream.startedAt}</span>
+          <span className="text-[10px] md:text-[11px] font-mono tracking-[0.18em] md:tracking-[0.2em] uppercase" style={{ color: 'var(--fg-muted)' }}>
+            <span className="hidden sm:inline">Live · from </span>{stream.startedAt}
+          </span>
         </div>
-        <span style={{ color: 'var(--fg-faint)' }}>·</span>
-        <h1 className="text-[15px] md:text-[17px] font-medium truncate">
-          <span style={{ color: 'var(--pirate)' }}>{cap(stream.pirate.handle)}</span> <span style={{ color: 'var(--fg-faint)' }}>×</span> <span style={{ color: 'var(--refiner)' }}>{cap(stream.refiner.handle)}</span>
+        <span className="shrink-0 hidden md:inline" style={{ color: 'var(--fg-faint)' }}>·</span>
+        <h1 className="text-[14px] md:text-[17px] font-medium truncate min-w-0">
+          <span style={{ color: 'var(--pirate)' }}>{cap(stream.pirate.handle)}</span><span style={{ color: 'var(--fg-faint)' }}> × </span><span style={{ color: 'var(--refiner)' }}>{cap(stream.refiner.handle)}</span>
           <span className="ml-2 hidden md:inline" style={{ color: 'var(--fg-muted)' }}>— {stream.title}</span>
         </h1>
       </div>

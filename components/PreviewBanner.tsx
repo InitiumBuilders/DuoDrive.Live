@@ -29,10 +29,11 @@ export function PreviewBanner() {
         WebkitBackdropFilter: 'blur(20px)',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-2 flex items-center justify-between gap-3 flex-wrap">
-        <p className="text-[11px] md:text-[12px] leading-tight" style={{ color: 'var(--fg)' }}>
-          <span className="font-mono uppercase tracking-wider mr-2" style={{ color: 'var(--forge)' }}>· Preview</span>
-          All data on this site is sample/proposal data — Initiums, founders, VOTUS rates, builders. A canvas to think and reflect on.
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-2 flex items-center justify-between gap-3">
+        <p className="text-[10.5px] md:text-[12px] leading-tight flex-1 min-w-0" style={{ color: 'var(--fg)' }}>
+          <span className="font-mono uppercase tracking-wider mr-2 shrink-0" style={{ color: 'var(--forge)' }}>· Preview</span>
+          <span className="hidden sm:inline">All data on this site is sample/proposal data — Initiums, founders, VOTUS rates, builders. A canvas to think and reflect on.</span>
+          <span className="sm:hidden">Sample / proposal data — a canvas to think and reflect on.</span>
         </p>
         <button
           onClick={() => {

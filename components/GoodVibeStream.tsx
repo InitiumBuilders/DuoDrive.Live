@@ -211,9 +211,10 @@ export function GoodVibeStream() {
       <div className="hairline rounded-2xl glass-frosted overflow-hidden">
         <div className="aspect-video relative bg-black">
           <iframe
-            src={`https://player.twitch.tv/?channel=${streamer.twitch}&parent=${parentHost}&parent=duodrive.live&parent=www.duodrive.live&autoplay=false&muted=true`}
+            key={streamer.twitch}
+            src={`https://player.twitch.tv/?channel=${streamer.twitch}&parent=${parentHost}&parent=duodrive.live&parent=www.duodrive.live&autoplay=true&muted=true`}
             title={`Live: ${streamer.display}`}
-            allow="autoplay; fullscreen"
+            allow="autoplay; fullscreen; encrypted-media"
             className="w-full h-full"
             frameBorder={0}
             scrolling="no"
