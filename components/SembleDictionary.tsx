@@ -46,11 +46,11 @@ export function SembleDictionary({ compact = false }: { compact?: boolean }) {
       {/* header */}
       <div className="flex items-end justify-between gap-4 flex-wrap mb-5">
         <div>
-          <p className="chip chip-sync mb-2.5">Semble Dictionary</p>
+          <p className="chip mb-2.5" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 32%, transparent)' }}>Semble Dictionary</p>
           <h2 className="font-light text-[clamp(22px,3.4vw,38px)] tracking-tight leading-[1.1]">
             The <span className="twin-text">shared language</span> they're growing.
           </h2>
-          <p className="text-[12px] md:text-[13px] text-white/45 mt-1.5 max-w-xl leading-relaxed">
+          <p className="text-[12px] md:text-[13px] mt-1.5 max-w-xl leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
             A living glossary. Words get coined live, voted by the Cortex, drift in and out of usage.
           </p>
         </div>
@@ -176,7 +176,7 @@ function Entry({ e }: { e: typeof ENTRIES[0] }) {
     e.drift === 'fossilizing' ? '↓' :
     '·';
   return (
-    <article className="hairline rounded-xl p-5 bg-slab/40 hover:border-sync/40 transition-colors flex flex-col">
+    <article className="hairline rounded-xl p-5 glass hover:border-[color:color-mix(in_oklab,var(--sync)_40%,transparent)] transition-colors flex flex-col">
       <div className="flex items-center justify-between mb-2.5">
         <span className={`chip ${layerCls} text-[9px]`}>{layerLabel}</span>
         <span className={`text-[10px] font-mono tracking-wider uppercase ${driftCls}`}>

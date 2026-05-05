@@ -9,13 +9,13 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <Aurora />
         </div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-void/30 via-void/40 to-void pointer-events-none" />
+        <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, color-mix(in oklab, var(--bg) 30%, transparent), color-mix(in oklab, var(--bg) 40%, transparent), var(--bg))' }} />
 
         <div className="relative z-10 max-w-5xl w-full mx-auto text-center">
           {/* tag */}
           <div className="flex items-center justify-center gap-2 mb-8 fadeUp" style={{ animationDelay: '.05s' }}>
             <span className="live-dot" />
-            <span className="text-[11px] tracking-[0.2em] uppercase font-mono text-white/55">
+            <span className="text-[11px] tracking-[0.2em] uppercase font-mono" style={{ color: 'var(--fg-muted)' }}>
               Open Source · Live Streaming · Built In Public
             </span>
           </div>
@@ -23,10 +23,10 @@ export default function Home() {
           {/* the equation */}
           <div className="mb-7 fadeUp" style={{ animationDelay: '.15s' }}>
             <div className="font-light text-[clamp(56px,12vw,148px)] leading-[0.95] tracking-tight">
-              <span className="text-pirate" style={{ textShadow: '0 0 60px rgba(92,255,210,0.4)' }}>1</span>
-              <span className="text-white/30 mx-3 md:mx-5">+</span>
-              <span className="text-refiner" style={{ textShadow: '0 0 60px rgba(255,79,163,0.4)' }}>1</span>
-              <span className="text-white/30 mx-3 md:mx-5">=</span>
+              <span style={{ color: 'var(--pirate)', textShadow: '0 0 60px color-mix(in oklab, var(--pirate) 40%, transparent)' }}>1</span>
+              <span className="mx-3 md:mx-5" style={{ color: 'var(--fg-faint)' }}>+</span>
+              <span style={{ color: 'var(--refiner)', textShadow: '0 0 60px color-mix(in oklab, var(--refiner) 40%, transparent)' }}>1</span>
+              <span className="mx-3 md:mx-5" style={{ color: 'var(--fg-faint)' }}>=</span>
               <span className="twin-text">∞</span>
             </div>
           </div>
@@ -35,10 +35,10 @@ export default function Home() {
           <h1 className="fadeUp font-light text-[clamp(36px,7vw,84px)] leading-[1.02] tracking-tight max-w-4xl mx-auto mb-5" style={{ animationDelay: '.25s' }}>
             Code <em className="not-italic twin-text font-medium">and</em> Vibe.
           </h1>
-          <p className="fadeUp text-[15px] sm:text-[17px] md:text-xl text-white/65 max-w-2xl mx-auto leading-snug sm:leading-relaxed mb-2 px-1" style={{ animationDelay: '.35s' }}>
-            Where <span className="text-pirate">two builders</span> vibe-code <span className="text-refiner">together</span>, live.
+          <p className="fadeUp text-[15px] sm:text-[17px] md:text-xl max-w-2xl mx-auto leading-snug sm:leading-relaxed mb-2 px-1" style={{ animationDelay: '.35s', color: 'var(--fg-muted)' }}>
+            Where <span style={{ color: 'var(--pirate)' }}>two builders</span> vibe-code <span style={{ color: 'var(--refiner)' }}>together</span>, live.
           </p>
-          <p className="fadeUp text-[12.5px] sm:text-[14px] md:text-[15px] text-white/45 max-w-xl mx-auto leading-snug sm:leading-relaxed px-1" style={{ animationDelay: '.42s' }}>
+          <p className="fadeUp text-[12.5px] sm:text-[14px] md:text-[15px] max-w-xl mx-auto leading-snug sm:leading-relaxed px-1" style={{ animationDelay: '.42s', color: 'var(--fg-faint)' }}>
             One streams prompts. One streams code.<br className="sm:hidden" /> The community drives.
           </p>
 

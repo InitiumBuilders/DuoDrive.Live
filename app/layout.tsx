@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Nav } from '@/components/Nav';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'DuoDrive.Live — Code And Vibe',
@@ -30,12 +31,21 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-void text-white min-h-screen">
-        <Nav />
-        <main className="pb-28 md:pb-0">{children}</main>
-        <MobileBottomNav />
-        <Footer />
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('duodrive-theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t}}catch(e){}`,
+          }}
+        />
+      </head>
+      <body className="min-h-screen" style={{ background: 'var(--bg)', color: 'var(--fg)' }}>
+        <ThemeProvider>
+          <Nav />
+          <main className="pb-28 md:pb-0">{children}</main>
+          <MobileBottomNav />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
@@ -44,11 +54,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 function Footer() {
   return (
     <footer className="hairline-t mt-32 px-6 py-12 text-center">
-      <p className="text-[10px] tracking-[0.2em] uppercase text-white/30 font-mono">
+      <p className="text-[10px] tracking-[0.2em] uppercase font-mono" style={{ color: 'var(--fg-faint)' }}>
         DuoDrive.Live · Built And Envisioned By The Davara.DEV Community
       </p>
-      <p className="mt-3 text-xs text-white/40">
-        Open source · MIT · <a href="https://github.com/InitiumBuilders/DuoDrive.Live" className="underline-offset-4 hover:underline hover:text-white/70">github.com/InitiumBuilders/DuoDrive.Live</a>
+      <p className="mt-3 text-xs" style={{ color: 'var(--fg-faint)' }}>
+        Open source · MIT · <a href="https://github.com/InitiumBuilders/DuoDrive.Live" className="underline-offset-4 hover:underline" style={{ color: 'var(--fg-muted)' }}>github.com/InitiumBuilders/DuoDrive.Live</a>
       </p>
     </footer>
   );
