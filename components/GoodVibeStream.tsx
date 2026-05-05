@@ -30,29 +30,23 @@ export function GoodVibeStream() {
   const [val, setVal] = useState('');
   const liveRef = useRef<LivePayload | null>(null);
 
-  // Pick a streamer — prefers actually-live ones, falls back to deterministic rotation
-  function pickStreamer(): VibeStreamer {
+  // Pick a streamer — ONLY actually-live ones. Returns null when none live.
+  function pickStreamer(): VibeStreamer | null {
     const lp = liveRef.current;
     if (lp && lp.live.length > 0) {
-      // Cycle through live streamers by 3-minute bucket
       const bucket = Math.floor(Date.now() / (3 * 60 * 1000));
       const idx = bucket % lp.live.length;
       const liveLogin = lp.live[idx].twitch.toLowerCase();
       const match = VIBE_STREAMERS.find((s) => s.twitch.toLowerCase() === liveLogin);
       if (match) return match;
     }
-    return pickCurrentStreamer();
+    return null;
   }
 
   function nextRotationSeconds(): number {
-    const lp = liveRef.current;
-    if (lp && lp.live.length > 0) {
-      // 3-minute bucket when filtering by live
-      const ms = 3 * 60 * 1000;
-      const next = (Math.floor(Date.now() / ms) + 1) * ms;
-      return Math.max(0, Math.floor((next - Date.now()) / 1000));
-    }
-    return secondsUntilNextRotation();
+    const ms = 3 * 60 * 1000;
+    const next = (Math.floor(Date.now() / ms) + 1) * ms;
+    return Math.max(0, Math.floor((next - Date.now()) / 1000));
   }
 
   // Fetch live payload on mount + every 90s
@@ -119,8 +113,68 @@ export function GoodVibeStream() {
     return () => clearInterval(id);
   }, []);
 
+  // No-live state: show graceful empty when no curated builder is currently live
   if (!streamer) {
-    return <div className="hairline rounded-2xl glass p-8 text-center" style={{ color: 'var(--fg-muted)' }}>Booting GoodVibeStream relay…</div>;
+    const reason = livePayload?.reason;
+    const isUnconfigured = reason === 'no-credentials';
+    return (
+      <div className="grid lg:grid-cols-[1fr_360px] gap-3">
+        <div className="hairline rounded-2xl glass-frosted overflow-hidden">
+          <div className="aspect-video relative flex items-center justify-center" style={{ background: 'color-mix(in oklab, var(--bg) 85%, var(--ink))' }}>
+            <div className="text-center px-6">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="w-2 h-2 rounded-full" style={{ background: 'var(--fg-faint)' }} />
+                <span className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'var(--fg-faint)' }}>
+                  No curated builders live right now
+                </span>
+              </div>
+              <h3 className="font-light text-[clamp(20px,2.6vw,28px)] tracking-tight leading-tight mb-3" style={{ color: 'var(--fg)' }}>
+                The relay is <span className="twin-text">listening.</span>
+              </h3>
+              <p className="text-[13px] leading-relaxed max-w-md mx-auto" style={{ color: 'var(--fg-muted)' }}>
+                {isUnconfigured
+                  ? 'Twitch live filtering is awaiting app credentials. Once configured, the relay shows only actually-live builders.'
+                  : 'All ' + VIBE_STREAMERS.length + ' curated builders are currently offline. The relay will resume the moment one of them goes live.'}
+              </p>
+              <p className="mt-4 text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+                checking every 90s
+              </p>
+            </div>
+          </div>
+          <div className="p-5">
+            <p className="chip mb-3 inline-flex" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
+              Watching for live builders
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {VIBE_STREAMERS.map((s) => (
+                <a
+                  key={s.twitch}
+                  href={`https://twitch.tv/${s.twitch}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 rounded-full hairline transition-colors hover:[color:var(--pirate)]"
+                  style={{ color: 'var(--fg-muted)' }}
+                >
+                  {s.emoji} {s.display}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="hairline rounded-2xl glass p-5">
+          <p className="chip mb-3 inline-flex" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 35%, transparent)' }}>
+            Waiting room
+          </p>
+          <p className="text-[13px] leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
+            When a curated builder goes live, the relay swaps in their stream automatically. Until then, the chat is on standby.
+          </p>
+          <div className="mt-4 hairline-t pt-4 text-[12px] leading-relaxed" style={{ color: 'var(--fg)' }}>
+            <p className="mb-2"><span className="font-mono text-[10px] tracking-wider uppercase mr-1" style={{ color: 'var(--pirate)' }}>· tip</span> Subscribe to a builder on twitch — we relay them when they go live next.</p>
+            <p><span className="font-mono text-[10px] tracking-wider uppercase mr-1" style={{ color: 'var(--sync)' }}>· tip</span> Propose a Vibe Coder Scout role in the Cortex to expand the curated list.</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const fmtTime = (s: number) => {
@@ -148,14 +202,9 @@ export function GoodVibeStream() {
           <div className="absolute top-3 right-3 chip text-[10px]" style={{ color: 'var(--sync)' }}>
             ⟳ swaps in {fmtTime(secondsLeft)}
           </div>
-          {livePayload && livePayload.reason === 'ok' && livePayload.count !== undefined && (
+          {livePayload && livePayload.reason === 'ok' && livePayload.count !== undefined && livePayload.count > 0 && (
             <div className="absolute bottom-3 left-3 chip text-[9px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
-              {livePayload.count > 0 ? `· ${livePayload.count} curated builders live now` : '· curated all offline — cycling rotation'}
-            </div>
-          )}
-          {livePayload && livePayload.reason !== 'ok' && (
-            <div className="absolute bottom-3 left-3 chip text-[9px]" style={{ color: 'var(--fg-faint)' }}>
-              · deterministic rotation
+              · {livePayload.count} curated builder{livePayload.count > 1 ? 's' : ''} live now
             </div>
           )}
         </div>

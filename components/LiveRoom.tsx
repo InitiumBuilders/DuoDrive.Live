@@ -5,6 +5,7 @@ import { SembleDictionary } from './SembleDictionary';
 import { VotusInvestments } from './VotusInvestments';
 import { GoodVibeStream } from './GoodVibeStream';
 import { VerosFounders } from './VerosFounders';
+import { VotusUnits } from './VotusUnits';
 import { useLiveSim, type Feed, type ChatMessage } from '@/lib/liveSim';
 import type { Stream } from '@/lib/streams';
 import { STREAMS } from '@/lib/streams';
@@ -33,6 +34,7 @@ export function LiveRoomClient({ stream }: { stream?: Stream }) {
       {s.slug === 'symble-x-kato' && <VerosFounders />}
       {!s.goodVibeRelay && <ThreeFeeds sim={liveSim} stream={s} />}
       {!s.goodVibeRelay && <PollAndBets />}
+      <VotusUnits initiumId={s.initiumId} compact />
       <OtherStreams currentSlug={s.slug} />
       <VotusInvestments compact sim={liveSim} />
       <SembleDictionary compact />
