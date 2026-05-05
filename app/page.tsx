@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       {/* === HERO === */}
-      <section className="relative min-h-[100svh] flex items-center justify-center px-4 md:px-8 pt-24 pb-16 overflow-hidden">
+      <section className="relative min-h-[88svh] md:min-h-[100svh] flex items-center justify-center px-4 md:px-8 pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Aurora />
         </div>
@@ -16,9 +16,9 @@ export default function Home() {
 
         <div className="relative z-10 max-w-5xl w-full mx-auto text-center">
           {/* tag */}
-          <div className="flex items-center justify-center gap-2 mb-8 fadeUp" style={{ animationDelay: '.05s' }}>
+          <div className="inline-flex items-center justify-center gap-2 mb-8 fadeUp px-3 py-1.5 rounded-full hairline glass" style={{ animationDelay: '.05s' }}>
             <span className="live-dot" />
-            <span className="text-[11px] tracking-[0.2em] uppercase font-mono" style={{ color: 'var(--fg-muted)' }}>
+            <span className="text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-[0.2em] uppercase font-mono" style={{ color: 'var(--fg)' }}>
               Open Source · Live Streaming · Built In Public
             </span>
           </div>

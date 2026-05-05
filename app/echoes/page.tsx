@@ -94,18 +94,36 @@ export default function Echoes() {
 function EchoCard({ e }: { e: Echo }) {
   const accent = e.who === 'jordash' ? 'var(--pirate)' : e.who === 'davara' ? 'var(--refiner)' : 'var(--sync)';
   return (
-    <article className="hairline rounded-2xl glass p-6 relative overflow-hidden group">
+    <article
+      className={`hairline rounded-2xl glass relative overflow-hidden group transition-all ${e.pinned ? 'p-7 md:p-8' : 'p-6'}`}
+      style={{
+        boxShadow: e.pinned
+          ? `0 0 0 1px color-mix(in oklab, var(--sync) 35%, transparent), 0 24px 60px color-mix(in oklab, var(--sync) 14%, transparent)`
+          : 'var(--shadow-glass)',
+      }}
+    >
       {e.pinned && (
-        <div className="absolute top-4 right-4 chip" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 32%, transparent)' }}>
-          ✦ pinned
+        <div className="mb-5 flex items-center justify-between">
+          <span
+            className="chip"
+            style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 40%, transparent)', background: 'color-mix(in oklab, var(--sync) 8%, var(--surface))' }}
+          >
+            ✦ Pinned to README
+          </span>
+          <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+            top of the Initium
+          </span>
         </div>
       )}
       <div
         className="absolute -bottom-12 -right-12 w-48 h-48 rounded-full blur-3xl pointer-events-none"
-        style={{ background: `color-mix(in oklab, ${accent} 25%, transparent)` }}
+        style={{ background: `color-mix(in oklab, ${accent} 25%, transparent)`, opacity: e.pinned ? 1 : 0.7 }}
       />
       <div className="relative">
-        <p className="font-light text-[20px] md:text-[24px] leading-[1.25] tracking-tight mb-5" style={{ color: 'var(--fg)' }}>
+        <p
+          className={`font-light leading-[1.22] tracking-tight mb-5 ${e.pinned ? 'text-[24px] md:text-[30px]' : 'text-[20px] md:text-[24px]'}`}
+          style={{ color: 'var(--fg)' }}
+        >
           <span style={{ color: accent, opacity: 0.7 }}>“</span>
           {e.quote}
           <span style={{ color: accent, opacity: 0.7 }}>”</span>

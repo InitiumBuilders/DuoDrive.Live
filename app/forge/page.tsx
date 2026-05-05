@@ -49,11 +49,12 @@ const KIND_META: Record<Event['kind'], { label: string; cls: string; icon: strin
 };
 
 export default function Forge() {
-  // Compute hourly histogram for the scrubber
-  const hourCounts: Record<string, number> = {};
+  // Compute hourly histogram by event type
+  const hourBuckets: Record<string, Partial<Record<Event['kind'], number>>> = {};
   for (const e of TIMELINE) {
     const h = e.hour.slice(0, 2);
-    hourCounts[h] = (hourCounts[h] || 0) + 1;
+    if (!hourBuckets[h]) hourBuckets[h] = {};
+    hourBuckets[h][e.kind] = (hourBuckets[h][e.kind] || 0) + 1;
   }
 
   return (
@@ -73,35 +74,70 @@ export default function Forge() {
         </p>
       </header>
 
-      {/* Scrubber: hourly histogram */}
+      {/* Scrubber: stacked hourly histogram with kind colors + legend + hour labels */}
       <div className="hairline rounded-2xl glass p-4 md:p-5 mb-8">
-        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <p className="text-[11px] font-mono tracking-[0.2em] uppercase" style={{ color: 'var(--fg-muted)' }}>
-            Activity · UTC
+            Activity · UTC · stacked by kind
           </p>
           <p className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
             {TIMELINE.length} events · 06:12 → 17:12
           </p>
         </div>
-        <div className="flex items-end gap-1 h-12">
+        <div className="flex items-end gap-1 h-16 mb-2">
           {Array.from({ length: 24 }).map((_, h) => {
             const hh = String(h).padStart(2, '0');
-            const c = hourCounts[hh] || 0;
+            const buckets = hourBuckets[hh] || {};
+            const total = Object.values(buckets).reduce((a, b) => a + (b || 0), 0);
             return (
-              <div
-                key={h}
-                className="flex-1 rounded-sm relative group"
-                style={{
-                  height: c ? `${20 + c * 16}%` : '10%',
-                  background: c
-                    ? `linear-gradient(to top, color-mix(in oklab, var(--forge) ${30 + c * 12}%, transparent), color-mix(in oklab, var(--sync) ${20 + c * 8}%, transparent))`
-                    : 'var(--hairline)',
-                }}
-              >
-                <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[8px] font-mono opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" style={{ color: 'var(--fg-muted)' }}>
-                  {hh}:00 · {c}
+              <div key={h} className="flex-1 relative group flex flex-col justify-end" style={{ height: '100%' }}>
+                {total > 0 && (
+                  <div className="flex flex-col rounded-sm overflow-hidden" style={{ height: `${20 + total * 14}%`, transition: 'height .4s' }}>
+                    {(['commit', 'word', 'echo', 'cortex', 'votus', 'forge', 'poll'] as Event['kind'][]).map((k) => {
+                      const c = buckets[k] || 0;
+                      if (!c) return null;
+                      const meta = KIND_META[k];
+                      const color =
+                        meta.cls === 'pirate' ? 'var(--pirate)' :
+                        meta.cls === 'refiner' ? 'var(--refiner)' :
+                        meta.cls === 'forge' ? 'var(--forge)' :
+                        'var(--sync)';
+                      return <div key={k} style={{ flex: c, background: color, opacity: 0.85 }} />;
+                    })}
+                  </div>
+                )}
+                {total === 0 && <div className="rounded-sm" style={{ height: '8%', background: 'var(--hairline)' }} />}
+                <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-mono opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap glass px-1.5 py-0.5 rounded pointer-events-none" style={{ color: 'var(--fg)' }}>
+                  {hh}:00 · {total}
                 </span>
               </div>
+            );
+          })}
+        </div>
+        {/* hour axis labels */}
+        <div className="flex items-center gap-1 mb-3">
+          {Array.from({ length: 24 }).map((_, h) => (
+            <span key={h} className="flex-1 text-center text-[8px] font-mono tracking-wider uppercase" style={{ color: h % 3 === 0 ? 'var(--fg-faint)' : 'transparent' }}>
+              {h % 3 === 0 ? String(h).padStart(2, '0') : '·'}
+            </span>
+          ))}
+        </div>
+        {/* legend */}
+        <div className="flex flex-wrap gap-x-4 gap-y-1.5 hairline-t pt-3">
+          {(Object.keys(KIND_META) as Event['kind'][]).map((k) => {
+            const meta = KIND_META[k];
+            const color =
+              meta.cls === 'pirate' ? 'var(--pirate)' :
+              meta.cls === 'refiner' ? 'var(--refiner)' :
+              meta.cls === 'forge' ? 'var(--forge)' :
+              'var(--sync)';
+            const count = TIMELINE.filter((e) => e.kind === k).length;
+            return (
+              <span key={k} className="flex items-center gap-1.5 text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-muted)' }}>
+                <span className="w-2.5 h-2.5 rounded-sm" style={{ background: color }} />
+                {meta.label}
+                <span style={{ color: 'var(--fg-faint)' }}>{count}</span>
+              </span>
             );
           })}
         </div>

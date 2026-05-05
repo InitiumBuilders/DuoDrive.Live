@@ -26,8 +26,10 @@ export function LiveNowRail() {
   return (
     <Link
       href="/live/jordash-x-davara"
-      className="group block hairline rounded-2xl glass p-4 transition-colors hover:border-[color:color-mix(in_oklab,var(--sync)_40%,transparent)]"
-      style={{ minWidth: '280px', maxWidth: '320px' }}
+      className="group block hairline rounded-2xl glass p-3.5 transition-all hover:border-[color:color-mix(in_oklab,var(--sync)_40%,transparent)] hover:scale-[1.015]"
+      style={{ minWidth: '260px', maxWidth: '280px', opacity: 0.92 }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.92'; }}
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -62,12 +64,12 @@ export function LiveNowRail() {
           </p>
         </div>
       </div>
-      <div className="hairline-t pt-3 space-y-1.5 max-h-[200px] overflow-hidden no-scrollbar relative">
+      <div className="hairline-t pt-3 space-y-1.5 max-h-[160px] overflow-hidden no-scrollbar relative">
         <div
-          className="absolute bottom-0 left-0 right-0 h-12 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
           style={{ background: 'linear-gradient(to top, var(--surface-solid), transparent)' }}
         />
-        {visible.slice(-6).reverse().map((e, i) => (
+        {visible.slice(-5).reverse().map((e, i) => (
           <div key={`${e.txt}-${i}-${n}`} className="text-[11px] flex items-baseline gap-2 tick-in">
             <span
               className="font-mono text-[9px] tracking-wider uppercase shrink-0"
