@@ -27,24 +27,24 @@
 }
 
 [data-theme="light"] {
-  --void: #F2EEEA;
-  --ink: #FAF7F4;
+  --void: #ECE6E0;
+  --ink: #F4F0EB;
   --slab: #FFFFFF;
   /* On light mode the twin signals get richer/darker for contrast */
-  --pirate: #008A6A;
-  --refiner: #B5256B;
-  --sync: #5239D1;
-  --forge: #A0641A;
-  --fg: #14161D;
-  --fg-muted: rgba(20,22,29,0.72);
-  --fg-faint: rgba(20,22,29,0.55);
-  --bg: #F2EEEA;
-  --surface: rgba(255,255,255,0.78);
+  --pirate: #007057;
+  --refiner: #9A1F5C;
+  --sync: #3F2DBA;
+  --forge: #80511A;
+  --fg: #0F1116;
+  --fg-muted: rgba(15,17,22,0.85);
+  --fg-faint: rgba(15,17,22,0.62);
+  --bg: #ECE6E0;
+  --surface: rgba(255,255,255,0.86);
   --surface-solid: #FFFFFF;
-  --hairline: rgba(0,0,0,0.10);
-  --hairline-strong: rgba(0,0,0,0.22);
-  --selection: rgba(82,57,209,0.22);
-  --shadow-glass: 0 1px 0 rgba(255,255,255,0.85) inset, 0 0 40px rgba(82,57,209,0.05) inset, 0 24px 80px rgba(0,0,0,0.10);
+  --hairline: rgba(0,0,0,0.14);
+  --hairline-strong: rgba(0,0,0,0.28);
+  --selection: rgba(63,45,186,0.22);
+  --shadow-glass: 0 1px 0 rgba(255,255,255,0.92) inset, 0 0 40px rgba(63,45,186,0.06) inset, 0 24px 80px rgba(0,0,0,0.12);
   --halo-strength: 0.7;
 }
 
