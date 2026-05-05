@@ -209,6 +209,15 @@ export function GoodVibeStream() {
     <div className="grid lg:grid-cols-[1fr_360px] gap-3">
       {/* Stream tile + meta */}
       <div className="hairline rounded-2xl glass-frosted overflow-hidden w-full min-w-0">
+        {/* Header strip ABOVE the iframe so our badges never collide with Twitch chrome */}
+        <div className="px-3 md:px-4 py-2 flex items-center justify-between gap-2 hairline-b" style={{ background: 'var(--surface)' }}>
+          <span className="chip text-[10px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
+            <span className="live-dot mr-1.5" /> Relayed live
+          </span>
+          <span className="text-[10px] font-mono tracking-wider uppercase whitespace-nowrap" style={{ color: 'var(--sync)' }}>
+            ⟳ {fmtTime(secondsLeft)}
+          </span>
+        </div>
         <div className="aspect-video relative bg-black w-full overflow-hidden">
           <iframe
             key={streamer.twitch}
@@ -219,20 +228,19 @@ export function GoodVibeStream() {
             scrolling="no"
             style={{ width: '100%', height: '100%', border: 'none', display: 'block', position: 'absolute', inset: 0 }}
           />
-          <div className="absolute top-3 left-3 chip text-[10px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
-            <span className="live-dot mr-1.5" /> Relayed live
-          </div>
-          <div className="absolute top-3 right-3 chip text-[10px]" style={{ color: 'var(--sync)' }}>
-            ⟳ swaps in {fmtTime(secondsLeft)}
-          </div>
-          {livePayload && livePayload.reason === 'ok' && livePayload.count !== undefined && livePayload.count > 0 && (
-            <div className="absolute bottom-3 left-3 chip text-[9px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
-              · {(livePayload.curatedCount ?? 0) > 0
-                ? `${livePayload.curatedCount} curated · ${livePayload.categoryCount ?? 0} discovered live`
-                : `${livePayload.count} live coder${livePayload.count > 1 ? 's' : ''} discovered`}
-            </div>
-          )}
         </div>
+        {livePayload && livePayload.reason === 'ok' && livePayload.count !== undefined && livePayload.count > 0 && (
+          <div className="px-3 md:px-4 py-2 hairline-t flex items-center justify-between gap-2" style={{ background: 'var(--surface)' }}>
+            <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--pirate)' }}>
+              · {(livePayload.curatedCount ?? 0) > 0
+                ? `${livePayload.curatedCount} curated · ${livePayload.categoryCount ?? 0} discovered`
+                : `${livePayload.count} live discovered`}
+            </span>
+            <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+              live now
+            </span>
+          </div>
+        )}
         <div className="p-5">
           <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
             <div>

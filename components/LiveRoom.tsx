@@ -134,7 +134,7 @@ function StreamTile({ side, sim, stream }: { side: 'pirate' | 'refiner'; sim: Re
 
       {/* face bloom */}
       <div
-        className="absolute top-[18%] left-1/2 -translate-x-1/2 z-[1] w-32 h-32 md:w-40 md:h-40 rounded-full opacity-70 pointer-events-none breathe"
+        className="absolute top-[14%] md:top-[18%] left-1/2 -translate-x-1/2 z-[0] w-24 h-24 md:w-40 md:h-40 rounded-full opacity-50 md:opacity-70 pointer-events-none breathe"
         style={{
           background: isPirate
             ? 'radial-gradient(circle, color-mix(in oklab, var(--pirate) 60%, transparent) 0%, color-mix(in oklab, var(--sync) 30%, transparent) 40%, transparent 70%)'
@@ -143,8 +143,8 @@ function StreamTile({ side, sim, stream }: { side: 'pirate' | 'refiner'; sim: Re
         }}
       />
 
-      {/* waveform */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2 z-[1] w-28 md:w-36 h-6 flex items-center gap-0.5 pointer-events-none">
+      {/* waveform — below prompt panel on mobile so they never overlap */}
+      <div className="absolute top-[36%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-2 z-[0] w-24 md:w-36 h-5 md:h-6 flex items-center gap-0.5 pointer-events-none opacity-50 md:opacity-100">
         {Array.from({ length: 18 }).map((_, i) => (
           <span
             key={i}
@@ -196,8 +196,16 @@ function StreamTile({ side, sim, stream }: { side: 'pirate' | 'refiner'; sim: Re
 
 function PiratePromptTexture() {
   return (
-    <div className="absolute inset-0 z-[2] p-4 md:p-6 flex items-end pointer-events-none">
-      <div className="w-full glass rounded-lg p-3 md:p-4 mt-12 overflow-hidden">
+    <div className="absolute inset-0 z-[2] p-3 md:p-6 flex items-end pointer-events-none">
+      <div
+        className="w-full rounded-lg p-3 md:p-4 mt-12 overflow-hidden"
+        style={{
+          background: 'color-mix(in oklab, var(--bg) 88%, transparent)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid var(--hairline)',
+        }}
+      >
         <div className="flex items-center gap-1.5 mb-2.5">
           <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--pirate) 70%, transparent)' }} />
           <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--sync) 60%, transparent)' }} />
@@ -226,8 +234,16 @@ function RefinerCodeTexture({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
     { n: 142, t: '      <Needle bias=', k: '{direction}', sym: ' />' },
   ];
   return (
-    <div className="absolute inset-0 z-[2] p-4 md:p-6 flex items-end pointer-events-none">
-      <div className="w-full glass rounded-lg p-3 md:p-4 mt-12 font-mono overflow-hidden">
+    <div className="absolute inset-0 z-[2] p-3 md:p-6 flex items-end pointer-events-none">
+      <div
+        className="w-full rounded-lg p-3 md:p-4 mt-12 font-mono overflow-hidden"
+        style={{
+          background: 'color-mix(in oklab, var(--bg) 88%, transparent)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid var(--hairline)',
+        }}
+      >
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--refiner) 70%, transparent)' }} />
