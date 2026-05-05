@@ -61,8 +61,8 @@ export default function Home() {
           </div>
 
           {/* sub-row: anchor sentence (no jargon, just the shape) */}
-          <p className="fadeUp mt-14 text-[12px] md:text-[13px] font-mono tracking-wider uppercase text-white/40 max-w-2xl mx-auto leading-relaxed" style={{ animationDelay: '.6s' }}>
-            Two streams · One shared chat · A community Cortex · Live polls with skin in them
+          <p className="fadeUp mt-14 text-[10px] sm:text-[12px] md:text-[13px] font-mono tracking-[0.15em] sm:tracking-wider uppercase text-white/40 max-w-2xl mx-auto leading-relaxed px-2" style={{ animationDelay: '.6s' }}>
+            Two streams · One shared chat<br className="sm:hidden" /> · A community Cortex<br className="sm:hidden" /> · Live polls with skin in them
           </p>
 
           <div className="fadeUp mt-12" style={{ animationDelay: '.75s' }}>
