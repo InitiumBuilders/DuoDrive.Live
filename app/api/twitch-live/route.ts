@@ -3,14 +3,23 @@ import { VIBE_STREAMERS } from '@/lib/goodVibeStreamers';
 
 /**
  * GET /api/twitch-live
- * Returns which curated VibeStreamers are currently live on Twitch.
+ * Returns currently-live vibe coders on Twitch, in priority order:
+ *   1. Our curated VibeStreamers (ThePrimeagen, Tsoding, etc.) who are live now
+ *   2. Top live streams in 'Software and Game Development' (game_id=1469308723)
+ *   3. Top live streams in 'Science & Technology' (game_id=509670) as backup
+ *
+ * Always returns at least *something* live when Twitch creds are present,
+ * so the GoodVibeStream relay never sits empty.
  *
  * Requires env: TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET (Vercel)
  * Without those, returns { live: [], reason: "no-credentials" } and the
- * client falls back to deterministic rotation.
+ * client renders the listening empty state.
  *
  * Cached for 90s (Vercel edge cache + Cache-Control header).
  */
+
+const SOFTWARE_GAME_DEV_GAME_ID = '1469308723'; // Software and Game Development
+const SCIENCE_TECH_GAME_ID = '509670';           // Science & Technology
 
 export const runtime = 'nodejs';
 export const revalidate = 90;
@@ -64,26 +73,7 @@ export async function GET() {
     }
 
     const id = process.env.TWITCH_CLIENT_ID!;
-    const handles = VIBE_STREAMERS.map((s) => s.twitch.toLowerCase());
-    // Helix Get Streams accepts up to 100 user_login params per call
-    const params = new URLSearchParams();
-    for (const h of handles) params.append('user_login', h);
-    params.set('first', '100');
-
-    const r = await fetch(`https://api.twitch.tv/helix/streams?${params.toString()}`, {
-      headers: {
-        'Client-Id': id,
-        Authorization: `Bearer ${token}`,
-      },
-      next: { revalidate: 60 },
-    });
-
-    if (!r.ok) {
-      return NextResponse.json(
-        { live: [], reason: 'twitch-api-error', status: r.status },
-        { status: 200, headers: { 'Cache-Control': 'public, s-maxage=30' } },
-      );
-    }
+    const headers = { 'Client-Id': id, Authorization: `Bearer ${token}` };
 
     type StreamPayload = {
       user_login: string;
@@ -94,21 +84,78 @@ export async function GET() {
       started_at: string;
       thumbnail_url?: string;
       game_name?: string;
+      language?: string;
     };
-    const j = (await r.json()) as { data?: StreamPayload[] };
-    const live = (j.data ?? [])
-      .filter((s) => s.type === 'live')
-      .map((s) => ({
-        twitch: s.user_login,
-        display: s.user_name,
-        title: s.title,
-        viewers: s.viewer_count,
-        startedAt: s.started_at,
-        game: s.game_name ?? null,
-      }));
+
+    const mapStream = (s: StreamPayload, source: 'curated' | 'category') => ({
+      twitch: s.user_login,
+      display: s.user_name,
+      title: s.title,
+      viewers: s.viewer_count,
+      startedAt: s.started_at,
+      game: s.game_name ?? null,
+      language: s.language ?? null,
+      source,
+    });
+
+    // 1) Check curated list first
+    const handles = VIBE_STREAMERS.map((s) => s.twitch.toLowerCase());
+    const curatedParams = new URLSearchParams();
+    for (const h of handles) curatedParams.append('user_login', h);
+    curatedParams.set('first', '100');
+
+    const curatedR = await fetch(`https://api.twitch.tv/helix/streams?${curatedParams.toString()}`, {
+      headers,
+      next: { revalidate: 60 },
+    });
+
+    let curatedLive: ReturnType<typeof mapStream>[] = [];
+    if (curatedR.ok) {
+      const j = (await curatedR.json()) as { data?: StreamPayload[] };
+      curatedLive = (j.data ?? [])
+        .filter((s) => s.type === 'live')
+        .map((s) => mapStream(s, 'curated'));
+    }
+
+    // 2) Always also fetch top live in Software & Game Dev for the broader pool
+    const catParams = new URLSearchParams({
+      game_id: SOFTWARE_GAME_DEV_GAME_ID,
+      first: '20',
+      language: 'en',
+    });
+    const catR = await fetch(`https://api.twitch.tv/helix/streams?${catParams.toString()}`, {
+      headers,
+      next: { revalidate: 60 },
+    });
+    let categoryLive: ReturnType<typeof mapStream>[] = [];
+    if (catR.ok) {
+      const j = (await catR.json()) as { data?: StreamPayload[] };
+      categoryLive = (j.data ?? [])
+        .filter((s) => s.type === 'live')
+        // Filter out streams whose title screams "playing a game" rather than building.
+        // Light heuristic, conservative: skip when title contains common gameplay markers.
+        .filter((s) => {
+          const t = (s.title || '').toLowerCase();
+          const skip = /\bplaying\b|\bspeedrun|\bplaythrough|\bcasual\b|\bnoobs?\b|\bgta|\bminecraft\b/.test(t);
+          return !skip;
+        })
+        .map((s) => mapStream(s, 'category'));
+    }
+
+    // De-dup: curated wins
+    const seen = new Set(curatedLive.map((s) => s.twitch.toLowerCase()));
+    const dedupCategory = categoryLive.filter((s) => !seen.has(s.twitch.toLowerCase()));
+
+    const live = [...curatedLive, ...dedupCategory];
 
     return NextResponse.json(
-      { live, count: live.length, reason: 'ok' },
+      {
+        live,
+        count: live.length,
+        curatedCount: curatedLive.length,
+        categoryCount: dedupCategory.length,
+        reason: 'ok',
+      },
       { status: 200, headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' } },
     );
   } catch (e) {

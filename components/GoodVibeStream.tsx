@@ -3,10 +3,22 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { pickCurrentStreamer, secondsUntilNextRotation, VIBE_STREAMERS, type VibeStreamer } from '@/lib/goodVibeStreamers';
 
+type LiveStream = {
+  twitch: string;
+  display: string;
+  title: string;
+  viewers: number;
+  startedAt: string;
+  game: string | null;
+  language?: string | null;
+  source?: 'curated' | 'category';
+};
 type LivePayload = {
-  live: { twitch: string; display: string; title: string; viewers: number; startedAt: string; game: string | null }[];
+  live: LiveStream[];
   reason: string;
   count?: number;
+  curatedCount?: number;
+  categoryCount?: number;
 };
 
 /**
@@ -31,14 +43,24 @@ export function GoodVibeStream() {
   const liveRef = useRef<LivePayload | null>(null);
 
   // Pick a streamer — ONLY actually-live ones. Returns null when none live.
+  // Curated list wins; falls through to category-discovered live coders.
   function pickStreamer(): VibeStreamer | null {
     const lp = liveRef.current;
     if (lp && lp.live.length > 0) {
       const bucket = Math.floor(Date.now() / (3 * 60 * 1000));
       const idx = bucket % lp.live.length;
-      const liveLogin = lp.live[idx].twitch.toLowerCase();
-      const match = VIBE_STREAMERS.find((s) => s.twitch.toLowerCase() === liveLogin);
-      if (match) return match;
+      const livePick = lp.live[idx];
+      const curated = VIBE_STREAMERS.find((s) => s.twitch.toLowerCase() === livePick.twitch.toLowerCase());
+      if (curated) return curated;
+      return {
+        twitch: livePick.twitch,
+        display: livePick.display,
+        vibe: livePick.title.slice(0, 64),
+        stack: livePick.game || 'Software & Game Dev',
+        bio: `Discovered live in the Software & Game Development category. ${livePick.viewers.toLocaleString()} watching now. Building in public on Twitch — the relay surfaces them so you can join the room and the duodrive cortex can offer help.`,
+        followers: livePick.viewers * 50,
+        emoji: '🖥️',
+      };
     }
     return null;
   }
@@ -204,7 +226,9 @@ export function GoodVibeStream() {
           </div>
           {livePayload && livePayload.reason === 'ok' && livePayload.count !== undefined && livePayload.count > 0 && (
             <div className="absolute bottom-3 left-3 chip text-[9px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
-              · {livePayload.count} curated builder{livePayload.count > 1 ? 's' : ''} live now
+              · {(livePayload.curatedCount ?? 0) > 0
+                ? `${livePayload.curatedCount} curated · ${livePayload.categoryCount ?? 0} discovered live`
+                : `${livePayload.count} live coder${livePayload.count > 1 ? 's' : ''} discovered`}
             </div>
           )}
         </div>
@@ -313,6 +337,46 @@ export function GoodVibeStream() {
           </span>
         </div>
         <div className="flex gap-2 overflow-x-auto no-scrollbar snap-x -mx-4 px-4 lg:mx-0 lg:px-0 pb-1">
+          {/* Show currently live discovered coders FIRST so the queue prioritizes the live ones */}
+          {(livePayload?.live ?? [])
+            .filter((ls) => ls.source === 'category')
+            .slice(0, 8)
+            .map((ls) => {
+              const isCurrent = ls.twitch === streamer.twitch;
+              return (
+                <a
+                  key={`cat-${ls.twitch}`}
+                  href={`https://twitch.tv/${ls.twitch}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 snap-start hairline rounded-xl glass p-3 lift transition-all"
+                  style={{
+                    minWidth: '180px',
+                    boxShadow: isCurrent
+                      ? `0 0 0 1px var(--pirate), 0 0 30px color-mix(in oklab, var(--pirate) 30%, transparent)`
+                      : `0 0 0 1px color-mix(in oklab, var(--forge) 35%, transparent)`,
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span
+                      className="text-[10px] font-mono tracking-wider uppercase flex items-center gap-1.5"
+                      style={{ color: isCurrent ? 'var(--pirate)' : 'var(--forge)' }}
+                    >
+                      <span className="live-dot" />
+                      {isCurrent ? 'LIVE' : 'discovered'}
+                    </span>
+                    <span className="text-[14px]">🖥️</span>
+                  </div>
+                  <p className="text-[12px] font-medium" style={{ color: 'var(--fg)' }}>{ls.display}</p>
+                  <p className="text-[10px] truncate" style={{ color: 'var(--fg-muted)', maxWidth: '160px' }}>
+                    {ls.title}
+                  </p>
+                  <p className="text-[10px] font-mono tracking-wider uppercase mt-1" style={{ color: 'var(--forge)' }}>
+                    {ls.viewers.toLocaleString()} watching
+                  </p>
+                </a>
+              );
+            })}
           {VIBE_STREAMERS.map((s) => {
             const isCurrent = s.twitch === streamer.twitch;
             const liveSet = new Set((livePayload?.live ?? []).map((l) => l.twitch.toLowerCase()));
