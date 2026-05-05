@@ -105,7 +105,7 @@ export function SembleDictionary({ compact = false }: { compact?: boolean }) {
             <button
               onClick={() => { alert('Preview prototype — your word would enter the proposal queue.'); setNewWord(''); setNewDef(''); setProposing(false); }}
               disabled={!newWord || !newDef}
-              className="px-5 py-2 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[12px] disabled:opacity-30"
+              className="px-5 py-2 rounded-full gradient-cta bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[12px] disabled:opacity-30"
             >
               Submit to Cortex →
             </button>

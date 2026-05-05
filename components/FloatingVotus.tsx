@@ -30,7 +30,7 @@ export function FloatingVotus() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-30">
+    <div className="fixed inset-x-0 bottom-0 h-[40vh] pointer-events-none z-30 overflow-hidden hidden md:block">
       {drops.map((d) => {
         const color =
           d.from === 'pirate' ? 'var(--pirate)' :

@@ -16,10 +16,11 @@ export default function Home() {
 
         <div className="relative z-10 max-w-5xl w-full mx-auto text-center">
           {/* tag */}
-          <div className="inline-flex items-center justify-center gap-2 mb-8 fadeUp px-3 py-1.5 rounded-full hairline glass" style={{ animationDelay: '.05s' }}>
-            <span className="live-dot" />
-            <span className="text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-[0.2em] uppercase font-mono" style={{ color: 'var(--fg)' }}>
-              Open Source · Live Streaming · Built In Public
+          <div className="inline-flex items-center justify-center gap-2 mb-8 fadeUp px-3 py-1.5 rounded-full hairline glass max-w-[calc(100vw-32px)]" style={{ animationDelay: '.05s' }}>
+            <span className="live-dot shrink-0" />
+            <span className="text-[9px] sm:text-[11px] tracking-[0.14em] sm:tracking-[0.2em] uppercase font-mono whitespace-nowrap" style={{ color: 'var(--fg)' }}>
+              <span className="sm:hidden">Open Source · Built In Public</span>
+              <span className="hidden sm:inline">Open Source · Live Streaming · Built In Public</span>
             </span>
           </div>
 
@@ -282,7 +283,7 @@ export default function Home() {
         </p>
         <Link
           href="/signup"
-          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px] hover:shadow-[0_0_50px_rgba(159,124,255,0.5)] transition-shadow"
+          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full gradient-cta bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px] hover:shadow-[0_0_50px_rgba(159,124,255,0.5)] transition-shadow"
         >
           Open Your Initium →
         </Link>

@@ -44,7 +44,7 @@ export default function Signup() {
             <button
               onClick={() => drive.length >= 2 && setStep(2)}
               disabled={drive.length < 2}
-              className="w-full mt-3 px-5 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px] disabled:opacity-30 hover:shadow-[0_0_30px_rgba(159,124,255,0.4)] transition-shadow"
+              className="w-full mt-3 px-5 py-3 rounded-full gradient-cta bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px] disabled:opacity-30 hover:shadow-[0_0_30px_rgba(159,124,255,0.4)] transition-shadow"
             >
               Next →
             </button>
@@ -75,7 +75,7 @@ export default function Signup() {
             )}
             <div className="flex gap-2 mt-3">
               <button onClick={() => setStep(1)} className="px-5 py-3 rounded-full hairline text-[14px] text-fg hover:text-fg">← Back</button>
-              <button onClick={() => setStep(3)} className="flex-1 px-5 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px]">Next →</button>
+              <button onClick={() => setStep(3)} className="flex-1 px-5 py-3 rounded-full gradient-cta bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px]">Next →</button>
             </div>
           </div>
         )}
@@ -94,7 +94,7 @@ export default function Signup() {
               <button onClick={() => setStep(2)} className="px-5 py-3 rounded-full hairline text-[14px] text-fg hover:text-fg">← Back</button>
               <button
                 onClick={() => alert('Preview prototype — backend coming next sprint. Your duo room would open here.')}
-                className="flex-1 px-5 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px]"
+                className="flex-1 px-5 py-3 rounded-full gradient-cta bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px]"
               >
                 Open My Drive →
               </button>

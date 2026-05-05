@@ -37,8 +37,8 @@
   --sync: #2A1A8E;         /* deeper indigo */
   --forge: #6A340A;         /* deeper sienna */
   --fg: #050810;            /* near-black ink */
-  --fg-muted: #21243A;      /* AAA-contrast secondary text */
-  --fg-faint: #4A4D5E;      /* AA-contrast tertiary */
+  --fg-muted: #1A1D2E;      /* deeper than v5.0 for clear AAA secondary */
+  --fg-faint: #3A3D4E;      /* readable tertiary, not decorative */
   --bg: #F7F1E8;
   --surface: rgba(255,255,255,0.96);
   --surface-solid: #FFFFFF;
@@ -124,6 +124,13 @@
 /* Light-mode CTA gradient buttons: ensure text stays light */
 [data-theme="light"] [data-cta-gradient] {
   color: #FFFFFF !important;
+}
+
+/* Light-mode gradient buttons: darker stops so white text always reads */
+[data-theme="light"] .gradient-cta {
+  background: linear-gradient(110deg, #005842, #2A1A8E, #971047) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.3) inset, 0 12px 32px rgba(42,26,142,0.25);
 }
 
 * {
