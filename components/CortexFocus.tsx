@@ -48,7 +48,7 @@ export function CortexFocus() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full min-w-0">
       <FocusCard
         d={decision}
         staked={staked[decision.id] ?? decision.staked}
@@ -89,9 +89,9 @@ function FocusCard({
   total: number;
 }) {
   return (
-    <article className="hairline rounded-3xl glass-frosted relative overflow-hidden p-5 md:p-9 max-w-full">
+    <article className="hairline rounded-3xl glass-frosted relative overflow-hidden p-5 md:p-9 w-full min-w-0">
       <div className="absolute inset-0 iridescent opacity-30 pointer-events-none" />
-      <div className="relative">
+      <div className="relative w-full min-w-0">
         {/* Top strip: id + initium + closes-in + position */}
         <div className="flex items-center justify-between gap-3 mb-5 flex-wrap">
           <div className="flex items-center gap-2 flex-wrap">
@@ -132,10 +132,10 @@ function FocusCard({
         <FlowTimeline stage={d.stage} />
 
         {/* Title + body */}
-        <h2 className="font-light text-[clamp(20px,3.6vw,36px)] tracking-tight leading-[1.18] mb-3 mt-7 break-words" style={{ color: 'var(--fg)' }}>
+        <h2 className="font-light text-[clamp(19px,3.6vw,36px)] tracking-tight leading-[1.22] mb-3 mt-7 break-words" style={{ color: 'var(--fg)', overflowWrap: 'anywhere' }}>
           {d.title}
         </h2>
-        <p className="text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-3xl" style={{ color: 'var(--fg-muted)' }}>
+        <p className="text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-3xl break-words" style={{ color: 'var(--fg-muted)', overflowWrap: 'anywhere' }}>
           {d.body}
         </p>
 
@@ -172,8 +172,8 @@ function FocusCard({
         </div>
 
         {/* Stake bar — working interaction */}
-        <div className="hairline-t pt-5 grid md:grid-cols-[1fr_auto] gap-4 items-end">
-          <div>
+        <div className="hairline-t pt-5 grid md:grid-cols-[1fr_auto] gap-4 items-end min-w-0">
+          <div className="min-w-0">
             <div className="flex items-center justify-between text-[11px] font-mono tracking-wider uppercase mb-1.5">
               <span style={{ color: 'var(--fg-muted)' }}>{staked.toLocaleString()} VOTUS staked</span>
               <span style={{ color: 'var(--fg-faint)' }}>{d.contributors} contributors</span>
@@ -185,12 +185,12 @@ function FocusCard({
               />
             </div>
           </div>
-          <div className="flex items-center gap-1.5 relative">
+          <div className="flex items-center gap-1.5 relative flex-wrap">
             {[1, 8, 50].map((amt) => (
               <button
                 key={amt}
                 onClick={() => onStake(amt)}
-                className="text-[11px] font-mono tracking-wider uppercase px-3 py-2 rounded-full hairline transition-all hover:scale-105 hover:[border-color:var(--forge)]"
+                className="text-[10.5px] md:text-[11px] font-mono tracking-wider uppercase px-2.5 md:px-3 py-2 rounded-full hairline transition-all hover:scale-105 hover:[border-color:var(--forge)] whitespace-nowrap"
                 style={{ color: 'var(--forge)', background: 'var(--surface)' }}
               >
                 + {amt} VOTUS
@@ -303,11 +303,12 @@ function Take({ side, t }: { side: 'pirate' | 'refiner'; t: { who: string; dash:
   const label = side === 'pirate' ? 'The Pirate · take' : 'The Refiner · take';
   return (
     <div
-      className="hairline rounded-2xl p-4 md:p-5"
+      className="hairline rounded-2xl p-4 md:p-5 min-w-0"
       style={{
         background: 'var(--surface)',
         borderColor: 'var(--hairline)',
         borderTop: `2px solid color-mix(in oklab, ${accent} 60%, transparent)`,
+        overflowWrap: 'anywhere',
       }}
     >
       <div className="flex items-center gap-2.5 mb-2">
