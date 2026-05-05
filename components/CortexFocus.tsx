@@ -63,8 +63,8 @@ export function CortexFocus() {
 
       <BrowseTray
         decisions={DECISIONS}
-        activeIdx={activeIdx}
-        onSelect={(i) => { interact(); setActiveIdx(i); }}
+        activeId={decision.id}
+        onSelect={(id) => { interact(); const i = DECISIONS.findIndex((d) => d.id === id); if (i >= 0) setActiveIdx(i); }}
       />
 
       <FlowAnimation />
@@ -337,12 +337,15 @@ function Take({ side, t }: { side: 'pirate' | 'refiner'; t: { who: string; dash:
 /* Browse tray — swipe through other decisions                   */
 /* ============================================================ */
 function BrowseTray({
-  decisions, activeIdx, onSelect,
+  decisions, activeId, onSelect,
 }: {
   decisions: CortexDecision[];
-  activeIdx: number;
-  onSelect: (i: number) => void;
+  activeId: string;
+  onSelect: (id: string) => void;
 }) {
+  // Hide the active decision from the tray — it's already in the FocusCard above.
+  const others = decisions.filter((d) => d.id !== activeId);
+  if (others.length === 0) return null;
   return (
     <section>
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
@@ -353,12 +356,11 @@ function BrowseTray({
           Other open decisions
         </p>
         <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
-          swipe → · {decisions.length} active
+          swipe → · {others.length}
         </span>
       </div>
       <div className="flex gap-2.5 overflow-x-auto no-scrollbar snap-x px-1 md:mx-0 md:px-0 pb-1">
-        {decisions.map((d, i) => {
-          const active = i === activeIdx;
+        {others.map((d) => {
           const cls =
             d.category === 'tokenomics' ? 'var(--forge)' :
             d.category === 'partnership' ? 'var(--refiner)' :
@@ -367,14 +369,12 @@ function BrowseTray({
           return (
             <button
               key={d.id}
-              onClick={() => onSelect(i)}
+              onClick={() => onSelect(d.id)}
               className="shrink-0 snap-start hairline rounded-2xl glass p-4 text-left transition-all lift"
               style={{
                 minWidth: '260px',
                 maxWidth: '300px',
-                boxShadow: active
-                  ? `0 0 0 1px ${cls}, 0 0 30px color-mix(in oklab, ${cls} 22%, transparent)`
-                  : 'var(--shadow-glass)',
+                boxShadow: 'var(--shadow-glass)',
               }}
             >
               <div className="flex items-center justify-between mb-2">

@@ -68,15 +68,20 @@ function InitiumCard({ s, delay }: { s: Stream; delay: number }) {
               </span>
               <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>· from {s.startedAt}</span>
             </div>
-            <h2 className="text-[20px] md:text-[24px] font-medium tracking-tight leading-tight" style={{ color: 'var(--fg)' }}>
+            <h2 className="text-[19px] md:text-[24px] font-medium tracking-tight leading-tight" style={{ color: 'var(--fg)' }}>
               {s.title}
             </h2>
+            <p className="md:hidden text-[11px] font-mono tracking-wider uppercase mt-1.5" style={{ color: 'var(--fg-faint)' }}>
+              <span style={{ color: 'var(--pirate)' }}>{s.pirate.handle}</span>
+              <span style={{ color: 'var(--fg-faint)' }}> × </span>
+              <span style={{ color: 'var(--refiner)' }}>{s.refiner.handle}</span>
+            </p>
             <p className="text-[13px] mt-2 max-w-2xl leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
               {s.premise}
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <span className="text-[11px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+            <span className="hidden md:inline text-[11px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
               <span style={{ color: 'var(--pirate)' }}>{s.pirate.handle}</span>
               <span style={{ color: 'var(--fg-faint)' }}> × </span>
               <span style={{ color: 'var(--refiner)' }}>{s.refiner.handle}</span>
@@ -85,7 +90,7 @@ function InitiumCard({ s, delay }: { s: Stream; delay: number }) {
               className="text-[10px] font-mono tracking-wider uppercase chip"
               style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 35%, transparent)' }}
             >
-              {open ? '↑ collapse' : '↓ expand'}
+              {open ? '↑' : '↓'}
             </span>
           </div>
         </div>
