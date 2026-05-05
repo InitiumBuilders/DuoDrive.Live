@@ -20,7 +20,7 @@ const ROLES = [
 
 export default function Cortex() {
   return (
-    <div className="px-4 md:px-8 max-w-5xl mx-auto pt-32 pb-20">
+    <div className="px-4 md:px-8 max-w-5xl mx-auto pt-32 pb-20 w-full overflow-x-clip">
       <header className="text-center mb-10 reveal">
         <p
           className="chip mx-auto mb-5 inline-flex"

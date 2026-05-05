@@ -48,7 +48,7 @@ export function CortexFocus() {
   };
 
   return (
-    <div className="space-y-6 w-full min-w-0">
+    <div className="space-y-6 w-full min-w-0 overflow-hidden">
       <FocusCard
         d={decision}
         staked={staked[decision.id] ?? decision.staked}
@@ -356,7 +356,7 @@ function BrowseTray({
           swipe → · {decisions.length} active
         </span>
       </div>
-      <div className="flex gap-2.5 overflow-x-auto no-scrollbar snap-x -mx-4 px-4 md:mx-0 md:px-0 pb-1">
+      <div className="flex gap-2.5 overflow-x-auto no-scrollbar snap-x px-1 md:mx-0 md:px-0 pb-1">
         {decisions.map((d, i) => {
           const active = i === activeIdx;
           const cls =
@@ -453,7 +453,7 @@ function FlowAnimation() {
         </span>
       </div>
 
-      <div className="grid grid-cols-4 gap-2 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {FRAMES.map((f, i) => {
           const active = i === step;
           const done = i < step;
