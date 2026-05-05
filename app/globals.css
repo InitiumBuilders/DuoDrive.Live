@@ -64,13 +64,14 @@
 }
 [data-theme="light"] ::placeholder { color: var(--fg-faint); }
 
-/* Light-mode tweaks — twin-text gradient gets a saturated darker base on cream bg */
+/* Light-mode tweaks — twin-text gradient gets saturated DARK stops on cream
+   bg. All three stops at 7:1+ contrast on cream paper. */
 [data-theme="light"] .twin-text {
-  background: linear-gradient(135deg, #006C53 0%, #3120A8 50%, #B11456 100%);
+  background: linear-gradient(135deg, #004B3A 0%, #221585 50%, #841041 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: contrast(1.15) saturate(1.1);
+  filter: contrast(1.18) saturate(1.15);
 }
 
 /* Light-mode chip: stronger borders + opaque bg so they don't disappear on cream */

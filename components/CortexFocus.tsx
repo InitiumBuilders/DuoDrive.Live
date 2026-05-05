@@ -89,7 +89,7 @@ function FocusCard({
   total: number;
 }) {
   return (
-    <article className="hairline rounded-3xl glass-frosted relative overflow-hidden p-6 md:p-9">
+    <article className="hairline rounded-3xl glass-frosted relative overflow-hidden p-5 md:p-9 max-w-full">
       <div className="absolute inset-0 iridescent opacity-30 pointer-events-none" />
       <div className="relative">
         {/* Top strip: id + initium + closes-in + position */}
@@ -132,7 +132,7 @@ function FocusCard({
         <FlowTimeline stage={d.stage} />
 
         {/* Title + body */}
-        <h2 className="font-light text-[clamp(22px,3.6vw,36px)] tracking-tight leading-[1.18] mb-3 mt-7" style={{ color: 'var(--fg)' }}>
+        <h2 className="font-light text-[clamp(20px,3.6vw,36px)] tracking-tight leading-[1.18] mb-3 mt-7 break-words" style={{ color: 'var(--fg)' }}>
           {d.title}
         </h2>
         <p className="text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-3xl" style={{ color: 'var(--fg-muted)' }}>
@@ -264,7 +264,7 @@ function FlowTimeline({ stage }: { stage: CortexDecision['stage'] }) {
                   )}
                 </div>
                 <p
-                  className="mt-2 text-[9.5px] md:text-[10px] font-mono tracking-[0.2em] uppercase whitespace-nowrap"
+                  className={`mt-2 text-[9px] md:text-[10px] font-mono tracking-[0.15em] md:tracking-[0.2em] uppercase whitespace-nowrap ${active ? '' : 'hidden md:block'}`}
                   style={{ color: active ? accent : done ? 'var(--fg-muted)' : 'var(--fg-faint)' }}
                 >
                   {step.label}
@@ -305,8 +305,9 @@ function Take({ side, t }: { side: 'pirate' | 'refiner'; t: { who: string; dash:
     <div
       className="hairline rounded-2xl p-4 md:p-5"
       style={{
-        background: `color-mix(in oklab, ${accent} 7%, var(--surface))`,
-        borderColor: `color-mix(in oklab, ${accent} 25%, var(--hairline))`,
+        background: 'var(--surface)',
+        borderColor: 'var(--hairline)',
+        borderTop: `2px solid color-mix(in oklab, ${accent} 60%, transparent)`,
       }}
     >
       <div className="flex items-center gap-2.5 mb-2">
