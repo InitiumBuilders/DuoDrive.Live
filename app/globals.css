@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #06070D;
+  --ink: #0B0D17;
+  --slab: #11141F;
+  --pirate: #5CFFD2;
+  --refiner: #FF4FA3;
+  --sync: #9F7CFF;
+  --forge: #FFB454;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  background: var(--void);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: rgba(159, 124, 255, 0.32);
+  color: white;
+}
+
+/* === Hairlines === */
+.hairline { border: 1px solid rgba(255, 255, 255, 0.06); }
+.hairline-t { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.hairline-b { border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+
+/* === Glass surface (used sparingly) === */
+.glass {
+  background: rgba(17, 20, 31, 0.55);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* === Twin signal aurora (canvas behind hero) === */
+.aurora-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === Forge meter === */
+.forge-bar {
+  height: 2px;
+  background: linear-gradient(90deg,
+    var(--pirate) 0%,
+    var(--sync) 50%,
+    var(--refiner) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* === Twin gradient text === */
+.twin-text {
+  background: linear-gradient(135deg, var(--pirate) 0%, var(--sync) 50%, var(--refiner) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* === Halo glow ring (for portrait cards) === */
+.halo {
+  position: relative;
+}
+.halo::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(92, 255, 210, 0.6),
+    rgba(159, 124, 255, 0.6),
+    rgba(255, 79, 163, 0.6));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.halo-rotating::before {
+  background: conic-gradient(from 0deg,
+    rgba(92, 255, 210, 0.8),
+    rgba(159, 124, 255, 0.8),
+    rgba(255, 79, 163, 0.8),
+    rgba(92, 255, 210, 0.8));
+  animation: orbit 6s linear infinite;
+}
+
+/* === Breathe (slow alive feel) === */
+.breathe { animation: breathe 6s ease-in-out infinite; }
+
+/* === Tag chip (mono caps) === */
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(17, 20, 31, 0.6);
+}
+.chip-pirate { color: var(--pirate); border-color: rgba(92, 255, 210, 0.32); }
+.chip-refiner { color: var(--refiner); border-color: rgba(255, 79, 163, 0.32); }
+.chip-sync { color: var(--sync); border-color: rgba(159, 124, 255, 0.32); }
+.chip-forge { color: var(--forge); border-color: rgba(255, 180, 84, 0.32); }
+
+/* === Live dot === */
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #ff3860;
+  box-shadow: 0 0 8px #ff3860;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+/* === No scrollbar in side feeds === */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* === Mobile: bottom safe area === */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .breathe, .forge-bar, .halo-rotating::before {
+    animation: none !important;
+  }
+}
