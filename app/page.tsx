@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import { Aurora } from '@/components/Aurora';
+import { LiveNowRail } from '@/components/LiveNowRail';
+import { TwoKeyDemo } from '@/components/TwoKeyDemo';
+import { HowItWorks } from '@/components/HowItWorks';
 
 export default function Home() {
   return (
@@ -77,6 +80,11 @@ export default function Home() {
             <div className="mx-auto mt-2 w-px h-10" style={{ background: 'linear-gradient(to bottom, var(--fg-faint), transparent)' }} />
           </div>
         </div>
+
+        {/* Live Now rail — desktop only, anchored bottom-right of hero */}
+        <div className="hidden xl:block fixed bottom-8 right-8 z-30 fadeUp" style={{ animationDelay: '1.2s' }}>
+          <LiveNowRail />
+        </div>
       </section>
 
       {/* === DUO QUOTE === */}
@@ -91,35 +99,12 @@ export default function Home() {
         </p>
       </section>
 
-      {/* === HOW IT WORKS === */}
-      <section className="relative px-5 md:px-8 py-20 max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="chip chip-sync mx-auto mb-5">How It Works</p>
-          <h2 className="font-light text-[clamp(28px,4.5vw,52px)] leading-tight tracking-tight">
-            Two flames. One anvil.<br />
-            <span className="twin-text">The screen is the forge.</span>
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-          <Step
-            kind="pirate"
-            num="01"
-            title="Find your Avari Sync"
-            body="Browse the Vibe Coder directory or post your role. The Pirate writes prompts, dreams, and steers. The Refiner ships, edits, and lands."
-          />
-          <Step
-            kind="sync"
-            num="02"
-            title="Open an Initium"
-            body="Name the project. Set the goal. Both partners sign. The Two-Key Drive vault opens. You're now driving live, together."
-          />
-          <Step
-            kind="refiner"
-            num="03"
-            title="The community drives"
-            body="Watchers stake VOTUS to amplify what matters. The Cortex self-organizes. The Avari Signal shows consensus, not noise."
-          />
-        </div>
+      {/* === HOW IT WORKS — interactive auto-advancing === */}
+      <HowItWorks />
+
+      {/* === TWO-KEY DRIVE DEMO === */}
+      <section className="relative px-5 md:px-8 py-12 max-w-5xl mx-auto">
+        <TwoKeyDemo />
       </section>
 
       {/* === LIVE PREVIEW STRIP === */}
@@ -278,15 +263,4 @@ const ROADMAP = [
   { when: 'Month 6', title: 'Community Cortex governance', body: 'Self-organized helper roles. Initium DAOs. Revenue share routed by contribution.', tag: 'Vision', cls: 'chip-refiner' },
 ];
 
-function Step({ kind, num, title, body }: { kind: 'pirate' | 'sync' | 'refiner'; num: string; title: string; body: string }) {
-  const cls = kind === 'pirate' ? 'from-pirate/40 to-pirate/0' : kind === 'refiner' ? 'from-refiner/40 to-refiner/0' : 'from-sync/40 to-sync/0';
-  const t = kind === 'pirate' ? 'text-pirate' : kind === 'refiner' ? 'text-refiner' : 'text-sync';
-  return (
-    <div className="relative hairline rounded-2xl p-6 bg-slab/40 overflow-hidden group">
-      <div className={`absolute -top-20 -right-20 w-44 h-44 rounded-full bg-gradient-to-br ${cls} blur-3xl opacity-60 group-hover:opacity-100 transition-opacity`} />
-      <p className={`relative font-mono text-[11px] tracking-wider uppercase ${t} mb-2`}>· {num}</p>
-      <p className="relative font-medium text-[17px] mb-2">{title}</p>
-      <p className="relative text-[13px] text-white/55 leading-relaxed">{body}</p>
-    </div>
-  );
-}
+

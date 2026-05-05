@@ -5,11 +5,11 @@ import { ThemeToggle } from './ThemeProvider';
 
 const links = [
   { href: '/live/jordash-x-davara', label: 'Live' },
-  { href: '/cortex', label: 'Cortex' },
-  { href: '/initiums', label: 'Initiums' },
+  { href: '/forge', label: 'Forge' },
+  { href: '/echoes', label: 'Echoes' },
   { href: '/lexicon/jordash-x-davara', label: 'Lexicon' },
+  { href: '/initiums', label: 'Initiums' },
   { href: '/votus', label: 'VOTUS' },
-  { href: '/manifesto', label: 'Manifesto' },
 ];
 
 export function Nav() {
