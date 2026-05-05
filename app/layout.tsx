@@ -3,6 +3,7 @@ import './globals.css';
 import { Nav } from '@/components/Nav';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { EasterEggs } from '@/components/EasterEggs';
 
 export const metadata: Metadata = {
   title: 'DuoDrive.Live — Code And Vibe',
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="pb-28 md:pb-0">{children}</main>
           <MobileBottomNav />
           <Footer />
+          <EasterEggs />
         </ThemeProvider>
       </body>
     </html>
