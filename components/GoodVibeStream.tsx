@@ -3,16 +3,24 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { pickCurrentStreamer, secondsUntilNextRotation, VIBE_STREAMERS, type VibeStreamer } from '@/lib/goodVibeStreamers';
 
+type LivePayload = {
+  live: { twitch: string; display: string; title: string; viewers: number; startedAt: string; game: string | null }[];
+  reason: string;
+  count?: number;
+};
+
 /**
  * GoodVibeStream — relays a real Twitch live coding stream into a DuoDrive
- * Initium room, rotating the picked streamer every 15 minutes. Each stream
- * gets its own Duo Chat (live, interactive). When the channel is offline
- * Twitch's player handles the offline screen gracefully.
+ * Initium room, rotating the picked streamer every ~3 minutes (when live filtering
+ * is active) or every 15 minutes (deterministic fallback). Each stream gets its
+ * own Duo Chat (live, interactive). When the channel is offline Twitch's player
+ * handles the offline screen gracefully.
  */
 export function GoodVibeStream() {
   const [streamer, setStreamer] = useState<VibeStreamer | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [parentHost, setParentHost] = useState<string>('duodrive.live');
+  const [livePayload, setLivePayload] = useState<LivePayload | null>(null);
   const [chat, setChat] = useState<{ who: string; txt: string; t: number; cls?: string }[]>([
     { who: 'system', txt: 'GoodVibeStream is relaying — say hi to the builder', t: Date.now(), cls: 'sync' },
     { who: 'tide', txt: 'love this rotation idea. one channel an hour 🙏', t: Date.now() - 60_000, cls: 'pirate' },
@@ -20,23 +28,73 @@ export function GoodVibeStream() {
     { who: 'cortex', txt: 'auto-pair protocol could match this builder with a Refiner from the Cortex', t: Date.now() - 180_000, cls: 'sync' },
   ]);
   const [val, setVal] = useState('');
+  const liveRef = useRef<LivePayload | null>(null);
+
+  // Pick a streamer — prefers actually-live ones, falls back to deterministic rotation
+  function pickStreamer(): VibeStreamer {
+    const lp = liveRef.current;
+    if (lp && lp.live.length > 0) {
+      // Cycle through live streamers by 3-minute bucket
+      const bucket = Math.floor(Date.now() / (3 * 60 * 1000));
+      const idx = bucket % lp.live.length;
+      const liveLogin = lp.live[idx].twitch.toLowerCase();
+      const match = VIBE_STREAMERS.find((s) => s.twitch.toLowerCase() === liveLogin);
+      if (match) return match;
+    }
+    return pickCurrentStreamer();
+  }
+
+  function nextRotationSeconds(): number {
+    const lp = liveRef.current;
+    if (lp && lp.live.length > 0) {
+      // 3-minute bucket when filtering by live
+      const ms = 3 * 60 * 1000;
+      const next = (Math.floor(Date.now() / ms) + 1) * ms;
+      return Math.max(0, Math.floor((next - Date.now()) / 1000));
+    }
+    return secondsUntilNextRotation();
+  }
+
+  // Fetch live payload on mount + every 90s
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchLive() {
+      try {
+        const r = await fetch('/api/twitch-live', { cache: 'no-store' });
+        if (!r.ok) return;
+        const j = (await r.json()) as LivePayload;
+        if (cancelled) return;
+        liveRef.current = j;
+        setLivePayload(j);
+        // Re-pick if the current pick isn't actually live (when we have data)
+        if (j.live.length > 0) {
+          const newPick = pickStreamer();
+          setStreamer(newPick);
+          setSecondsLeft(nextRotationSeconds());
+        }
+      } catch {}
+    }
+    fetchLive();
+    const i = setInterval(fetchLive, 90_000);
+    return () => { cancelled = true; clearInterval(i); };
+  }, []);
 
   useEffect(() => {
-    setStreamer(pickCurrentStreamer());
-    setSecondsLeft(secondsUntilNextRotation());
+    setStreamer(pickStreamer());
+    setSecondsLeft(nextRotationSeconds());
     setParentHost(typeof window !== 'undefined' ? window.location.hostname : 'duodrive.live');
 
     const i = setInterval(() => {
       setSecondsLeft((s) => {
         if (s <= 1) {
-          // Rotate
-          setStreamer(pickCurrentStreamer());
-          return secondsUntilNextRotation();
+          setStreamer(pickStreamer());
+          return nextRotationSeconds();
         }
         return s - 1;
       });
     }, 1000);
     return () => clearInterval(i);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Synthetic chat ticker — adds a cortex/community message every 6-12s
@@ -90,6 +148,16 @@ export function GoodVibeStream() {
           <div className="absolute top-3 right-3 chip text-[10px]" style={{ color: 'var(--sync)' }}>
             ⟳ swaps in {fmtTime(secondsLeft)}
           </div>
+          {livePayload && livePayload.reason === 'ok' && livePayload.count !== undefined && (
+            <div className="absolute bottom-3 left-3 chip text-[9px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
+              {livePayload.count > 0 ? `· ${livePayload.count} curated builders live now` : '· curated all offline — cycling rotation'}
+            </div>
+          )}
+          {livePayload && livePayload.reason !== 'ok' && (
+            <div className="absolute bottom-3 left-3 chip text-[9px]" style={{ color: 'var(--fg-faint)' }}>
+              · deterministic rotation
+            </div>
+          )}
         </div>
         <div className="p-5">
           <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
@@ -198,6 +266,9 @@ export function GoodVibeStream() {
         <div className="flex gap-2 overflow-x-auto no-scrollbar snap-x -mx-4 px-4 lg:mx-0 lg:px-0 pb-1">
           {VIBE_STREAMERS.map((s) => {
             const isCurrent = s.twitch === streamer.twitch;
+            const liveSet = new Set((livePayload?.live ?? []).map((l) => l.twitch.toLowerCase()));
+            const isLiveNow = liveSet.has(s.twitch.toLowerCase());
+            const liveData = (livePayload?.live ?? []).find((l) => l.twitch.toLowerCase() === s.twitch.toLowerCase());
             return (
               <a
                 key={s.twitch}
@@ -209,12 +280,15 @@ export function GoodVibeStream() {
                   minWidth: '180px',
                   boxShadow: isCurrent
                     ? `0 0 0 1px var(--pirate), 0 0 30px color-mix(in oklab, var(--pirate) 30%, transparent)`
-                    : 'var(--shadow-glass)',
+                    : isLiveNow
+                      ? `0 0 0 1px color-mix(in oklab, var(--pirate) 50%, transparent)`
+                      : 'var(--shadow-glass)',
                 }}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[11px] font-mono tracking-wider uppercase" style={{ color: isCurrent ? 'var(--pirate)' : 'var(--fg-faint)' }}>
-                    {isCurrent ? '· LIVE' : 'queued'}
+                  <span className="text-[11px] font-mono tracking-wider uppercase flex items-center gap-1.5" style={{ color: isCurrent ? 'var(--pirate)' : isLiveNow ? 'var(--pirate)' : 'var(--fg-faint)' }}>
+                    {(isCurrent || isLiveNow) && <span className="live-dot" />}
+                    {isCurrent ? 'LIVE' : isLiveNow ? 'live' : 'queued'}
                   </span>
                   <span className="text-[16px]">{s.emoji}</span>
                 </div>
@@ -222,6 +296,11 @@ export function GoodVibeStream() {
                 <p className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
                   {s.stack.split(',')[0]}
                 </p>
+                {isLiveNow && liveData && (
+                  <p className="text-[10px] font-mono tracking-wider uppercase mt-1" style={{ color: 'var(--forge)' }}>
+                    {liveData.viewers.toLocaleString()} watching
+                  </p>
+                )}
               </a>
             );
           })}

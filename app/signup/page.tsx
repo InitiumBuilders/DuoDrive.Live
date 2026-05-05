@@ -18,12 +18,12 @@ export default function Signup() {
         <h1 className="font-light text-[clamp(28px,5vw,44px)] leading-[1.05] tracking-tight">
           Pick a name. <span className="twin-text">Pick a role.</span>
         </h1>
-        <p className="text-white/55 mt-3 text-[14px]">
+        <p className="text-fg-muted mt-3 text-[14px]">
           No email. No password. Just a Drive Name and your stream link. We relay.
         </p>
       </header>
 
-      <div className="hairline rounded-2xl p-5 md:p-7 bg-slab/40">
+      <div className="hairline rounded-2xl p-5 md:p-7 glass">
         <div className="flex items-center gap-2 mb-6">
           {[1, 2, 3].map((s) => (
             <div key={s} className={`flex-1 h-0.5 rounded-full ${s <= step ? 'bg-gradient-to-r from-pirate via-sync to-refiner' : 'bg-white/10'}`} />
@@ -32,15 +32,15 @@ export default function Signup() {
 
         {step === 1 && (
           <div className="space-y-4">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/40">Step 1 / 3 — Drive Name</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-fg-faint">Step 1 / 3 — Drive Name</p>
             <input
               value={drive}
               onChange={(e) => setDrive(e.target.value.replace(/[^a-zA-Z0-9._-]/g, ''))}
               placeholder="e.g. jordash"
-              className="w-full bg-void/40 hairline rounded-lg px-4 py-3.5 text-[16px] focus:outline-none focus:border-sync/60 transition-colors"
+              className="w-full glass hairline rounded-lg px-4 py-3.5 text-[16px] focus:outline-none focus:border-sync/60 transition-colors"
               autoFocus
             />
-            <p className="text-[12px] text-white/40">Lowercase, dots, dashes. This is your handle on DuoDrive — and the prefix of your Drive ID.</p>
+            <p className="text-[12px] text-fg-faint">Lowercase, dots, dashes. This is your handle on DuoDrive — and the prefix of your Drive ID.</p>
             <button
               onClick={() => drive.length >= 2 && setStep(2)}
               disabled={drive.length < 2}
@@ -53,13 +53,13 @@ export default function Signup() {
 
         {step === 2 && (
           <div className="space-y-4">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/40">Step 2 / 3 — Role & Vibe</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-fg-faint">Step 2 / 3 — Role & Vibe</p>
             <div className="grid gap-2">
               {ROLES.map((r) => (
                 <button
                   key={r}
                   onClick={() => setRole(r)}
-                  className={`text-left px-4 py-3 rounded-lg text-[14px] hairline transition-colors ${role === r ? 'border-sync bg-sync/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'}`}
+                  className={`text-left px-4 py-3 rounded-lg text-[14px] hairline transition-colors ${role === r ? 'border-sync bg-sync/10 text-fg' : 'text-fg hover:text-fg hover:bg-white/5'}`}
                 >
                   {r}
                 </button>
@@ -70,11 +70,11 @@ export default function Signup() {
                 value={custom}
                 onChange={(e) => setCustom(e.target.value)}
                 placeholder="e.g. The Cartographer · Architecture"
-                className="w-full bg-void/40 hairline rounded-lg px-4 py-3 text-[14px] focus:outline-none focus:border-sync/60"
+                className="w-full glass hairline rounded-lg px-4 py-3 text-[14px] focus:outline-none focus:border-sync/60"
               />
             )}
             <div className="flex gap-2 mt-3">
-              <button onClick={() => setStep(1)} className="px-5 py-3 rounded-full hairline text-[14px] text-white/70 hover:text-white">← Back</button>
+              <button onClick={() => setStep(1)} className="px-5 py-3 rounded-full hairline text-[14px] text-fg hover:text-fg">← Back</button>
               <button onClick={() => setStep(3)} className="flex-1 px-5 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px]">Next →</button>
             </div>
           </div>
@@ -82,16 +82,16 @@ export default function Signup() {
 
         {step === 3 && (
           <div className="space-y-4">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/40">Step 3 / 3 — Relay Your Stream</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-fg-faint">Step 3 / 3 — Relay Your Stream</p>
             <input
               value={stream}
               onChange={(e) => setStream(e.target.value)}
               placeholder="https://twitch.tv/…  ·  youtube.com/live/…  ·  kick.com/…"
-              className="w-full bg-void/40 hairline rounded-lg px-4 py-3.5 text-[14px] focus:outline-none focus:border-sync/60"
+              className="w-full glass hairline rounded-lg px-4 py-3.5 text-[14px] focus:outline-none focus:border-sync/60"
             />
-            <p className="text-[12px] text-white/40">DuoDrive is a relay — you stream from your main provider, we mirror it into your room. Same with your duo partner.</p>
+            <p className="text-[12px] text-fg-faint">DuoDrive is a relay — you stream from your main provider, we mirror it into your room. Same with your duo partner.</p>
             <div className="flex gap-2 mt-3">
-              <button onClick={() => setStep(2)} className="px-5 py-3 rounded-full hairline text-[14px] text-white/70 hover:text-white">← Back</button>
+              <button onClick={() => setStep(2)} className="px-5 py-3 rounded-full hairline text-[14px] text-fg hover:text-fg">← Back</button>
               <button
                 onClick={() => alert('Preview prototype — backend coming next sprint. Your duo room would open here.')}
                 className="flex-1 px-5 py-3 rounded-full bg-gradient-to-r from-pirate via-sync to-refiner text-void font-medium text-[14px]"
@@ -100,10 +100,10 @@ export default function Signup() {
               </button>
             </div>
             <div className="hairline-t pt-4 mt-4 text-center">
-              <p className="text-[11px] font-mono tracking-wider uppercase text-white/40 mb-1">Preview Recap</p>
-              <p className="text-[14px] text-white/85">
+              <p className="text-[11px] font-mono tracking-wider uppercase text-fg-faint mb-1">Preview Recap</p>
+              <p className="text-[14px] text-fg">
                 <span className="text-pirate font-mono">@{drive || '—'}</span>
-                <span className="text-white/30 mx-2">·</span>
+                <span className="text-fg-faint mx-2">·</span>
                 <span className="text-sync">{role === 'Custom Role…' ? (custom || '—') : role}</span>
               </p>
             </div>
@@ -111,8 +111,8 @@ export default function Signup() {
         )}
       </div>
 
-      <p className="mt-8 text-center text-[12px] text-white/45">
-        Already driving? <Link href="/coders" className="text-sync hover:text-white">Find your Avari Sync →</Link>
+      <p className="mt-8 text-center text-[12px] text-fg-muted">
+        Already driving? <Link href="/coders" className="text-sync hover:text-fg">Find your Avari Sync →</Link>
       </p>
     </div>
   );

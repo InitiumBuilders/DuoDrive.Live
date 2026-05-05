@@ -8,16 +8,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // DuoDrive Forge Palette
-        void: '#06070D',
-        ink: '#0B0D17',
-        slab: '#11141F',
-        hairline: 'rgba(255,255,255,0.08)',
+        // === Theme-bound tokens — swap on [data-theme="light"] === //
+        // Surfaces
+        void: 'var(--bg)',
+        ink: 'var(--ink)',
+        slab: 'var(--surface-solid)',
+        // Foreground tokens (text-fg, bg-fg, etc.)
+        fg: 'var(--fg)',
+        'fg-muted': 'var(--fg-muted)',
+        'fg-faint': 'var(--fg-faint)',
         // Twin signals
-        pirate: '#5CFFD2',     // cyan-mint, left builder
-        refiner: '#FF4FA3',    // magenta-rose, right builder
-        sync: '#9F7CFF',       // violet, the duo's shared field
-        forge: '#FFB454',      // amber, VOTUS energy / momentum / bets
+        pirate: 'var(--pirate)',
+        refiner: 'var(--refiner)',
+        sync: 'var(--sync)',
+        forge: 'var(--forge)',
+        // Hairline
+        hairline: 'var(--hairline)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

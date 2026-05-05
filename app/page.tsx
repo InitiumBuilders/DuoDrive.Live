@@ -89,12 +89,12 @@ export default function Home() {
 
       {/* === DUO QUOTE === */}
       <section className="px-5 md:px-8 py-24 md:py-32 max-w-5xl mx-auto">
-        <blockquote className="text-center font-light text-[clamp(22px,3.4vw,42px)] leading-[1.3] tracking-tight text-white/85">
+        <blockquote className="text-center font-light text-[clamp(22px,3.4vw,42px)] leading-[1.3] tracking-tight text-fg">
           “If you wish to go fast, go alone.<br />
           If you wish to go far, go together.<br />
           <span className="twin-text font-medium">If you wish to build something that lasts — go in pairs, in public.</span>”
         </blockquote>
-        <p className="text-center mt-6 text-[11px] tracking-[0.25em] uppercase font-mono text-white/35">
+        <p className="text-center mt-6 text-[11px] tracking-[0.25em] uppercase font-mono text-fg-faint">
           — The DuoDrive Mantra
         </p>
       </section>
@@ -171,7 +171,7 @@ export default function Home() {
               Jordash × Davara — building DuoDrive.Live
             </h3>
           </div>
-          <Link href="/live/jordash-x-davara" className="text-[13px] text-white/55 hover:text-white">
+          <Link href="/live/jordash-x-davara" className="text-[13px] text-fg-muted hover:text-fg">
             Open the room →
           </Link>
         </div>
@@ -191,8 +191,8 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-[11px] font-mono tracking-wider uppercase text-white/40 mb-1">Now</p>
-                  <p className="text-[14px] text-white/85">"What if VOTUS used the Avari Signal — votes show direction, not numbers, until the duo asks?"</p>
+                  <p className="text-[11px] font-mono tracking-wider uppercase text-fg-faint mb-1">Now</p>
+                  <p className="text-[14px] text-fg">"What if VOTUS used the Avari Signal — votes show direction, not numbers, until the duo asks?"</p>
                 </div>
               </div>
               <div className="absolute top-4 right-4 chip chip-pirate text-[10px]">Live</div>
@@ -208,21 +208,21 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-[11px] font-mono tracking-wider uppercase text-white/40 mb-1">Just shipped</p>
-                  <p className="text-[14px] text-white/85 font-mono">+ <span className="text-pirate">components/AvariSignal.tsx</span> · 142 lines</p>
+                  <p className="text-[11px] font-mono tracking-wider uppercase text-fg-faint mb-1">Just shipped</p>
+                  <p className="text-[14px] text-fg font-mono">+ <span className="text-pirate">components/AvariSignal.tsx</span> · 142 lines</p>
                 </div>
               </div>
               <div className="absolute top-4 right-4 chip chip-refiner text-[10px]">Live</div>
             </div>
           </div>
           {/* Forge meter */}
-          <div className="hairline-t px-5 md:px-7 py-3 flex items-center gap-4 bg-void/60">
-            <span className="text-[10px] font-mono tracking-wider uppercase text-white/45">Forge Meter</span>
+          <div className="hairline-t px-5 md:px-7 py-3 flex items-center gap-4 glass">
+            <span className="text-[10px] font-mono tracking-wider uppercase text-fg-muted">Forge Meter</span>
             <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
               <div className="forge-bar h-full" style={{ width: '78%' }} />
             </div>
             <span className="text-[11px] font-mono text-forge">78%</span>
-            <span className="hidden md:inline-block text-[11px] text-white/45">·  4,210 watching · 312 VOTUS staked</span>
+            <span className="hidden md:inline-block text-[11px] text-fg-muted">·  4,210 watching · 312 VOTUS staked</span>
           </div>
         </Link>
       </section>
@@ -242,9 +242,9 @@ export default function Home() {
             { t: 'Outliers welcome.', b: 'Divergent thought beats consensus. The Cortex protects the surprising voice.' },
             { t: 'Receipts > talk.', b: 'Acta Non Verba. The diff is the truth. The Forge Meter is the timeline.' },
           ].map((v) => (
-            <div key={v.t} className="hairline rounded-xl p-5 md:p-6 bg-slab/40">
+            <div key={v.t} className="hairline rounded-xl p-5 md:p-6 glass">
               <p className="font-medium text-[15px] mb-1.5">{v.t}</p>
-              <p className="text-[13px] text-white/55 leading-relaxed">{v.b}</p>
+              <p className="text-[13px] text-fg-muted leading-relaxed">{v.b}</p>
             </div>
           ))}
         </div>
@@ -260,11 +260,11 @@ export default function Home() {
         </div>
         <ol className="space-y-4">
           {ROADMAP.map((r, i) => (
-            <li key={r.title} className="hairline rounded-xl p-5 md:p-6 bg-slab/30 grid md:grid-cols-[100px_1fr_auto] gap-4 items-start">
-              <span className="font-mono text-[11px] tracking-wider uppercase text-white/40">M{i + 1} · {r.when}</span>
+            <li key={r.title} className="hairline rounded-xl p-5 md:p-6 glass grid md:grid-cols-[100px_1fr_auto] gap-4 items-start">
+              <span className="font-mono text-[11px] tracking-wider uppercase text-fg-faint">M{i + 1} · {r.when}</span>
               <div>
                 <p className="font-medium text-[15px] mb-1">{r.title}</p>
-                <p className="text-[13px] text-white/55 leading-relaxed">{r.body}</p>
+                <p className="text-[13px] text-fg-muted leading-relaxed">{r.body}</p>
               </div>
               <span className={`chip ${r.cls} self-center md:self-auto`}>{r.tag}</span>
             </li>
@@ -277,7 +277,7 @@ export default function Home() {
         <h2 className="font-light text-[clamp(30px,5vw,60px)] leading-[1.05] tracking-tight mb-5">
           Pair up. <span className="twin-text">Drive live.</span>
         </h2>
-        <p className="text-white/55 mb-8 text-[15px]">
+        <p className="text-fg-muted mb-8 text-[15px]">
           Anonymous sign-up. One link. You're broadcasting in 90 seconds.
         </p>
         <Link
@@ -286,7 +286,7 @@ export default function Home() {
         >
           Open Your Initium →
         </Link>
-        <p className="mt-6 text-[10px] font-mono tracking-[0.25em] uppercase text-white/30">
+        <p className="mt-6 text-[10px] font-mono tracking-[0.25em] uppercase text-fg-faint">
           Acta Non Verba
         </p>
       </section>

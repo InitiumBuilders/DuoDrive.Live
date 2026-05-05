@@ -14,7 +14,7 @@ export default function Invested() {
         <h1 className="font-light text-[clamp(36px,6vw,72px)] leading-[1.05] tracking-tight">
           Community<br /><span className="twin-text">conviction, live.</span>
         </h1>
-        <p className="text-white/55 mt-4 text-[15px] max-w-xl mx-auto">
+        <p className="text-fg-muted mt-4 text-[15px] max-w-xl mx-auto">
           A real-time view of what the Cortex has staked behind <span className="text-pirate">Jordash</span> × <span className="text-refiner">Davara</span>'s Initium. Conviction with skin in it.
         </p>
       </header>
@@ -28,28 +28,28 @@ export default function Invested() {
         <h2 className="font-light text-[clamp(24px,3.6vw,40px)] tracking-tight mb-6">
           Stake amplifies. <span className="twin-text">Contribution earns.</span>
         </h2>
-        <div className="space-y-3 text-[14px] leading-relaxed text-white/70">
+        <div className="space-y-3 text-[14px] leading-relaxed text-fg">
           <p>
             VOTUS staked behind an Initium does <span className="text-forge">two things</span> — and only two.
           </p>
           <ol className="space-y-2 list-none">
-            <li className="hairline rounded-xl p-4 bg-slab/30">
+            <li className="hairline rounded-xl p-4 glass">
               <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-pirate">01 · Amplify</span>
               <p className="text-[14px] mt-1">Stakes route the Initium up the DuoDrive feed. Direction-only — no number theater.</p>
             </li>
-            <li className="hairline rounded-xl p-4 bg-slab/30">
+            <li className="hairline rounded-xl p-4 glass">
               <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-refiner">02 · Pool</span>
               <p className="text-[14px] mt-1">Stakes pool into a Two-Key vault held by the duo. When the Initium ships, rewards route to the Cortex by <span className="text-forge">logged contribution</span> — not by stake size.</p>
             </li>
           </ol>
-          <p className="text-[12px] font-mono tracking-wider uppercase text-white/40 mt-4">
+          <p className="text-[12px] font-mono tracking-wider uppercase text-fg-faint mt-4">
             Stakers don't get paid for staking. Builders get paid for building.
           </p>
         </div>
       </section>
 
       <div className="mt-12 text-center">
-        <Link href="/live/jordash-x-davara" className="text-[12px] font-mono tracking-wider uppercase text-white/55 hover:text-forge transition-colors">
+        <Link href="/live/jordash-x-davara" className="text-[12px] font-mono tracking-wider uppercase text-fg-muted hover:text-forge transition-colors">
           ← Back to the Stream Room
         </Link>
       </div>

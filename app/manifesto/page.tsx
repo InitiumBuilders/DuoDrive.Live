@@ -10,7 +10,7 @@ export default function Manifesto() {
         We build <span className="twin-text">to last.</span>
       </h1>
 
-      <div className="space-y-6 text-[16px] leading-[1.7] text-white/75">
+      <div className="space-y-6 text-[16px] leading-[1.7] text-fg">
         <p>
           DuoDrive.Live is for builders who refuse to be alone. Not because they cannot — because they shouldn't. The world is full of solo founders running themselves into the ground to ship things that nobody wanted. We propose a different shape.
         </p>
@@ -28,12 +28,12 @@ export default function Manifesto() {
       <hr className="my-12 border-hairline" />
 
       <h2 className="font-light text-[28px] md:text-[36px] tracking-tight mb-6">The Eight Holds</h2>
-      <ol className="space-y-4 text-[15px] leading-relaxed text-white/75 list-none">
+      <ol className="space-y-4 text-[15px] leading-relaxed text-fg list-none">
         {HOLDS.map((h, i) => (
-          <li key={h.t} className="hairline rounded-xl p-5 bg-slab/30">
+          <li key={h.t} className="hairline rounded-xl p-5 glass">
             <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-pirate mb-1.5">Hold {String(i + 1).padStart(2, '0')}</p>
             <p className="font-medium text-[16px] mb-1.5">{h.t}</p>
-            <p className="text-white/55">{h.b}</p>
+            <p className="text-fg-muted">{h.b}</p>
           </li>
         ))}
       </ol>
@@ -41,13 +41,13 @@ export default function Manifesto() {
       <hr className="my-12 border-hairline" />
 
       <h2 className="font-light text-[28px] md:text-[36px] tracking-tight mb-6">Governance</h2>
-      <div className="space-y-4 text-[15px] leading-relaxed text-white/75">
+      <div className="space-y-4 text-[15px] leading-relaxed text-fg">
         <p>The duo holds the keys. The Cortex holds the questions. VOTUS holds the weight. No central admin can unilaterally close an Initium, freeze a Drive, or censor a Cortex role.</p>
         <p>Disputes resolve in three steps: <span className="text-pirate">Pause</span> (either signer halts) → <span className="text-sync">Whisper</span> (Avari Signal opens to the Cortex) → <span className="text-refiner">Anvil</span> (binding poll resolves with VOTUS-weighted majority + duo's right to fork).</p>
-        <p className="text-white/55 text-[13px] font-mono tracking-wider uppercase">Forking is honorable. Forking is in the spec.</p>
+        <p className="text-fg-muted text-[13px] font-mono tracking-wider uppercase">Forking is honorable. Forking is in the spec.</p>
       </div>
 
-      <p className="mt-16 text-center text-[10px] font-mono tracking-[0.25em] uppercase text-white/35">
+      <p className="mt-16 text-center text-[10px] font-mono tracking-[0.25em] uppercase text-fg-faint">
         Acta Non Verba · Built And Envisioned By The Davara.DEV Community
       </p>
     </div>

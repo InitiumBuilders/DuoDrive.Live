@@ -85,23 +85,23 @@ export function SembleDictionary({ compact = false }: { compact?: boolean }) {
         <div className="hairline rounded-xl p-5 bg-gradient-to-br from-sync/10 to-slab/40 mb-4">
           <div className="flex items-center justify-between mb-3">
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-sync">Propose a Word</p>
-            <button onClick={() => setProposing(false)} className="text-white/40 hover:text-white text-[12px]">close</button>
+            <button onClick={() => setProposing(false)} className="text-fg-faint hover:text-fg text-[12px]">close</button>
           </div>
           <input
             value={newWord}
             onChange={(e) => setNewWord(e.target.value)}
             placeholder="The word"
-            className="w-full bg-void/40 hairline rounded-lg px-4 py-2.5 text-[14px] mb-2 focus:outline-none focus:border-sync/60"
+            className="w-full glass hairline rounded-lg px-4 py-2.5 text-[14px] mb-2 focus:outline-none focus:border-sync/60"
           />
           <textarea
             value={newDef}
             onChange={(e) => setNewDef(e.target.value)}
             placeholder="What does it mean? Be precise. The Cortex will vote."
             rows={3}
-            className="w-full bg-void/40 hairline rounded-lg px-4 py-2.5 text-[14px] mb-3 focus:outline-none focus:border-sync/60 resize-none"
+            className="w-full glass hairline rounded-lg px-4 py-2.5 text-[14px] mb-3 focus:outline-none focus:border-sync/60 resize-none"
           />
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <p className="text-[11px] text-white/40 font-mono tracking-wider uppercase">Threshold to enter Duo: 50 VOTUS</p>
+            <p className="text-[11px] text-fg-faint font-mono tracking-wider uppercase">Threshold to enter Duo: 50 VOTUS</p>
             <button
               onClick={() => { alert('Preview prototype — your word would enter the proposal queue.'); setNewWord(''); setNewDef(''); setProposing(false); }}
               disabled={!newWord || !newDef}
@@ -121,7 +121,7 @@ export function SembleDictionary({ compact = false }: { compact?: boolean }) {
       </div>
 
       {filtered.length === 0 && (
-        <div className="hairline rounded-xl p-8 text-center text-white/40 text-[13px]">
+        <div className="hairline rounded-xl p-8 text-center text-fg-faint text-[13px]">
           No words in this layer yet. <button onClick={() => setProposing(true)} className="text-sync hover:underline">Coin one →</button>
         </div>
       )}
@@ -141,7 +141,7 @@ function MicroSpark({ data, drift }: { data: number[]; drift: Drift }) {
   const stroke = drift === 'growing' || drift === 'newly coined' ? '#5CFFD2' : drift === 'fossilizing' ? '#9F7CFF66' : '#FFFFFF55';
   return (
     <div>
-      <p className="text-[9px] font-mono tracking-[0.15em] uppercase text-white/35 mb-0.5">7d usage</p>
+      <p className="text-[9px] font-mono tracking-[0.15em] uppercase text-fg-faint mb-0.5">7d usage</p>
       <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block">
         <polyline points={pts} fill="none" stroke={stroke} strokeWidth="1.2" strokeLinejoin="round" strokeLinecap="round" />
         {data.map((v, i) => {
@@ -168,8 +168,8 @@ function Entry({ e }: { e: typeof ENTRIES[0] }) {
   const driftCls =
     e.drift === 'growing' ? 'text-pirate' :
     e.drift === 'newly coined' ? 'text-sync' :
-    e.drift === 'fossilizing' ? 'text-white/35' :
-    'text-white/55';
+    e.drift === 'fossilizing' ? 'text-fg-faint' :
+    'text-fg-muted';
   const driftIcon =
     e.drift === 'growing' ? '↑' :
     e.drift === 'newly coined' ? '✦' :
@@ -184,9 +184,9 @@ function Entry({ e }: { e: typeof ENTRIES[0] }) {
         </span>
       </div>
       <h3 className="font-medium text-[18px] tracking-tight mb-1.5">{e.word}</h3>
-      <p className="text-[13px] text-white/65 leading-relaxed mb-3 flex-1">{e.def}</p>
+      <p className="text-[13px] text-fg-muted leading-relaxed mb-3 flex-1">{e.def}</p>
       {e.example && (
-        <p className="text-[11px] italic text-white/45 leading-relaxed mb-3 hairline-t pt-3">
+        <p className="text-[11px] italic text-fg-muted leading-relaxed mb-3 hairline-t pt-3">
           {e.example}
         </p>
       )}
@@ -194,11 +194,11 @@ function Entry({ e }: { e: typeof ENTRIES[0] }) {
         <div className="flex items-center justify-between gap-3">
           <MicroSpark data={e.spark} drift={e.drift} />
           <div className="text-right">
-            <p className="text-[10px] font-mono tracking-wider uppercase text-white/45">used {e.lastUsed}</p>
+            <p className="text-[10px] font-mono tracking-wider uppercase text-fg-muted">used {e.lastUsed}</p>
             <p className="text-[10px] font-mono tracking-wider uppercase text-forge">↑ {e.votus} votus</p>
           </div>
         </div>
-        <p className="text-[10px] font-mono tracking-wider uppercase text-white/30 mt-2">
+        <p className="text-[10px] font-mono tracking-wider uppercase text-fg-faint mt-2">
           @{e.by} · coined {e.coined}
         </p>
       </div>

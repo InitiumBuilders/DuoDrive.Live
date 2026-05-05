@@ -14,7 +14,7 @@ export default function Lexicon() {
         <h1 className="font-light text-[clamp(36px,6vw,72px)] leading-[1.05] tracking-tight">
           A duo grows<br /><span className="twin-text">a language.</span>
         </h1>
-        <p className="text-white/55 mt-4 text-[15px] max-w-xl mx-auto">
+        <p className="text-fg-muted mt-4 text-[15px] max-w-xl mx-auto">
           Words get coined live. The Cortex votes them in. They drift over time — growing, stabilizing, fossilizing. The Vibe Coding language of <span className="text-pirate">Jordash</span> × <span className="text-refiner">Davara</span> lives here.
         </p>
       </header>
@@ -34,17 +34,17 @@ export default function Lexicon() {
             { t: 'Duo', b: 'The shared dictionary you build with your Avari Sync. Words enter when both partners + 50 VOTUS approve.' },
             { t: 'Public Lexicon', b: 'Words the entire DuoDrive community has voted into shared usage. The vocabulary of building in public.' },
           ].map((l, i) => (
-            <div key={l.t} className="hairline rounded-xl p-5 bg-slab/30">
+            <div key={l.t} className="hairline rounded-xl p-5 glass">
               <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-pirate mb-1.5">Layer {String(i + 1).padStart(2, '0')}</p>
               <p className="font-medium text-[16px] mb-1">{l.t}</p>
-              <p className="text-[13px] text-white/55 leading-relaxed">{l.b}</p>
+              <p className="text-[13px] text-fg-muted leading-relaxed">{l.b}</p>
             </div>
           ))}
         </div>
       </section>
 
       <div className="mt-12 text-center">
-        <Link href="/live/jordash-x-davara" className="text-[12px] font-mono tracking-wider uppercase text-white/55 hover:text-sync transition-colors">
+        <Link href="/live/jordash-x-davara" className="text-[12px] font-mono tracking-wider uppercase text-fg-muted hover:text-sync transition-colors">
           ← Back to the Stream Room
         </Link>
       </div>

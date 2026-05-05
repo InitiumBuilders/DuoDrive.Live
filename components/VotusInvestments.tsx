@@ -32,7 +32,7 @@ export function VotusInvestments({ compact = false, sim }: { compact?: boolean; 
           <h2 className="font-light text-[clamp(22px,3.4vw,38px)] tracking-tight leading-[1.1]">
             What the community has <span className="twin-text">put behind them.</span>
           </h2>
-          <p className="text-[12px] md:text-[13px] text-white/45 mt-1.5 max-w-xl leading-relaxed">
+          <p className="text-[12px] md:text-[13px] text-fg-muted mt-1.5 max-w-xl leading-relaxed">
             Conviction with skin in it. Routed back to the Cortex by contribution.
           </p>
         </div>
@@ -72,7 +72,7 @@ export function VotusInvestments({ compact = false, sim }: { compact?: boolean; 
             const pct = (i.votus / raised) * 100;
             return (
               <li key={i.handle} className="flex items-center gap-2.5 sm:gap-3">
-                <span className="font-mono text-[11px] text-white/35 w-5 sm:w-6 shrink-0">{String(idx + 1).padStart(2, '0')}</span>
+                <span className="font-mono text-[11px] text-fg-faint w-5 sm:w-6 shrink-0">{String(idx + 1).padStart(2, '0')}</span>
                 <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br ${i.cls === 'pirate' ? 'from-pirate to-sync' : i.cls === 'refiner' ? 'from-refiner to-sync' : 'from-forge to-refiner'} shrink-0`} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
@@ -83,7 +83,7 @@ export function VotusInvestments({ compact = false, sim }: { compact?: boolean; 
                     <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                       <div className={`h-full bg-gradient-to-r ${i.cls === 'pirate' ? 'from-pirate to-sync' : i.cls === 'refiner' ? 'from-refiner to-sync' : 'from-forge to-refiner'}`} style={{ width: `${pct}%` }} />
                     </div>
-                    <span className="text-[9px] font-mono tracking-wider uppercase text-white/40 shrink-0 truncate max-w-[80px] sm:max-w-none">{i.role}</span>
+                    <span className="text-[9px] font-mono tracking-wider uppercase text-fg-faint shrink-0 truncate max-w-[80px] sm:max-w-none">{i.role}</span>
                   </div>
                 </div>
               </li>
@@ -91,8 +91,8 @@ export function VotusInvestments({ compact = false, sim }: { compact?: boolean; 
           })}
         </ul>
         <div className="hairline-t mt-4 pt-4 flex items-center justify-between flex-wrap gap-2">
-          <p className="text-[11px] text-white/40 font-mono tracking-wider uppercase">+ 41 other contributors</p>
-          <a href="/votus/invested" className="text-[11px] text-forge hover:text-white transition-colors">See full leaderboard →</a>
+          <p className="text-[11px] text-fg-faint font-mono tracking-wider uppercase">+ 41 other contributors</p>
+          <a href="/votus/invested" className="text-[11px] text-forge hover:text-fg transition-colors">See full leaderboard →</a>
         </div>
       </div>
     </section>
