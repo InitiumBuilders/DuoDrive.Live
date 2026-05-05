@@ -132,10 +132,10 @@ function FocusCard({
         <FlowTimeline stage={d.stage} />
 
         {/* Title + body */}
-        <h2 className="font-light text-[clamp(19px,3.6vw,36px)] tracking-tight leading-[1.22] mb-3 mt-7 break-words" style={{ color: 'var(--fg)', overflowWrap: 'anywhere' }}>
+        <h2 className="font-light text-[clamp(19px,3.6vw,36px)] tracking-tight leading-[1.22] mb-3 mt-7" style={{ color: 'var(--fg)', overflowWrap: 'break-word', wordBreak: 'normal', hyphens: 'auto' }}>
           {d.title}
         </h2>
-        <p className="text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-3xl break-words" style={{ color: 'var(--fg-muted)', overflowWrap: 'anywhere' }}>
+        <p className="text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-3xl" style={{ color: 'var(--fg-muted)', overflowWrap: 'break-word', hyphens: 'auto' }}>
           {d.body}
         </p>
 
@@ -308,7 +308,8 @@ function Take({ side, t }: { side: 'pirate' | 'refiner'; t: { who: string; dash:
         background: 'var(--surface)',
         borderColor: 'var(--hairline)',
         borderTop: `2px solid color-mix(in oklab, ${accent} 60%, transparent)`,
-        overflowWrap: 'anywhere',
+        overflowWrap: 'break-word',
+        hyphens: 'auto',
       }}
     >
       <div className="flex items-center gap-2.5 mb-2">

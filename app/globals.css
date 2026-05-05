@@ -160,6 +160,7 @@ html, body {
   font-feature-settings: "ss01", "cv11";
   letter-spacing: -0.011em;
   transition: background-color .35s ease, color .35s ease;
+  overflow-x: hidden; /* never let mobile pages scroll horizontally */
 }
 
 ::selection {
