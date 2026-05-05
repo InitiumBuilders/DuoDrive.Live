@@ -107,6 +107,58 @@ export default function Home() {
         <TwoKeyDemo />
       </section>
 
+      {/* === DAVARA INSIGHT === */}
+      <section className="relative px-5 md:px-8 py-24 md:py-32 max-w-4xl mx-auto">
+        <div className="text-center">
+          <p className="chip mx-auto mb-6 inline-flex" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 32%, transparent)' }}>
+            Davara distinct
+          </p>
+          <p className="font-light text-[clamp(22px,3.6vw,42px)] leading-[1.25] tracking-tight mb-6" style={{ color: 'var(--fg)' }}>
+            <span style={{ color: 'var(--fg-muted)' }}>The world doesn't need</span> another solo founder<br className="hidden md:block" />
+            <span style={{ color: 'var(--fg-muted)' }}>running themselves into the ground.</span>
+            <br /><br />
+            It needs <span className="twin-text font-medium">duos that ship</span> — and a room<br className="hidden md:block" /> that holds them while they do.
+          </p>
+          <div className="flex items-center justify-center gap-3 mt-8">
+            <span className="h-px w-10" style={{ background: 'var(--hairline-strong)' }} />
+            <span className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'var(--fg-faint)' }}>
+              The DuoDrive premise
+            </span>
+            <span className="h-px w-10" style={{ background: 'var(--hairline-strong)' }} />
+          </div>
+        </div>
+      </section>
+
+      {/* === EXPLORE GRID === */}
+      <section className="relative px-5 md:px-8 py-12 max-w-6xl mx-auto">
+        <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
+          <div>
+            <p className="chip mb-2 inline-flex" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 32%, transparent)' }}>
+              Explore the room
+            </p>
+            <h3 className="font-light text-[clamp(22px,3.4vw,38px)] tracking-tight leading-tight">
+              Six surfaces. <span className="twin-text">One Initium.</span>
+            </h3>
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {EXPLORE.map((c) => (
+            <Link key={c.href} href={c.href} className="hairline rounded-2xl glass p-5 group hover:border-[color:color-mix(in_oklab,var(--sync)_40%,transparent)] transition-colors flex flex-col">
+              <div className="flex items-center justify-between mb-3">
+                <span className="chip" style={{ color: c.color, borderColor: `color-mix(in oklab, ${c.color} 32%, transparent)` }}>
+                  {c.tag}
+                </span>
+                <span className="text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: c.color }}>
+                  open →
+                </span>
+              </div>
+              <p className="font-medium text-[16px] mb-1" style={{ color: 'var(--fg)' }}>{c.title}</p>
+              <p className="text-[13px] leading-relaxed" style={{ color: 'var(--fg-muted)' }}>{c.body}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* === LIVE PREVIEW STRIP === */}
       <section className="relative px-5 md:px-8 py-20 max-w-7xl mx-auto">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-6">
@@ -253,6 +305,15 @@ export default function Home() {
     </>
   );
 }
+
+const EXPLORE = [
+  { href: '/live/jordash-x-davara', tag: 'Live now', title: 'The Stream Room', body: 'Two streams, one shared chat, the Cortex around them.', color: 'var(--pirate)' },
+  { href: '/forge', tag: 'Timeline', title: 'A Day In The Forge', body: '24 hours of an Initium — every commit, poll, word coined.', color: 'var(--forge)' },
+  { href: '/echoes', tag: 'Quotes', title: 'Avari Echoes', body: 'Stream moments worth keeping. Pinnable to the README.', color: 'var(--sync)' },
+  { href: '/lexicon/jordash-x-davara', tag: 'Language', title: 'Semble Dictionary', body: 'The shared vocabulary a duo grows over time.', color: 'var(--sync)' },
+  { href: '/votus/invested', tag: 'Conviction', title: 'VOTUS Investments', body: 'Community staking, routed back by contribution.', color: 'var(--forge)' },
+  { href: '/cortex', tag: 'Helpers', title: 'The Cortex', body: 'Self-organizing roles. Watchers become builders.', color: 'var(--refiner)' },
+];
 
 const ROADMAP = [
   { when: 'Now', title: 'Scaffold + open source MIT', body: 'Public repo. Twin-stream prototype. Manifesto. The first Initium: DuoDrive itself, built on DuoDrive.', tag: 'Shipping', cls: 'chip-pirate' },

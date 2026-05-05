@@ -5,9 +5,20 @@ import { useEffect, useRef } from 'react';
  * Twin-ribbon aurora. Two flowing sine waves — one cyan-mint (pirate),
  * one magenta-rose (refiner) — that weave but only cross at choreographed
  * moments, where they bloom into violet (sync). Plus drifting bloom orbs.
+ * Intensity gently breathes with the page scroll.
  */
 export function Aurora({ intensity = 1 }: { intensity?: number }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
+  const scrollRef = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const max = 800;
+      scrollRef.current = Math.min(1, window.scrollY / max);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -76,6 +87,8 @@ export function Aurora({ intensity = 1 }: { intensity?: number }) {
       const w = canvas.width;
       const h = canvas.height;
       const time = performance.now() - t0;
+      // scroll attenuates intensity (calmer as you read)
+      const i = intensity * (1 - scrollRef.current * 0.4);
 
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = 'lighter';
@@ -83,18 +96,18 @@ export function Aurora({ intensity = 1 }: { intensity?: number }) {
       // 3 bloom orbs (cyan, violet, magenta) drifting
       const ox1 = w * (0.2 + 0.05 * Math.sin(time * 0.0003));
       const oy1 = h * (0.4 + 0.1 * Math.cos(time * 0.0004));
-      orb(ox1, oy1, h * 0.6, 'rgba(92, 255, 210, ALPHA)', 0.18 * intensity);
+      orb(ox1, oy1, h * 0.6, 'rgba(92, 255, 210, ALPHA)', 0.18 * i);
 
       const ox2 = w * (0.7 + 0.05 * Math.sin(time * 0.0004 + 1));
       const oy2 = h * (0.55 + 0.08 * Math.cos(time * 0.0005 + 1));
-      orb(ox2, oy2, h * 0.7, 'rgba(255, 79, 163, ALPHA)', 0.16 * intensity);
+      orb(ox2, oy2, h * 0.7, 'rgba(255, 79, 163, ALPHA)', 0.16 * i);
 
       const ox3 = w * 0.5;
       const oy3 = h * (0.5 + 0.03 * Math.sin(time * 0.0006));
-      orb(ox3, oy3, h * 0.85, 'rgba(159, 124, 255, ALPHA)', 0.12 * intensity);
+      orb(ox3, oy3, h * 0.85, 'rgba(159, 124, 255, ALPHA)', 0.12 * i);
 
       // Twin ribbons
-      const amp = h * 0.18 * intensity;
+      const amp = h * 0.18 * i;
       ribbon(time, 0, 'rgba(92, 255, 210, 0.85)', amp, 1.5, 18);
       ribbon(time, Math.PI, 'rgba(255, 79, 163, 0.85)', amp, 1.5, 18);
       // Sync ribbon (where they cross)
