@@ -5,6 +5,7 @@ import { MobileBottomNav } from '@/components/MobileBottomNav';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { EasterEggs } from '@/components/EasterEggs';
 import { FloatingVotus } from '@/components/FloatingVotus';
+import { PreviewBanner } from '@/components/PreviewBanner';
 
 export const metadata: Metadata = {
   title: 'DuoDrive.Live — Code And Vibe',
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen" style={{ background: 'var(--bg)', color: 'var(--fg)' }}>
         <ThemeProvider>
           <Nav />
+          <PreviewBanner />
           <main className="pb-28 md:pb-0">{children}</main>
           <MobileBottomNav />
           <Footer />

@@ -208,7 +208,7 @@ export default function DashPartnership() {
 
       {/* Veros.IO call-out */}
       <Link
-        href="/live/symble-x-kato"
+        href="/rn/symble-x-kato"
         className="block hairline rounded-2xl glass-frosted p-6 md:p-8 lift relative overflow-hidden reveal group"
       >
         <div className="absolute inset-0 iridescent opacity-30 pointer-events-none" />

@@ -44,7 +44,7 @@ export default function Lexicon() {
       </section>
 
       <div className="mt-12 text-center">
-        <Link href="/live/jordash-x-davara" className="text-[12px] font-mono tracking-wider uppercase text-fg-muted hover:text-sync transition-colors">
+        <Link href="/rn/jordash-x-davara" className="text-[12px] font-mono tracking-wider uppercase text-fg-muted hover:text-sync transition-colors">
           ← Back to the Stream Room
         </Link>
       </div>

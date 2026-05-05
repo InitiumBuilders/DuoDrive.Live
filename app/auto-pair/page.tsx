@@ -157,7 +157,7 @@ export default function AutoPair() {
 
       <div className="text-center reveal">
         <Link
-          href="/live/goodvibestream"
+          href="/rn/goodvibestream"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full hairline glass text-[12px] font-mono tracking-wider uppercase transition-colors hover:[color:var(--sync)]"
           style={{ color: 'var(--fg)' }}
         >

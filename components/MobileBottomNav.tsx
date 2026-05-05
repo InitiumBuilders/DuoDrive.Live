@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const items = [
-  { href: '/live/jordash-x-davara', label: 'Live', icon: 'live' },
+  { href: '/rn/jordash-x-davara', label: 'Live', icon: 'live' },
   { href: '/initiums', label: 'Initiums', icon: 'inf' },
   { href: '/roadmap', label: 'Road', icon: 'cortex' },
   { href: '/votus', label: 'VOTUS', icon: 'spark' },

@@ -49,7 +49,7 @@ export default function Home() {
           {/* CTAs */}
           <div className="fadeUp flex flex-col sm:flex-row items-center justify-center gap-3 mt-10" style={{ animationDelay: '.5s' }}>
             <Link
-              href="/live/jordash-x-davara"
+              href="/rn/jordash-x-davara"
               data-cta-gradient
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-[14px] transition-shadow"
               style={{
@@ -172,12 +172,12 @@ export default function Home() {
               Jordash × Davara — building DuoDrive.Live
             </h3>
           </div>
-          <Link href="/live/jordash-x-davara" className="text-[13px] text-fg-muted hover:text-fg">
+          <Link href="/rn/jordash-x-davara" className="text-[13px] text-fg-muted hover:text-fg">
             Open the room →
           </Link>
         </div>
         <Link
-          href="/live/jordash-x-davara"
+          href="/rn/jordash-x-davara"
           className="block relative rounded-2xl overflow-hidden hairline group hover:border-sync/40 transition-colors"
         >
           <div className="grid md:grid-cols-2 aspect-[16/9] md:aspect-auto md:h-[420px]">

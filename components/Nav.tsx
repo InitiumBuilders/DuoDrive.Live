@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { ThemeToggle } from './ThemeProvider';
 
 const links = [
-  { href: '/live/jordash-x-davara', label: 'Live' },
-  { href: '/live/goodvibestream', label: 'Relay' },
+  { href: '/rn/jordash-x-davara', label: 'Live' },
+  { href: '/rn/goodvibestream', label: 'Relay' },
   { href: '/initiums', label: 'Initiums' },
   { href: '/cortex', label: 'Cortex' },
   { href: '/roadmap', label: 'Roadmap' },
-  { href: '/votus', label: 'VOTUS' },
+  { href: '/manifesto', label: 'Manifesto' },
 ];
 
 export function Nav() {

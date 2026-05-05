@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { SembleDictionary } from './SembleDictionary';
 import { VotusInvestments } from './VotusInvestments';
 import { GoodVibeStream } from './GoodVibeStream';
+import { VerosFounders } from './VerosFounders';
 import { useLiveSim, type Feed, type ChatMessage } from '@/lib/liveSim';
 import type { Stream } from '@/lib/streams';
 import { STREAMS } from '@/lib/streams';
@@ -29,6 +30,7 @@ export function LiveRoomClient({ stream }: { stream?: Stream }) {
       <ForgeMeter sim={liveSim} />
       {!s.goodVibeRelay && <StreamProfiles stream={s} />}
       <InitiumDetail stream={s} />
+      {s.slug === 'symble-x-kato' && <VerosFounders />}
       {!s.goodVibeRelay && <ThreeFeeds sim={liveSim} stream={s} />}
       {!s.goodVibeRelay && <PollAndBets />}
       <OtherStreams currentSlug={s.slug} />
@@ -454,7 +456,7 @@ function OtherStreams({ currentSlug }: { currentSlug: string }) {
         {others.map((s) => (
           <Link
             key={s.slug}
-            href={`/live/${s.slug}`}
+            href={`/rn/${s.slug}`}
             className="shrink-0 snap-start hairline rounded-xl glass p-4 lift"
             style={{ minWidth: '280px', maxWidth: '320px' }}
           >

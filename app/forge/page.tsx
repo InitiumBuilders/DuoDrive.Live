@@ -211,7 +211,7 @@ export default function Forge() {
 
       <div className="mt-12 text-center">
         <Link
-          href="/live/jordash-x-davara"
+          href="/rn/jordash-x-davara"
           className="text-[12px] font-mono tracking-wider uppercase transition-colors hover:[color:var(--sync)]"
           style={{ color: 'var(--fg-muted)' }}
         >

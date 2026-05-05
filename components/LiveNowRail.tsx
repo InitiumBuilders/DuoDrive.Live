@@ -25,7 +25,7 @@ export function LiveNowRail() {
 
   return (
     <Link
-      href="/live/jordash-x-davara"
+      href="/rn/jordash-x-davara"
       className="group block hairline rounded-2xl glass p-3.5 transition-all hover:border-[color:color-mix(in_oklab,var(--sync)_40%,transparent)] hover:scale-[1.015]"
       style={{ minWidth: '260px', maxWidth: '280px', opacity: 0.92 }}
       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
