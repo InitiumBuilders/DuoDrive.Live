@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('duodrive-theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t}}catch(e){}`,
+            __html: `try{var u=new URL(location.href);var q=u.searchParams.get('theme');var t=(q==='light'||q==='dark')?q:localStorage.getItem('duodrive-theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t}}catch(e){}`,
           }}
         />
       </head>

@@ -8,8 +8,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    const saved = (typeof window !== 'undefined' && localStorage.getItem('duodrive-theme')) as Theme | null;
-    const initial: Theme = saved || 'dark';
+    let initial: Theme = 'dark';
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      const queryTheme = url.searchParams.get('theme');
+      if (queryTheme === 'light' || queryTheme === 'dark') {
+        initial = queryTheme as Theme;
+        try { localStorage.setItem('duodrive-theme', initial); } catch {}
+      } else {
+        const saved = localStorage.getItem('duodrive-theme') as Theme | null;
+        if (saved === 'light' || saved === 'dark') initial = saved;
+      }
+    }
     setTheme(initial);
     document.documentElement.dataset.theme = initial;
   }, []);
