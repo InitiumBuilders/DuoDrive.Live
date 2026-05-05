@@ -49,24 +49,37 @@ export function VerosFounders() {
     <section className="my-6 hairline rounded-2xl glass-frosted p-6 md:p-8 relative overflow-hidden">
       <div className="absolute inset-0 iridescent opacity-30 pointer-events-none" />
       <div className="relative">
-        <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-          <div>
-            <p
-              className="chip mb-2 inline-flex"
-              style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 35%, transparent)' }}
-            >
-              ✦ Veros.IO Founders
-            </p>
-            <h2 className="font-light text-[clamp(22px,3.4vw,38px)] tracking-tight leading-tight">
-              Four builders. <span className="twin-text">One thesis.</span>
-            </h2>
-            <p className="text-[13px] mt-1.5 max-w-2xl leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
-              Veros.IO is built by four founders with one shared belief: payments should be a protocol, not a permission slip. Designed from first principles on Dash Platform + Cosmos Network, with security reimagined and privacy at the protocol layer.
-            </p>
+        <div className="mb-5">
+          <p
+            className="chip mb-2 inline-flex"
+            style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 35%, transparent)' }}
+          >
+            ✦ Veros.IO Founders
+          </p>
+          <h2 className="font-light text-[clamp(22px,3.4vw,38px)] tracking-tight leading-tight">
+            Four builders. <span className="twin-text">One thesis.</span>
+          </h2>
+          {/* PROMINENT INLINE DISCLOSURE — this is fictional, do not mistake for actual involvement */}
+          <div
+            className="mt-3 p-3 md:p-4 rounded-xl flex items-start gap-3"
+            style={{
+              background: 'color-mix(in oklab, var(--forge) 18%, var(--surface))',
+              border: '1px solid color-mix(in oklab, var(--forge) 50%, transparent)',
+            }}
+          >
+            <span className="text-[16px] mt-0.5 shrink-0" aria-hidden>⚠️</span>
+            <div>
+              <p className="text-[11px] font-mono tracking-[0.2em] uppercase mb-1" style={{ color: 'var(--forge)' }}>
+                Hypothetical founding team · proposal fiction
+              </p>
+              <p className="text-[12px] md:text-[13px] leading-relaxed" style={{ color: 'var(--fg)' }}>
+                The four people below are <strong>not actual co-founders of Veros.IO</strong>. This page is a Davara design proposal exploring what an ideal payments-processor founding team could look like. Quotes are in-character imagined statements, not real attributions. Use this as a thought experiment, not a fact.
+              </p>
+            </div>
           </div>
-          <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
-            preview · proposal data
-          </span>
+          <p className="text-[13px] mt-4 max-w-2xl leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
+            In the proposal: Veros.IO is built by four founders with one shared belief — payments should be a protocol, not a permission slip. Designed from first principles on Dash Platform + Cosmos Network, with security reimagined and privacy at the protocol layer.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-3 mb-6">
@@ -97,8 +110,11 @@ export function VerosFounders() {
                     <p className="text-[10px] font-mono tracking-wider uppercase" style={{ color: accent }}>{f.title}</p>
                   </div>
                 </div>
-                <blockquote className="text-[13px] italic leading-relaxed mb-3 hairline-l-2 pl-3 border-l" style={{ color: 'var(--fg)', borderColor: `color-mix(in oklab, ${accent} 35%, transparent)` }}>
+                <blockquote className="text-[13px] italic leading-relaxed mb-3 pl-3 border-l" style={{ color: 'var(--fg)', borderColor: `color-mix(in oklab, ${accent} 35%, transparent)` }}>
                   <span style={{ color: accent, opacity: 0.7 }}>“</span>{f.quote}<span style={{ color: accent, opacity: 0.7 }}>”</span>
+                  <span className="block mt-1 not-italic text-[9px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+                    — imagined quote, not a real attribution
+                  </span>
                 </blockquote>
                 <p className="text-[12px] leading-relaxed hairline-t pt-3" style={{ color: 'var(--fg-muted)' }}>
                   <span className="font-mono text-[10px] tracking-wider uppercase mr-1" style={{ color: accent }}>contribution</span>

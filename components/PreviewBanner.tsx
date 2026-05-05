@@ -23,7 +23,7 @@ export function PreviewBanner() {
       className="fixed left-0 right-0 z-40"
       style={{
         top: '56px',
-        background: 'color-mix(in oklab, var(--forge) 14%, var(--bg))',
+        background: 'color-mix(in oklab, var(--forge) 12%, var(--bg))',
         borderBottom: '1px solid color-mix(in oklab, var(--forge) 30%, transparent)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',

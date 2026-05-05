@@ -23,7 +23,7 @@ export default async function InitiumPage({ params }: { params: Promise<{ slug: 
   if (!stream) notFound();
 
   return (
-    <div className="min-h-screen pt-14" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen pt-28" style={{ background: 'var(--bg)' }}>
       <LiveRoomClient stream={stream} />
       <div className="px-4 md:px-8 max-w-[1500px] mx-auto py-10 flex items-center justify-between flex-wrap gap-3">
         <Link href="/initiums" className="text-[12px] font-mono tracking-wider uppercase transition-colors hover:[color:var(--sync)]" style={{ color: 'var(--fg-muted)' }}>
