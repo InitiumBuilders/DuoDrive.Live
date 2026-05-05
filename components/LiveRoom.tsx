@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { SembleDictionary } from './SembleDictionary';
 import { VotusInvestments } from './VotusInvestments';
+import { GoodVibeStream } from './GoodVibeStream';
 import { useLiveSim, type Feed, type ChatMessage } from '@/lib/liveSim';
 import type { Stream } from '@/lib/streams';
 import { STREAMS } from '@/lib/streams';
@@ -18,12 +19,18 @@ export function LiveRoomClient({ stream }: { stream?: Stream }) {
   return (
     <div className="px-4 md:px-8 max-w-[1500px] mx-auto pt-4 pb-32 md:pb-8">
       <Header sim={liveSim} stream={s} />
-      <Stage sim={liveSim} stream={s} />
+      {s.goodVibeRelay ? (
+        <div className="my-3">
+          <GoodVibeStream />
+        </div>
+      ) : (
+        <Stage sim={liveSim} stream={s} />
+      )}
       <ForgeMeter sim={liveSim} />
-      <StreamProfiles stream={s} />
+      {!s.goodVibeRelay && <StreamProfiles stream={s} />}
       <InitiumDetail stream={s} />
-      <ThreeFeeds sim={liveSim} stream={s} />
-      <PollAndBets />
+      {!s.goodVibeRelay && <ThreeFeeds sim={liveSim} stream={s} />}
+      {!s.goodVibeRelay && <PollAndBets />}
       <OtherStreams currentSlug={s.slug} />
       <VotusInvestments compact sim={liveSim} />
       <SembleDictionary compact />

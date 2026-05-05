@@ -4,6 +4,7 @@ import { Nav } from '@/components/Nav';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { EasterEggs } from '@/components/EasterEggs';
+import { FloatingVotus } from '@/components/FloatingVotus';
 
 export const metadata: Metadata = {
   title: 'DuoDrive.Live — Code And Vibe',
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MobileBottomNav />
           <Footer />
           <EasterEggs />
+          <FloatingVotus />
         </ThemeProvider>
       </body>
     </html>

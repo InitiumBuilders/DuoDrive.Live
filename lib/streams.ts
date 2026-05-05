@@ -9,7 +9,7 @@ export type Stream = {
   title: string;
   pirate: { handle: string; dash: string; role: string; bio: string };
   refiner: { handle: string; dash: string; role: string; bio: string };
-  state: 'live' | 'shipping' | 'paused';
+  state: 'live' | 'shipping' | 'paused' | 'relay';
   watching: number;
   motusViews: number;
   votusStaked: number;
@@ -18,6 +18,12 @@ export type Stream = {
   highLeverage: string[];
   outlierIdeas: string[];
   startedAt: string;
+  /** Optional list of repository file paths that constitute the Initium's core — shown as a code-tree preview. */
+  coreFiles?: { path: string; lines?: number; lang?: string; note?: string }[];
+  /** Optional list of next-step actions auto-generated for this Initium. */
+  nextSteps?: { txt: string; eta?: string; who?: string; tag?: 'ship' | 'spec' | 'cortex' | 'votus' }[];
+  /** Optional flag — if set, this stream renders the GoodVibeStream relay component on its detail page. */
+  goodVibeRelay?: boolean;
 };
 
 export const STREAMS: Stream[] = [
@@ -55,6 +61,23 @@ export const STREAMS: Stream[] = [
       'Dual-mint VOTUS: 70% to contribution-pool, 30% to a "watcher curiosity" pool earned by spending time without staking — rewards lurkers who become builders.',
     ],
     startedAt: '06:00 UTC',
+    coreFiles: [
+      { path: 'app/page.tsx', lines: 380, lang: 'tsx', note: 'home descent + hero + explore grid' },
+      { path: 'app/live/[slug]/page.tsx', lines: 32, lang: 'tsx', note: 'dynamic stream rooms' },
+      { path: 'components/LiveRoom.tsx', lines: 540, lang: 'tsx', note: 'twin-stream stage + chat + initium' },
+      { path: 'components/Aurora.tsx', lines: 130, lang: 'tsx', note: 'twin-ribbon canvas, scroll-attenuated' },
+      { path: 'components/TwoKeyDemo.tsx', lines: 240, lang: 'tsx', note: 'live key-meeting visualization' },
+      { path: 'lib/liveSim.ts', lines: 175, lang: 'ts', note: 'tick scheduler + voice banks' },
+      { path: 'lib/streams.ts', lines: 220, lang: 'ts', note: 'streams as data' },
+      { path: 'app/globals.css', lines: 320, lang: 'css', note: 'token system + light/dark' },
+    ],
+    nextSteps: [
+      { txt: 'Wire VOTUS stake-flow to Dash Platform data contract', eta: 'this week', who: 'davara', tag: 'ship' },
+      { txt: 'Open Avari Whisper poll: "votus transferable y1?"', eta: '12h', who: 'jordash', tag: 'votus' },
+      { txt: 'Cortex matchup: claim Cross-Initium Liaison role', eta: '24h', who: 'cortex', tag: 'cortex' },
+      { txt: 'Spec the auto-pair v0 algorithm', eta: '3d', who: 'davara', tag: 'spec' },
+      { txt: 'Echo-catch line of the day → Initium README', eta: 'rolling', who: 'system', tag: 'ship' },
+    ],
   },
   {
     slug: 'symble-x-kato',
@@ -90,6 +113,20 @@ export const STREAMS: Stream[] = [
       'Civic-Tier (free for governance): a Dash masternode operator can offer free subscriptions to their community as a public good, paid from masternode rewards. Subscriptions become political infrastructure.',
     ],
     startedAt: '07:30 UTC',
+    coreFiles: [
+      { path: 'contracts/veros-subscription.json', lines: 86, lang: 'json', note: 'Dash data contract spec' },
+      { path: 'sdk/src/subscribe.ts', lines: 142, lang: 'ts', note: 'subscribe / pause / revoke primitives' },
+      { path: 'sdk/src/savings.ts', lines: 96, lang: 'ts', note: 'Dash Savings Account buffer logic' },
+      { path: 'app/dashboard/page.tsx', lines: 220, lang: 'tsx', note: 'subscriber console' },
+      { path: 'app/api/webhook/route.ts', lines: 64, lang: 'ts', note: 'merchant webhook for sub events' },
+      { path: 'README.md', lines: 180, lang: 'md', note: 'spec + threat model + UX principles' },
+    ],
+    nextSteps: [
+      { txt: 'Submit data contract to Dash Evo testnet', eta: '48h', who: 'kato.dash', tag: 'ship' },
+      { txt: 'Open whisper: should Veros take 0.4% or 0%?', eta: '5d', who: 'symble.dash', tag: 'votus' },
+      { txt: 'Wage-Subscription POC for an org of 5', eta: 'next sprint', who: 'kato.dash', tag: 'spec' },
+      { txt: 'Cortex role open: Civic-Tier Curator', eta: 'rolling', who: 'cortex', tag: 'cortex' },
+    ],
   },
   {
     slug: 'pirate0x-x-rune',
@@ -123,6 +160,18 @@ export const STREAMS: Stream[] = [
       'Inverse-Cortex: a duo can publicly *commission* a role (e.g. "we need a stress tester") and the first qualified claim gets matched VOTUS from the Initium pool.',
     ],
     startedAt: '09:15 UTC',
+    coreFiles: [
+      { path: 'src/role.ts', lines: 88, lang: 'ts', note: 'role-as-code typed schema' },
+      { path: 'src/registry.ts', lines: 124, lang: 'ts', note: 'cortex registry / portable roles' },
+      { path: 'src/contribution.ts', lines: 102, lang: 'ts', note: 'log → route logic' },
+      { path: 'examples/typographer/role.yaml', lines: 24, lang: 'yaml', note: 'sample role definition' },
+      { path: 'tests/registry.spec.ts', lines: 68, lang: 'ts' },
+    ],
+    nextSteps: [
+      { txt: 'Publish v0.1 SDK to npm + Dash data contract registry', eta: '1w', who: 'rune.dash', tag: 'ship' },
+      { txt: 'Spec the Inverse-Cortex commission flow', eta: '4d', who: 'pirate.0x', tag: 'spec' },
+      { txt: 'Cortex Reputation Bond proof-of-concept', eta: '2w', who: 'rune.dash', tag: 'spec' },
+    ],
   },
   {
     slug: 'opal-x-frost',
@@ -148,7 +197,7 @@ export const STREAMS: Stream[] = [
     premise: 'A curated catalog of Initium starter templates: SaaS, open-source library, course, podcast, art project. Each ships with manifesto, governance, VOTUS routing pre-wired.',
     highLeverage: [
       'Templates lower the cost of starting a new Initium from a weekend to 30 minutes.',
-      'Each template includes a *Forge Recipe* — a default Cortex role set, default poll cadence, default revenue split.',
+      'Each template includes a Forge Recipe — a default Cortex role set, default poll cadence, default revenue split.',
       'Forking a template is itself logged on-chain — derivative work attribution is automatic.',
     ],
     outlierIdeas: [
@@ -156,6 +205,66 @@ export const STREAMS: Stream[] = [
       'Initium of Initiums: templates that are themselves an Initium, voted on and improved by the entire DuoDrive community. Recursive product.',
     ],
     startedAt: '10:40 UTC',
+    coreFiles: [
+      { path: 'templates/saas/README.md', lines: 120, lang: 'md', note: 'starter spec + governance' },
+      { path: 'templates/oss-library/initium.toml', lines: 38, lang: 'toml', note: 'initium config' },
+      { path: 'templates/course/cortex-roles.yaml', lines: 56, lang: 'yaml', note: 'pre-wired helper roles' },
+      { path: 'cli/src/init.ts', lines: 142, lang: 'ts', note: 'duodrive init wizard' },
+    ],
+    nextSteps: [
+      { txt: 'Ship 3 more templates: art-project, podcast, civic-DAO', eta: '2w', who: 'opal.dash', tag: 'ship' },
+      { txt: 'Whisper: should templates fork on-chain or just publish a manifest?', eta: '7d', who: 'frost.dash', tag: 'votus' },
+      { txt: 'Cortex role open: Template Curator', eta: 'rolling', who: 'cortex', tag: 'cortex' },
+    ],
+  },
+  {
+    slug: 'goodvibestream',
+    initiumId: 'INI-022',
+    title: 'GoodVibeStream — relay the world\'s vibe coders, one room at a time',
+    pirate: {
+      handle: 'goodvibe',
+      dash: 'goodvibe.dash',
+      role: 'The Pirate · Curation & Rotation',
+      bio: 'A protocol, not a person. Surfs the live coding category across Twitch / YouTube / Kick and rotates a featured builder into the DuoDrive room every 15 minutes.',
+    },
+    refiner: {
+      handle: 'davara',
+      dash: 'davara.dash',
+      role: 'The Refiner · Auto-Pair Engine',
+      bio: 'Watches the relay. Recommends potential Avari Sync partners for whoever\'s currently streaming. Routes Cortex helpers to live builders.',
+    },
+    state: 'relay',
+    watching: 1208,
+    motusViews: 488,
+    votusStaked: 96,
+    forge: 0.45,
+    premise: 'Relay a real live vibe-coding stream into a DuoDrive room. Rotates every 15 minutes through a curated list of builders. Each rotated stream gets a working Duo Chat, Avari Echo on, and a community Cortex around them. The auto-pair protocol watches and suggests partnerships.',
+    highLeverage: [
+      'A passive discovery layer — you don\'t pick who to watch; the relay surfaces builders you\'d never have searched for.',
+      'Auto-pair recommendations: every relayed builder gets matched against the open Cortex roles. The room helps. The builder might not even know yet.',
+      'Rotation prevents bandwagon attention — today\'s 100k stream gets the same 15-min slot as a 12-viewer overnight builder.',
+      'Eventually the algorithm proposes whole duos: "this builder would pair beautifully with this Refiner."',
+    ],
+    outlierIdeas: [
+      'Auto-pair as matchmaking-as-a-service: Twitch coders apply by linking their channel; DuoDrive proposes Refiner partners weekly with VOTUS-weighted ranking.',
+      'Streamer Bounties: any DuoDrive watcher can post a feature request to the relayed builder, attached with VOTUS. If the builder ships it, they earn the bounty.',
+      'Cortex-as-Audience: a relayed builder mid-flow gets a sidebar of helper offers (e.g. "I can stress-test that endpoint"). Ad-hoc paired Cortex.',
+      'Twin-Stream Mode: the relayed builder pairs in real time with an opt-in Refiner from the DuoDrive Cortex, splitting the screen and merging chats.',
+    ],
+    startedAt: 'rolling · 15-min cycle',
+    goodVibeRelay: true,
+    coreFiles: [
+      { path: 'lib/goodVibeStreamers.ts', lines: 110, lang: 'ts', note: 'curated streamer list + rotation algorithm' },
+      { path: 'components/GoodVibeStream.tsx', lines: 280, lang: 'tsx', note: 'relay player + duo chat + queue' },
+      { path: 'app/auto-pair/page.tsx', lines: 220, lang: 'tsx', note: 'matchmaking visualization' },
+      { path: 'lib/autoPair.ts', lines: 96, lang: 'ts', note: 'pair-scoring heuristic (synthetic)' },
+    ],
+    nextSteps: [
+      { txt: 'Wire Twitch Helix API for actually-live filtering', eta: '5d', who: 'davara', tag: 'ship' },
+      { txt: 'Open whisper: rotation cadence — 15min vs 30min?', eta: '24h', who: 'cortex', tag: 'votus' },
+      { txt: 'Spec the auto-pair scoring heuristic v0.1', eta: '1w', who: 'davara', tag: 'spec' },
+      { txt: 'Cortex role open: Vibe Coder Scout (find new streamers to add)', eta: 'rolling', who: 'cortex', tag: 'cortex' },
+    ],
   },
 ];
 
