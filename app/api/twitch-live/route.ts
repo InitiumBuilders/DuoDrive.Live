@@ -67,7 +67,11 @@ export async function GET() {
         },
         {
           status: 200,
-          headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
+          headers: {
+            'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, OPTIONS',
+          },
         },
       );
     }
@@ -156,12 +160,37 @@ export async function GET() {
         categoryCount: dedupCategory.length,
         reason: 'ok',
       },
-      { status: 200, headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' } },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        },
+      },
     );
   } catch (e) {
     return NextResponse.json(
       { live: [], reason: 'exception', error: String(e) },
-      { status: 200, headers: { 'Cache-Control': 'public, s-maxage=30' } },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, s-maxage=30',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        },
+      },
     );
   }
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Max-Age': '86400',
+    },
+  });
 }
