@@ -28,24 +28,24 @@
 
 [data-theme="light"] {
   /* Paper-mode: warm cream canvas, deep ink for text, bright accents */
-  --void: #FAF6F0;
+  --void: #F7F1E8;
   --ink: #FFFFFF;
   --slab: #FFFFFF;
   /* Twin signals tuned for AAA contrast on cream */
-  --pirate: #006C53;       /* deep teal-green */
-  --refiner: #B11456;       /* bold rose */
-  --sync: #3120A8;          /* deep indigo */
-  --forge: #7A3B0A;         /* burnt sienna */
-  --fg: #07090F;            /* near-black ink */
-  --fg-muted: #2D3142;      /* solid neutral, not alpha */
-  --fg-faint: #5C6072;      /* readable secondary */
-  --bg: #FAF6F0;
-  --surface: rgba(255,255,255,0.92);
+  --pirate: #005842;       /* deeper teal-green */
+  --refiner: #971047;       /* deeper rose */
+  --sync: #2A1A8E;         /* deeper indigo */
+  --forge: #6A340A;         /* deeper sienna */
+  --fg: #050810;            /* near-black ink */
+  --fg-muted: #21243A;      /* AAA-contrast secondary text */
+  --fg-faint: #4A4D5E;      /* AA-contrast tertiary */
+  --bg: #F7F1E8;
+  --surface: rgba(255,255,255,0.96);
   --surface-solid: #FFFFFF;
-  --hairline: rgba(7,9,15,0.14);
-  --hairline-strong: rgba(7,9,15,0.28);
-  --selection: rgba(49,32,168,0.22);
-  --shadow-glass: 0 1px 0 rgba(255,255,255,0.95) inset, 0 0 40px rgba(49,32,168,0.05) inset, 0 16px 48px rgba(7,9,15,0.10);
+  --hairline: rgba(5,8,16,0.18);
+  --hairline-strong: rgba(5,8,16,0.34);
+  --selection: rgba(42,26,142,0.22);
+  --shadow-glass: 0 1px 0 rgba(255,255,255,0.95) inset, 0 0 40px rgba(42,26,142,0.06) inset, 0 18px 56px rgba(5,8,16,0.12);
   --halo-strength: 0.7;
 }
 
@@ -82,12 +82,16 @@
 
 /* Light-mode glass surfaces lean opaque-paper, not blurred-dark */
 [data-theme="light"] .glass {
-  background: rgba(255,255,255,0.78);
-  border-color: rgba(7,9,15,0.12);
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(5,8,16,0.16);
 }
 [data-theme="light"] .glass-frosted {
-  background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7));
-  border-color: rgba(7,9,15,0.12);
+  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+  border-color: rgba(5,8,16,0.16);
+}
+[data-theme="light"] .glass-2 {
+  background: rgba(255,255,255,0.92);
+  border-color: rgba(5,8,16,0.18);
 }
 [data-theme="light"] .iridescent {
   /* Soften iridescent overlay to a warm paper tint instead of saturated neon */
@@ -102,10 +106,20 @@
 
 /* Light-mode forge bar gets darker stops */
 [data-theme="light"] .forge-bar {
-  background: linear-gradient(90deg, #006C53 0%, #3120A8 50%, #B11456 100%);
+  background: linear-gradient(90deg, #005842 0%, #2A1A8E 50%, #971047 100%);
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
+
+/* Light mode: Drive stream tiles get a deeper paper tint so they read as panels not pastels */
+[data-theme="light"] .glass-frosted {
+  box-shadow: 0 1px 0 rgba(255,255,255,0.85) inset,
+              0 0 0 1px rgba(5,8,16,0.06) inset,
+              0 24px 60px rgba(5,8,16,0.10);
+}
+
+/* Theme toggle: clearer active state */
+[data-theme="light"] .theme-toggle-track { background: #E8DECF; }
 
 /* Light-mode CTA gradient buttons: ensure text stays light */
 [data-theme="light"] [data-cta-gradient] {
