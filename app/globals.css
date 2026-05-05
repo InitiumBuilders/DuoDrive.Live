@@ -27,34 +27,84 @@
 }
 
 [data-theme="light"] {
-  --void: #ECE6E0;
-  --ink: #F4F0EB;
+  /* Paper-mode: warm cream canvas, deep ink for text, bright accents */
+  --void: #FAF6F0;
+  --ink: #FFFFFF;
   --slab: #FFFFFF;
-  /* On light mode the twin signals get richer/darker for contrast */
-  --pirate: #007057;
-  --refiner: #9A1F5C;
-  --sync: #3F2DBA;
-  --forge: #80511A;
-  --fg: #0F1116;
-  --fg-muted: rgba(15,17,22,0.85);
-  --fg-faint: rgba(15,17,22,0.62);
-  --bg: #ECE6E0;
-  --surface: rgba(255,255,255,0.86);
+  /* Twin signals tuned for AAA contrast on cream */
+  --pirate: #006C53;       /* deep teal-green */
+  --refiner: #B11456;       /* bold rose */
+  --sync: #3120A8;          /* deep indigo */
+  --forge: #7A3B0A;         /* burnt sienna */
+  --fg: #07090F;            /* near-black ink */
+  --fg-muted: #2D3142;      /* solid neutral, not alpha */
+  --fg-faint: #5C6072;      /* readable secondary */
+  --bg: #FAF6F0;
+  --surface: rgba(255,255,255,0.92);
   --surface-solid: #FFFFFF;
-  --hairline: rgba(0,0,0,0.14);
-  --hairline-strong: rgba(0,0,0,0.28);
-  --selection: rgba(63,45,186,0.22);
-  --shadow-glass: 0 1px 0 rgba(255,255,255,0.92) inset, 0 0 40px rgba(63,45,186,0.06) inset, 0 24px 80px rgba(0,0,0,0.12);
+  --hairline: rgba(7,9,15,0.14);
+  --hairline-strong: rgba(7,9,15,0.28);
+  --selection: rgba(49,32,168,0.22);
+  --shadow-glass: 0 1px 0 rgba(255,255,255,0.95) inset, 0 0 40px rgba(49,32,168,0.05) inset, 0 16px 48px rgba(7,9,15,0.10);
   --halo-strength: 0.7;
 }
 
-/* Light-mode tweaks — twin-text gradient is too pale on cream bg without a darker base */
+/* Paper-mode adjustments to break neon-on-cream wash */
+[data-theme="light"] body {
+  background: var(--bg);
+  /* Subtle paper texture via radial gradients */
+  background-image:
+    radial-gradient(at 20% 10%, rgba(177,20,86,0.04) 0%, transparent 40%),
+    radial-gradient(at 80% 30%, rgba(0,108,83,0.04) 0%, transparent 40%),
+    radial-gradient(at 50% 80%, rgba(49,32,168,0.04) 0%, transparent 50%);
+}
+[data-theme="light"] .live-dot {
+  background: #E51E4D;
+  box-shadow: 0 0 6px rgba(229,30,77,0.6);
+}
+[data-theme="light"] ::placeholder { color: var(--fg-faint); }
+
+/* Light-mode tweaks — twin-text gradient gets a saturated darker base on cream bg */
 [data-theme="light"] .twin-text {
-  background: linear-gradient(135deg, var(--pirate) 0%, var(--sync) 50%, var(--refiner) 100%);
+  background: linear-gradient(135deg, #006C53 0%, #3120A8 50%, #B11456 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: contrast(1.1);
+  filter: contrast(1.15) saturate(1.1);
+}
+
+/* Light-mode chip: stronger borders + opaque bg so they don't disappear on cream */
+[data-theme="light"] .chip {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(7,9,15,0.18);
+  color: var(--fg-muted);
+}
+
+/* Light-mode glass surfaces lean opaque-paper, not blurred-dark */
+[data-theme="light"] .glass {
+  background: rgba(255,255,255,0.78);
+  border-color: rgba(7,9,15,0.12);
+}
+[data-theme="light"] .glass-frosted {
+  background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7));
+  border-color: rgba(7,9,15,0.12);
+}
+[data-theme="light"] .iridescent {
+  /* Soften iridescent overlay to a warm paper tint instead of saturated neon */
+  background: linear-gradient(110deg,
+    rgba(0,108,83,0.07),
+    rgba(49,32,168,0.07),
+    rgba(177,20,86,0.07),
+    rgba(49,32,168,0.07),
+    rgba(0,108,83,0.07));
+  background-size: 200% 200%;
+}
+
+/* Light-mode forge bar gets darker stops */
+[data-theme="light"] .forge-bar {
+  background: linear-gradient(90deg, #006C53 0%, #3120A8 50%, #B11456 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
 }
 
 /* Light-mode CTA gradient buttons: ensure text stays light */
@@ -237,6 +287,46 @@ html, body {
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 .tick-in { animation: tickIn .35s cubic-bezier(.2,.7,.2,1) both; }
+
+/* === Reveal-on-scroll === */
+@keyframes reveal {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.reveal {
+  animation: reveal .9s cubic-bezier(.2,.7,.2,1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+@supports not (animation-timeline: view()) {
+  .reveal { animation: reveal .8s cubic-bezier(.2,.7,.2,1) both; }
+}
+
+/* === Snap-scroll containers (for mobile swipe nav) === */
+.snap-x { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.snap-y { scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; }
+.snap-start { scroll-snap-align: start; }
+.snap-center { scroll-snap-align: center; }
+
+/* === Hover-lift (used on every interactive card) === */
+.lift {
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;
+}
+.lift:hover { transform: translateY(-2px); }
+
+/* === Easter egg shimmer (subtle gradient pass on a triggering element) === */
+@keyframes easterShimmer {
+  0% { background-position: -200% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.egg {
+  background: linear-gradient(110deg,
+    transparent 0%, transparent 40%,
+    color-mix(in oklab, var(--sync) 18%, transparent) 50%,
+    transparent 60%, transparent 100%);
+  background-size: 200% 100%;
+  animation: easterShimmer 4s linear infinite;
+}
 
 @keyframes counterPop {
   0% { transform: scale(1); }

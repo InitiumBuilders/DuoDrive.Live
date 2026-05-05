@@ -4,36 +4,46 @@ import Link from 'next/link';
 import { SembleDictionary } from './SembleDictionary';
 import { VotusInvestments } from './VotusInvestments';
 import { useLiveSim, type Feed, type ChatMessage } from '@/lib/liveSim';
+import type { Stream } from '@/lib/streams';
+import { STREAMS } from '@/lib/streams';
 
-export function LiveRoomClient() {
+export function LiveRoomClient({ stream }: { stream?: Stream }) {
+  const s = stream || STREAMS[0];
   const sim = useLiveSim();
+  // Patch sim with stream-specific seed numbers if stream isn't INI-009
+  const liveSim = stream && stream.initiumId !== 'INI-009'
+    ? { ...sim, watching: stream.watching, motusViews: stream.motusViews, votusStaked: stream.votusStaked, forge: stream.forge }
+    : sim;
+
   return (
     <div className="px-4 md:px-8 max-w-[1500px] mx-auto pt-4 pb-32 md:pb-8">
-      <Header sim={sim} />
-      <Stage sim={sim} />
-      <ForgeMeter sim={sim} />
-      <Initium />
-      <ThreeFeeds sim={sim} />
+      <Header sim={liveSim} stream={s} />
+      <Stage sim={liveSim} stream={s} />
+      <ForgeMeter sim={liveSim} />
+      <StreamProfiles stream={s} />
+      <InitiumDetail stream={s} />
+      <ThreeFeeds sim={liveSim} stream={s} />
       <PollAndBets />
-      <VotusInvestments compact sim={sim} />
+      <OtherStreams currentSlug={s.slug} />
+      <VotusInvestments compact sim={liveSim} />
       <SembleDictionary compact />
     </div>
   );
 }
 
 /* === HEADER (room title + status with live counters) === */
-function Header({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
+function Header({ sim, stream }: { sim: ReturnType<typeof useLiveSim>; stream: Stream }) {
   return (
     <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
       <div className="flex items-center gap-3 min-w-0">
         <div className="flex items-center gap-2">
           <span className="live-dot" />
-          <span className="text-[11px] font-mono tracking-[0.2em] uppercase" style={{ color: 'var(--fg-muted)' }}>Live · 02:47:13</span>
+          <span className="text-[11px] font-mono tracking-[0.2em] uppercase" style={{ color: 'var(--fg-muted)' }}>Live · from {stream.startedAt}</span>
         </div>
         <span style={{ color: 'var(--fg-faint)' }}>·</span>
         <h1 className="text-[15px] md:text-[17px] font-medium truncate">
-          <span style={{ color: 'var(--pirate)' }}>Jordash</span> <span style={{ color: 'var(--fg-faint)' }}>×</span> <span style={{ color: 'var(--refiner)' }}>Davara</span>
-          <span className="ml-2 hidden md:inline" style={{ color: 'var(--fg-muted)' }}>— building DuoDrive.Live, on DuoDrive.Live</span>
+          <span style={{ color: 'var(--pirate)' }}>{cap(stream.pirate.handle)}</span> <span style={{ color: 'var(--fg-faint)' }}>×</span> <span style={{ color: 'var(--refiner)' }}>{cap(stream.refiner.handle)}</span>
+          <span className="ml-2 hidden md:inline" style={{ color: 'var(--fg-muted)' }}>— {stream.title}</span>
         </h1>
       </div>
       <div className="hairline rounded-full px-3.5 py-1.5 glass flex items-center gap-3 text-[11px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg)' }}>
@@ -46,6 +56,8 @@ function Header({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
     </div>
   );
 }
+
+function cap(s: string) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
 function LiveCounter({ label, value, accent }: { label: string; value: number; accent?: string }) {
   const [pop, setPop] = useState(false);
@@ -68,23 +80,24 @@ function LiveCounter({ label, value, accent }: { label: string; value: number; a
 }
 
 /* === STAGE === */
-function Stage({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
+function Stage({ sim, stream }: { sim: ReturnType<typeof useLiveSim>; stream: Stream }) {
   return (
     <div className="relative">
       <div className="relative grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-        <StreamTile side="pirate" sim={sim} />
-        <StreamTile side="refiner" sim={sim} />
+        <StreamTile side="pirate" sim={sim} stream={stream} />
+        <StreamTile side="refiner" sim={sim} stream={stream} />
       </div>
       <SyncBar sim={sim} />
     </div>
   );
 }
 
-function StreamTile({ side, sim }: { side: 'pirate' | 'refiner'; sim: ReturnType<typeof useLiveSim> }) {
+function StreamTile({ side, sim, stream }: { side: 'pirate' | 'refiner'; sim: ReturnType<typeof useLiveSim>; stream: Stream }) {
   const isPirate = side === 'pirate';
-  const name = isPirate ? 'Jordash' : 'Davara';
-  const role = isPirate ? 'The Pirate · Prompts & Direction' : 'The Refiner · Code & Ship';
-  const drive = isPirate ? 'JR-001' : 'DV-001';
+  const member = isPirate ? stream.pirate : stream.refiner;
+  const name = cap(member.handle);
+  const role = member.role;
+  const drive = `${member.handle.slice(0, 2).toUpperCase()}-${stream.initiumId.slice(-3)}`;
   return (
     <div
       className="relative rounded-2xl overflow-hidden hairline aspect-video glass-frosted"
@@ -159,8 +172,10 @@ function StreamTile({ side, sim }: { side: 'pirate' | 'refiner'; sim: ReturnType
           Cam
         </span>
       </div>
-      <div className="absolute bottom-3 right-4 z-10">
-        <span className="chip text-[10px] font-mono">02:47:13</span>
+      <div className="absolute bottom-3 right-4 z-10 flex items-center gap-1.5">
+        <span className="chip text-[10px] font-mono" style={{ color: isPirate ? 'var(--pirate)' : 'var(--refiner)' }}>
+          {member.dash}
+        </span>
       </div>
     </div>
   );
@@ -289,26 +304,173 @@ function ForgeMeter({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
   );
 }
 
-/* === INITIUM CARD === */
-function Initium() {
+/* === STREAM PROFILES === */
+function StreamProfiles({ stream }: { stream: Stream }) {
+  const [open, setOpen] = useState<'pirate' | 'refiner' | null>(null);
+  return (
+    <div className="my-4 grid md:grid-cols-2 gap-3">
+      {(['pirate', 'refiner'] as const).map((side) => {
+        const m = side === 'pirate' ? stream.pirate : stream.refiner;
+        const accent = side === 'pirate' ? 'var(--pirate)' : 'var(--refiner)';
+        const isOpen = open === side;
+        return (
+          <button
+            key={side}
+            onClick={() => setOpen(isOpen ? null : side)}
+            className="hairline rounded-xl glass p-4 lift text-left"
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className="w-11 h-11 rounded-full halo halo-rotating shrink-0"
+                style={{
+                  background: side === 'pirate' ? 'linear-gradient(135deg, var(--pirate), var(--sync))' : 'linear-gradient(135deg, var(--refiner), var(--sync))',
+                }}
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-medium" style={{ color: 'var(--fg)' }}>
+                  @{m.handle}
+                </p>
+                <p className="text-[10px] font-mono tracking-wider uppercase" style={{ color: accent }}>
+                  {m.role}
+                </p>
+              </div>
+              <span
+                className="chip text-[10px] shrink-0"
+                style={{ color: accent, borderColor: `color-mix(in oklab, ${accent} 30%, transparent)` }}
+              >
+                {m.dash}
+              </span>
+            </div>
+            <p
+              className="text-[12px] mt-3 leading-relaxed"
+              style={{
+                color: 'var(--fg-muted)',
+                maxHeight: isOpen ? '500px' : '40px',
+                overflow: 'hidden',
+                transition: 'max-height .5s cubic-bezier(.2,.7,.2,1)',
+              }}
+            >
+              {m.bio}
+              {isOpen && (
+                <>
+                  <br /><br />
+                  <span className="font-mono text-[10px] tracking-wider uppercase" style={{ color: accent }}>Drive ID</span> <span className="font-mono">{m.handle.slice(0, 2).toUpperCase()}-{stream.initiumId.slice(-3)}</span>
+                  <br />
+                  <span className="font-mono text-[10px] tracking-wider uppercase" style={{ color: accent }}>Dash username</span> <span className="font-mono">{m.dash}</span>
+                  <br />
+                  <span className="font-mono text-[10px] tracking-wider uppercase" style={{ color: accent }}>Streaming since</span> {stream.startedAt}
+                </>
+              )}
+            </p>
+            <p className="mt-2 text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+              {isOpen ? 'tap to collapse ↑' : 'tap to expand profile ↓'}
+            </p>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* === INITIUM DETAIL === */
+function InitiumDetail({ stream }: { stream: Stream }) {
   return (
     <div className="my-4 hairline rounded-xl glass-frosted relative overflow-hidden">
-      {/* iridescent base — stays subtle, never overpowers the body copy */}
       <div className="absolute inset-0 iridescent opacity-50 pointer-events-none" />
-      <div className="relative p-5 flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <p className="chip mb-2" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 32%, transparent)' }}>Initium · INI-009</p>
-          <h3 className="font-light text-[20px] md:text-[26px] tracking-tight" style={{ color: 'var(--fg)' }}>
-            Build DuoDrive.Live <span style={{ color: 'var(--fg-muted)' }}>— the platform — on the platform.</span>
-          </h3>
-          <p className="text-[13px] mt-1" style={{ color: 'var(--fg-muted)' }}>
-            Two-Key Drive: <span className="font-mono" style={{ color: 'var(--pirate)' }}>jordash.duo</span> + <span className="font-mono" style={{ color: 'var(--refiner)' }}>davara.duo</span> · MIT · Open in public.
+      <div className="relative p-5">
+        <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
+          <div>
+            <p className="chip mb-2" style={{ color: 'var(--sync)', borderColor: 'color-mix(in oklab, var(--sync) 32%, transparent)' }}>
+              Initium · {stream.initiumId}
+            </p>
+            <h3 className="font-light text-[20px] md:text-[26px] tracking-tight" style={{ color: 'var(--fg)' }}>
+              {stream.title}
+            </h3>
+            <p className="text-[13px] mt-1.5 max-w-2xl leading-relaxed" style={{ color: 'var(--fg-muted)' }}>
+              {stream.premise}
+            </p>
+            <p className="text-[12px] mt-2" style={{ color: 'var(--fg-faint)' }}>
+              Two-Key Drive: <span className="font-mono" style={{ color: 'var(--pirate)' }}>{stream.pirate.dash}</span> + <span className="font-mono" style={{ color: 'var(--refiner)' }}>{stream.refiner.dash}</span> · MIT · Open in public
+            </p>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>Avari Signal</span>
+            <AvariSignalGauge />
+          </div>
+        </div>
+
+        {/* High-leverage moves */}
+        <div className="hairline-t pt-4">
+          <p className="chip mb-3 inline-flex" style={{ color: 'var(--forge)', borderColor: 'color-mix(in oklab, var(--forge) 30%, transparent)' }}>
+            High-leverage moves — Davara's read
           </p>
+          <ul className="space-y-2">
+            {stream.highLeverage.map((m, i) => (
+              <li key={i} className="flex gap-3 text-[13px]" style={{ color: 'var(--fg)' }}>
+                <span className="font-mono text-[10px] tracking-wider uppercase shrink-0 w-8 mt-1" style={{ color: 'var(--forge)' }}>0{i + 1}</span>
+                <span className="leading-relaxed">{m}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>Avari Signal</span>
-          <AvariSignalGauge />
+
+        {/* Outlier ideas */}
+        <div className="hairline-t pt-4 mt-4">
+          <p className="chip mb-3 inline-flex" style={{ color: 'var(--refiner)', borderColor: 'color-mix(in oklab, var(--refiner) 30%, transparent)' }}>
+            Outlier ideas — not yet on the roadmap
+          </p>
+          <ul className="space-y-2">
+            {stream.outlierIdeas.map((m, i) => (
+              <li key={i} className="flex gap-3 text-[13px]" style={{ color: 'var(--fg)' }}>
+                <span className="font-mono text-[10px] tracking-wider uppercase shrink-0 w-8 mt-1" style={{ color: 'var(--refiner)' }}>·</span>
+                <span className="leading-relaxed italic">{m}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* === OTHER STREAMS RAIL === */
+function OtherStreams({ currentSlug }: { currentSlug: string }) {
+  const others = STREAMS.filter((s) => s.slug !== currentSlug);
+  if (others.length === 0) return null;
+  return (
+    <div className="my-6">
+      <p className="chip mb-3 inline-flex" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 30%, transparent)' }}>
+        <span className="live-dot mr-1.5" />
+        Other streams in the room
+      </p>
+      <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x -mx-4 px-4 md:mx-0 md:px-0 pb-2">
+        {others.map((s) => (
+          <Link
+            key={s.slug}
+            href={`/live/${s.slug}`}
+            className="shrink-0 snap-start hairline rounded-xl glass p-4 lift"
+            style={{ minWidth: '280px', maxWidth: '320px' }}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="live-dot" />
+              <span className="text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+                {s.initiumId} · from {s.startedAt}
+              </span>
+            </div>
+            <p className="text-[14px] font-medium leading-tight mb-1.5" style={{ color: 'var(--fg)' }}>
+              <span style={{ color: 'var(--pirate)' }}>{cap(s.pirate.handle)}</span>
+              <span style={{ color: 'var(--fg-faint)' }}> × </span>
+              <span style={{ color: 'var(--refiner)' }}>{cap(s.refiner.handle)}</span>
+            </p>
+            <p className="text-[12px] mb-3 leading-snug" style={{ color: 'var(--fg-muted)' }}>
+              {s.title}
+            </p>
+            <div className="hairline-t pt-2 flex items-center justify-between text-[10px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>
+              <span>{s.watching.toLocaleString()} watching</span>
+              <span style={{ color: 'var(--forge)' }}>{s.votusStaked} VOTUS</span>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );
@@ -328,12 +490,12 @@ function AvariSignalGauge() {
 }
 
 /* === THREE-FEED CHAT (live) === */
-function ThreeFeeds({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
+function ThreeFeeds({ sim, stream }: { sim: ReturnType<typeof useLiveSim>; stream: Stream }) {
   return (
     <div className="my-6 grid grid-cols-1 md:grid-cols-3 gap-3">
-      <Feed title="Jordash's Community" tone="pirate" feed="pirate" placeholder="say something to the pirate fleet..." messages={sim.messages.filter(m => m.feed === 'pirate')} />
+      <Feed title={`${cap(stream.pirate.handle)}'s Community`} tone="pirate" feed="pirate" placeholder={`say something to @${stream.pirate.handle}...`} messages={sim.messages.filter(m => m.feed === 'pirate')} />
       <Feed title="DuoDrive Live Chat" tone="sync" feed="duo" placeholder="speak to the duo and the cortex..." messages={sim.messages.filter(m => m.feed === 'duo')} featured />
-      <Feed title="Davara's Community" tone="refiner" feed="refiner" placeholder="ping the refinery..." messages={sim.messages.filter(m => m.feed === 'refiner')} />
+      <Feed title={`${cap(stream.refiner.handle)}'s Community`} tone="refiner" feed="refiner" placeholder={`ping @${stream.refiner.handle}...`} messages={sim.messages.filter(m => m.feed === 'refiner')} />
     </div>
   );
 }
