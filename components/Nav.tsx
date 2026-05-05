@@ -25,9 +25,9 @@ export function Nav() {
         }}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 h-14 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
             <DuoMark />
-            <span className="font-medium tracking-tight text-[15px]">
+            <span className="font-medium tracking-tight text-[15px] whitespace-nowrap">
               DuoDrive<span style={{ color: 'var(--pirate)' }}>.</span>Live
             </span>
           </Link>
