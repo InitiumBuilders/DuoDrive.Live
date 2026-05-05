@@ -112,5 +112,5 @@ export function Aurora({ intensity = 1 }: { intensity?: number }) {
     };
   }, [intensity]);
 
-  return <canvas ref={ref} className="aurora-canvas" aria-hidden="true" />;
+  return <canvas ref={ref} className="aurora-canvas absolute inset-0 w-full h-full" aria-hidden="true" />;
 }

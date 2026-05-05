@@ -56,13 +56,15 @@ function Header() {
   );
 }
 
-/* === STAGE: the two streams + center HUD === */
+/* === STAGE: the two streams + sync bar between === */
 function Stage() {
   return (
-    <div className="relative grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 rounded-2xl overflow-hidden">
-      <StreamTile side="pirate" />
-      <StreamTile side="refiner" />
-      <CenterHud />
+    <div className="relative">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        <StreamTile side="pirate" />
+        <StreamTile side="refiner" />
+      </div>
+      <SyncBar />
     </div>
   );
 }
@@ -177,16 +179,25 @@ function RefinerCodeTexture() {
   );
 }
 
-function CenterHud() {
-  // Sits on top of the two stream tiles, centered. Hidden on mobile (stacks under).
+function SyncBar() {
+  // Lives between the two stream tiles — doesn't cover faces.
   return (
-    <div className="absolute hidden md:flex top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex-col items-center gap-2 pointer-events-none">
-      <div className="halo halo-rotating rounded-full p-[2px] bg-void shadow-[0_0_40px_rgba(159,124,255,0.35)]">
-        <div className="rounded-full bg-void px-5 py-3 text-center min-w-[200px]">
-          <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/55 mb-0.5">· Avari Sync ·</p>
-          <p className="text-[18px] font-light tracking-tight twin-text">In Phase</p>
-          <p className="text-[9px] font-mono tracking-wider uppercase text-white/40 mt-0.5">+12 commits · 3 polls · 47 cortex</p>
+    <div className="mt-3 hairline rounded-xl px-4 py-2.5 bg-slab/60 backdrop-blur-md flex items-center justify-between gap-4 flex-wrap">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="relative flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-pirate shadow-[0_0_8px_rgba(92,255,210,0.7)]" />
+          <div className="w-px h-4 bg-white/20" />
+          <div className="w-2 h-2 rounded-full bg-refiner shadow-[0_0_8px_rgba(255,79,163,0.7)]" />
         </div>
+        <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/55">Avari Sync</span>
+        <span className="text-[14px] font-light tracking-tight twin-text">In Phase</span>
+      </div>
+      <div className="flex items-center gap-3 text-[10px] font-mono tracking-wider uppercase text-white/45">
+        <span><span className="text-pirate">+12</span> commits</span>
+        <span className="text-white/20">·</span>
+        <span><span className="text-sync">3</span> polls</span>
+        <span className="text-white/20">·</span>
+        <span><span className="text-refiner">47</span> cortex joins</span>
       </div>
     </div>
   );
