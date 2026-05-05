@@ -65,19 +65,19 @@ export function VotusInvestments({ compact = false }: { compact?: boolean }) {
           {TOP_INVESTORS.map((i, idx) => {
             const pct = (i.votus / RAISED) * 100;
             return (
-              <li key={i.handle} className="flex items-center gap-3">
-                <span className="font-mono text-[11px] text-white/35 w-6 shrink-0">{String(idx + 1).padStart(2, '0')}</span>
-                <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${i.cls === 'pirate' ? 'from-pirate to-sync' : i.cls === 'refiner' ? 'from-refiner to-sync' : 'from-forge to-refiner'} shrink-0`} />
+              <li key={i.handle} className="flex items-center gap-2.5 sm:gap-3">
+                <span className="font-mono text-[11px] text-white/35 w-5 sm:w-6 shrink-0">{String(idx + 1).padStart(2, '0')}</span>
+                <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br ${i.cls === 'pirate' ? 'from-pirate to-sync' : i.cls === 'refiner' ? 'from-refiner to-sync' : 'from-forge to-refiner'} shrink-0`} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-[13px] font-medium truncate">@{i.handle}</span>
-                    <span className="text-[11px] font-mono text-forge shrink-0">{i.votus} VOTUS</span>
+                    <span className="text-[12.5px] sm:text-[13px] font-medium truncate min-w-0">@{i.handle}</span>
+                    <span className="text-[11px] font-mono text-forge shrink-0 whitespace-nowrap">↑ {i.votus}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                       <div className={`h-full bg-gradient-to-r ${i.cls === 'pirate' ? 'from-pirate to-sync' : i.cls === 'refiner' ? 'from-refiner to-sync' : 'from-forge to-refiner'}`} style={{ width: `${pct}%` }} />
                     </div>
-                    <span className="text-[9px] font-mono tracking-wider uppercase text-white/40 shrink-0">{i.role}</span>
+                    <span className="text-[9px] font-mono tracking-wider uppercase text-white/40 shrink-0 truncate max-w-[80px] sm:max-w-none">{i.role}</span>
                   </div>
                 </div>
               </li>
