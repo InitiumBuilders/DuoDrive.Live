@@ -208,16 +208,16 @@ export function GoodVibeStream() {
   return (
     <div className="grid lg:grid-cols-[1fr_360px] gap-3">
       {/* Stream tile + meta */}
-      <div className="hairline rounded-2xl glass-frosted overflow-hidden">
-        <div className="aspect-video relative bg-black">
+      <div className="hairline rounded-2xl glass-frosted overflow-hidden w-full min-w-0">
+        <div className="aspect-video relative bg-black w-full overflow-hidden">
           <iframe
             key={streamer.twitch}
             src={`https://player.twitch.tv/?channel=${streamer.twitch}&parent=${parentHost}&parent=duodrive.live&parent=www.duodrive.live&autoplay=true&muted=true`}
             title={`Live: ${streamer.display}`}
             allow="autoplay; fullscreen; encrypted-media"
-            className="w-full h-full"
             frameBorder={0}
             scrolling="no"
+            style={{ width: '100%', height: '100%', border: 'none', display: 'block', position: 'absolute', inset: 0 }}
           />
           <div className="absolute top-3 left-3 chip text-[10px]" style={{ color: 'var(--pirate)', borderColor: 'color-mix(in oklab, var(--pirate) 35%, transparent)' }}>
             <span className="live-dot mr-1.5" /> Relayed live

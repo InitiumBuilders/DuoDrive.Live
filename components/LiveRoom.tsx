@@ -196,15 +196,15 @@ function StreamTile({ side, sim, stream }: { side: 'pirate' | 'refiner'; sim: Re
 
 function PiratePromptTexture() {
   return (
-    <div className="absolute inset-0 z-[1] p-4 md:p-6 flex items-end pointer-events-none">
-      <div className="w-full glass rounded-lg p-3 md:p-4 mt-12">
+    <div className="absolute inset-0 z-[2] p-4 md:p-6 flex items-end pointer-events-none">
+      <div className="w-full glass rounded-lg p-3 md:p-4 mt-12 overflow-hidden">
         <div className="flex items-center gap-1.5 mb-2.5">
           <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--pirate) 70%, transparent)' }} />
           <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--sync) 60%, transparent)' }} />
           <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--refiner) 60%, transparent)' }} />
           <span className="ml-2 text-[9px] font-mono tracking-wider uppercase" style={{ color: 'var(--fg-faint)' }}>prompt.md · unsaved</span>
         </div>
-        <p className="text-[11px] md:text-[12px] leading-relaxed font-mono" style={{ color: 'var(--fg)' }}>
+        <p className="text-[11px] md:text-[12px] leading-relaxed font-mono" style={{ color: 'var(--fg)', overflowWrap: 'break-word' }}>
           <span style={{ color: 'var(--pirate)' }}>{`>`}</span> Make the Avari Signal show <span style={{ color: 'var(--pirate)' }}>direction only</span>.<br />
           Hide the tally until both partners close the poll.<br />
           Borrow from <span style={{ color: 'var(--sync)' }}>prediction-market</span> design.<br />
@@ -226,8 +226,8 @@ function RefinerCodeTexture({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
     { n: 142, t: '      <Needle bias=', k: '{direction}', sym: ' />' },
   ];
   return (
-    <div className="absolute inset-0 z-[1] p-4 md:p-6 flex items-end pointer-events-none">
-      <div className="w-full glass rounded-lg p-3 md:p-4 mt-12 font-mono">
+    <div className="absolute inset-0 z-[2] p-4 md:p-6 flex items-end pointer-events-none">
+      <div className="w-full glass rounded-lg p-3 md:p-4 mt-12 font-mono overflow-hidden">
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full" style={{ background: 'color-mix(in oklab, var(--refiner) 70%, transparent)' }} />
@@ -239,9 +239,9 @@ function RefinerCodeTexture({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
         </div>
         <div className="text-[11px] md:text-[12px] leading-[1.55]" style={{ color: 'var(--fg-muted)' }}>
           {lines.map((l) => (
-            <div key={l.n} className="flex gap-3">
+            <div key={l.n} className="flex gap-3 min-w-0">
               <span className="w-6 text-right shrink-0" style={{ color: 'var(--fg-faint)' }}>{l.n}</span>
-              <span>
+              <span className="truncate min-w-0">
                 <span style={{ color: 'var(--fg-muted)' }}>{l.t}</span>
                 {l.k && <span style={{ color: 'var(--refiner)' }}>{l.k}</span>}
                 <span style={{ color: 'var(--fg-muted)' }}>{l.sym}</span>
@@ -249,9 +249,9 @@ function RefinerCodeTexture({ sim }: { sim: ReturnType<typeof useLiveSim> }) {
             </div>
           ))}
           {lastShip && (
-            <div className="flex gap-3 tick-in" key={lastShip}>
+            <div className="flex gap-3 tick-in min-w-0" key={lastShip}>
               <span className="w-6 text-right shrink-0" style={{ color: 'var(--pirate)' }}>+</span>
-              <span style={{ color: 'var(--pirate)' }}>{lastShip}<span className="animate-pulse">_</span></span>
+              <span className="truncate min-w-0" style={{ color: 'var(--pirate)' }}>{lastShip}<span className="animate-pulse">_</span></span>
             </div>
           )}
         </div>
