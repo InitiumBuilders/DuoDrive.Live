@@ -5,11 +5,11 @@ export default function Home() {
   return (
     <>
       {/* === HERO === */}
-      <section className="relative min-h-[100svh] flex items-center justify-center px-5 md:px-8 pt-24 pb-16 overflow-hidden">
+      <section className="relative min-h-[100svh] flex items-center justify-center px-4 md:px-8 pt-24 pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Aurora />
         </div>
-        <div className="absolute inset-0 -z-0 bg-gradient-to-b from-void via-void/40 to-void pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-void/30 via-void/40 to-void pointer-events-none" />
 
         <div className="relative z-10 max-w-5xl w-full mx-auto text-center">
           {/* tag */}
@@ -32,14 +32,14 @@ export default function Home() {
           </div>
 
           {/* big claim */}
-          <h1 className="fadeUp font-light text-[clamp(36px,7vw,84px)] leading-[1.02] tracking-tight max-w-4xl mx-auto mb-5 break-words" style={{ animationDelay: '.25s' }}>
+          <h1 className="fadeUp font-light text-[clamp(36px,7vw,84px)] leading-[1.02] tracking-tight max-w-4xl mx-auto mb-5" style={{ animationDelay: '.25s' }}>
             Code <em className="not-italic twin-text font-medium">and</em> Vibe.
           </h1>
-          <p className="fadeUp text-[16px] md:text-xl text-white/65 max-w-2xl mx-auto leading-relaxed mb-2 px-2" style={{ animationDelay: '.35s' }}>
-            The live-streaming platform where <span className="text-pirate">two builders</span> vibe-code <span className="text-refiner">together</span>.
+          <p className="fadeUp text-[15px] sm:text-[17px] md:text-xl text-white/65 max-w-2xl mx-auto leading-snug sm:leading-relaxed mb-2 px-1" style={{ animationDelay: '.35s' }}>
+            Where <span className="text-pirate">two builders</span> vibe-code <span className="text-refiner">together</span>, live.
           </p>
-          <p className="fadeUp text-[13px] md:text-[15px] text-white/45 max-w-xl mx-auto leading-relaxed px-2" style={{ animationDelay: '.42s' }}>
-            One streams prompts. One streams code. The community drives.
+          <p className="fadeUp text-[12.5px] sm:text-[14px] md:text-[15px] text-white/45 max-w-xl mx-auto leading-snug sm:leading-relaxed px-1" style={{ animationDelay: '.42s' }}>
+            One streams prompts. One streams code.<br className="sm:hidden" /> The community drives.
           </p>
 
           {/* CTAs */}

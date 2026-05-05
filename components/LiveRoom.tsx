@@ -21,7 +21,7 @@ const SEED_DUO_CHAT = [
 
 export function LiveRoomClient() {
   return (
-    <div className="px-5 md:px-8 max-w-[1500px] mx-auto pt-4">
+    <div className="px-4 md:px-8 max-w-[1500px] mx-auto pt-4 pb-32 md:pb-8">
       <Header />
       <Stage />
       <ForgeMeter />
@@ -81,11 +81,34 @@ function StreamTile({ side }: { side: 'pirate' | 'refiner' }) {
   return (
     <div className={`relative rounded-2xl overflow-hidden hairline aspect-video bg-gradient-to-br ${grad}`}>
       {/* ambient glow */}
-      <div className="absolute inset-0 opacity-70 pointer-events-none">
+      <div className="absolute inset-0 opacity-80 pointer-events-none">
         <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full blur-3xl breathe"
-          style={{ background: isPirate ? 'rgba(92,255,210,0.18)' : 'rgba(255,79,163,0.18)' }} />
+          style={{ background: isPirate ? 'rgba(92,255,210,0.22)' : 'rgba(255,79,163,0.22)' }} />
         <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full blur-3xl breathe"
-          style={{ background: isPirate ? 'rgba(159,124,255,0.14)' : 'rgba(159,124,255,0.14)', animationDelay: '2s' }} />
+          style={{ background: 'rgba(159,124,255,0.16)', animationDelay: '2s' }} />
+      </div>
+
+      {/* face bloom (the 'webcam' suggestion) */}
+      <div className="absolute top-[18%] left-1/2 -translate-x-1/2 z-[1] w-32 h-32 md:w-40 md:h-40 rounded-full opacity-70 pointer-events-none breathe"
+        style={{
+          background: isPirate
+            ? 'radial-gradient(circle, rgba(92,255,210,0.55) 0%, rgba(159,124,255,0.25) 40%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(255,79,163,0.55) 0%, rgba(159,124,255,0.25) 40%, transparent 70%)',
+          filter: 'blur(8px)',
+        }} />
+
+      {/* waveform strip */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-2 z-[1] w-28 md:w-36 h-6 flex items-center gap-0.5 pointer-events-none">
+        {Array.from({ length: 18 }).map((_, i) => (
+          <span key={i}
+            className="flex-1 rounded-full breathe"
+            style={{
+              height: `${20 + Math.abs(Math.sin(i * 0.7)) * 80}%`,
+              background: isPirate ? 'rgba(92,255,210,0.7)' : 'rgba(255,79,163,0.7)',
+              animationDelay: `${i * 80}ms`,
+            }}
+          />
+        ))}
       </div>
 
       {/* texture layer — prompt feed (pirate) or code feed (refiner) */}
