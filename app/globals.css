@@ -160,8 +160,14 @@ html, body {
   font-feature-settings: "ss01", "cv11";
   letter-spacing: -0.011em;
   transition: background-color .35s ease, color .35s ease;
-  overflow-x: hidden; /* never let mobile pages scroll horizontally */
+  overflow-x: hidden;
+  max-width: 100vw;
 }
+html { max-width: 100vw; overflow-x: hidden; }
+body > * { max-width: 100vw; }
+
+/* Force sane wrapping on common text elements */
+h1, h2, h3, h4, p, li, blockquote { overflow-wrap: break-word; word-wrap: break-word; }
 
 ::selection {
   background: var(--selection);
